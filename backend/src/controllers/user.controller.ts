@@ -24,7 +24,6 @@ export class UserController {
 
   @Post('/signup')
   async Signup(@Res() response, @Body() user: User) {
-    console.log(user.fullname);
     const newUSer = await this.userService.signup(user);
     return response.status(HttpStatus.CREATED).json({
       newUSer,

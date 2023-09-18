@@ -37,20 +37,26 @@ export class QuestionController {
       answer: question.answer,
       type: question.type,
     };
-    const newVideo = await this.questionService.createQuestion(requestBody);
+    const newQuestion = await this.questionService.createQuestion(question);
     return response.status(HttpStatus.CREATED).json({
-      newVideo,
+      newQuestion,
     });
   }
 
-  /* @Get('/:id')
+  @Get('/:id')
   async get(@Res() response, @Param('id') id) {
-    return this.questionService.getQuestion(id);
+    const question = await this.questionService.getQuestion(id);
+    return response.status(HttpStatus.ACCEPTED).json({
+      question,
+    });
   }
-*/
-  @Get()
-  async get() {
-    return HttpStatus.OK;
+
+  @Get('/play/trivia')
+  async trivia(@Res() response, @Body('category') category: string) {
+    const questions = await this.questionService.playTrivia(category);
+    return response.status(HttpStatus.ACCEPTED).json({
+      questions,
+    });
   }
 
   @Put('/:id')

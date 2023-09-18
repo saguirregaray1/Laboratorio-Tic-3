@@ -21,5 +21,10 @@ export class Question {
     trim: true,
   })
   type: string;
+  @Prop({
+    required: true,
+    trim: true,
+  })
+  category: string;
 }
 export const QuestionSchema = SchemaFactory.createForClass(Question);

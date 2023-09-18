@@ -14,19 +14,16 @@ export class QuestionService {
     @InjectModel(Question.name) private questionModel: Model<QuestionDocument>,
   ) {}
 
-  async createQuestion(video: Object): Promise<Question> {
-    const newVideo = new this.questionModel(video);
-    return newVideo.save();
+  async createQuestion(question: Object): Promise<Question> {
+    const newQuestion = new this.questionModel(question);
+    return newQuestion.save();
   }
 
   async getQuestion(id): Promise<any> {
-    if (id.id) {
-      return this.questionModel
-        .findOne({ _id: id.id })
-        .populate('createdBy')
-        .exec();
+    if (id) {
+      return this.questionModel.findOne({ _id: id }).exec();
     }
-    return this.questionModel.find().populate('createdBy').exec();
+    return this.questionModel.find().exec();
   }
 
   async updateQuestion(id, question: Question): Promise<Question> {
@@ -37,5 +34,17 @@ export class QuestionService {
 
   async deleteQuestion(id): Promise<any> {
     return await this.questionModel.findByIdAndRemove(id);
+  }
+
+  async playTrivia(category: string): Promise<any> {
+    const filter = category !== undefined ? { category: category } : {};
+    const questions = await this.questionModel.find(filter).exec();
+    console.log(questions);
+    const shuffle = (array: QuestionDocument[]) => {
+      return array.sort(() => Math.random() - 0.5);
+    };
+    const shuffledArray = shuffle(questions).slice(0, 3);
+    console.log(shuffledArray);
+    return shuffledArray;
   }
 }
