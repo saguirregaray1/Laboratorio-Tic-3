@@ -75,4 +75,13 @@ export class QuestionController {
       user: null,
     });
   }
+
+  @Post('/check')
+  async check(@Res() response, @Body('answer') answer, @Body('id') id: string){
+    const is_correct = await this.questionService.isCorrect(answer, id);
+    return response.status(HttpStatus.OK).json({
+      is_correct : is_correct,
+    }) 
+  }
+
 }
