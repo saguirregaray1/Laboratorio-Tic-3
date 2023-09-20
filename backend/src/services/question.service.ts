@@ -39,12 +39,15 @@ export class QuestionService {
   async playTrivia(category: string): Promise<any> {
     const filter = category !== undefined ? { category: category } : {};
     const questions = await this.questionModel.find(filter).exec();
-    console.log(questions);
     const shuffle = (array: QuestionDocument[]) => {
       return array.sort(() => Math.random() - 0.5);
     };
     const shuffledArray = shuffle(questions).slice(0, 3);
-    console.log(shuffledArray);
     return shuffledArray;
+  }
+
+  async isCorrect(answer:string, id:string){
+    const question:Question = await this.getQuestion(id);
+    return {'is_correct' : question.answer === answer, 'answer': question.answer};
   }
 }
