@@ -17,6 +17,7 @@ import { User, UserSchema } from './schemas/user.schema';
 import { Module, RequestMethod, MiddlewareConsumer } from '@nestjs/common';
 import { QuestionModule } from './modules/question.module';
 import { UserModule } from './modules/user.module';
+import { isAuthenticated } from './app.middleware';
 
 @Module({
   imports: [
@@ -40,4 +41,18 @@ import { UserModule } from './modules/user.module';
   controllers: [AppController, QuestionController, UserController],
   providers: [AppService, QuestionService, UserService],
 })
-export class AppModule {}
+export class AppModule {
+  /*
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(isAuthenticated)
+      .exclude(
+        { path: 'api/v1/user/signup', method: RequestMethod.POST },
+        { path: 'api/v1/user/signin', method: RequestMethod.POST },
+        { path: 'api/v1/question/play/trivia', method: RequestMethod.POST },
+        { path: 'api/v1/question/play/trivia', method: RequestMethod.GET },
+      )
+      .forRoutes(UserController, QuestionController);
+  }
+  */
+}
