@@ -76,11 +76,12 @@ export class QuestionController {
     });
   }
 
-  @Post('/check')
+  @Post('/play/trivia')
   async check(@Res() response, @Body('answer') answer, @Body('id') id: string){
-    const is_correct = await this.questionService.isCorrect(answer, id);
+    const json = await this.questionService.isCorrect(answer, id);
     return response.status(HttpStatus.OK).json({
-      is_correct : is_correct,
+      is_correct : json.is_correct,
+      answer : json.answer
     }) 
   }
 

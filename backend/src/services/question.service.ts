@@ -48,6 +48,6 @@ export class QuestionService {
 
   async isCorrect(answer:string, id:string){
     const question:Question = await this.getQuestion(id);
-    return question.answer === answer;
+    return {'is_correct' : question.answer === answer, 'answer': question.answer};
   }
 }
