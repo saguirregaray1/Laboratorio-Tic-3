@@ -36,15 +36,16 @@ export class TriviaQuestionService {
   //   return await this.questionModel.findByIdAndRemove(id);
   // }
 
-  // async playTrivia(category: string): Promise<any> {
-  //   const filter = category !== undefined ? { category: category } : {};
-  //   const questions = await this.questionModel.find(filter).exec();
-  //   const shuffle = (array: QuestionDocument[]) => {
-  //     return array.sort(() => Math.random() - 0.5);
-  //   };
-  //   const shuffledArray = shuffle(questions).slice(0, 3);
-  //   return shuffledArray;
-  // }
+  async playTrivia(category: string): Promise<any> {
+    const filter = category !== undefined ? { category: category } : {}; //If category undefined, search all questions
+    const questions = await this.triviaQuestionRepository.findBy(filter);
+    const shuffle = (array: TriviaQuestion[]) => {
+      return array.sort(() => Math.random() - 0.5);
+    };
+    const shuffledArray = shuffle(questions).slice(0, 3);
+    const questionArray = shuffledArray.map((item) => {return {id : item.id, body : item.body}})
+    return questionArray;
+  }
 
   async isCorrect(answer:string, id:string){
     const question:TriviaQuestion = await this.getQuestion(id);

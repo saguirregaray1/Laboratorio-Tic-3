@@ -45,13 +45,13 @@ export class TriviaQuestionController {
     });
   }
 
-  // @Get('/play/trivia')
-  // async getTrivia(@Res() response, @Body('category') category: string) {
-  //   const questions = await this.questionService.playTrivia(category);
-  //   return response.status(HttpStatus.ACCEPTED).json({
-  //     questions,
-  //   });
-  // }
+  @Get('/play/trivia')
+  async getTrivia(@Res() response, @Body('category') category: string) {
+    const questions = await this.triviaQuestionService.playTrivia(category);
+    return response.status(HttpStatus.ACCEPTED).json({
+      questions,
+    });
+  }
 
   // /*@Post('/play/trivia')
   // async playTrivia(@Res() response, @Body('category') category: string) {
