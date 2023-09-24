@@ -3,9 +3,6 @@ import {
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Question, QuestionDocument } from '../schemas/trivia_question.schema';
 import { Request, Response } from 'express';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TriviaQuestion } from 'src/entities/trivia_question.entity';
