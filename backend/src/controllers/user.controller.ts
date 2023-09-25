@@ -13,7 +13,6 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { User } from '../schemas/user.schema';
 import { UserService } from '../services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from 'src/dtos/CreateUserDto';
