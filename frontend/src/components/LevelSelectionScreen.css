@@ -1,0 +1,30 @@
+/* LevelSelectionScreen.css */
+.level-selection-screen {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .level-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    justify-items: center;
+  }
+  
+  .level-button {
+    width: 80px;
+    height: 80px;
+    background-color: #007acc;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .level-button:hover {
+    background-color: #005b9e;
+  }
+  
