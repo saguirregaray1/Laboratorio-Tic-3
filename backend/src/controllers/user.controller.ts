@@ -15,31 +15,30 @@ import {
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from 'src/dtos/CreateUserDto';
-
+import { CreateUserDto } from '../dtos/CreateUserDto';
 @Controller('/api/v1/user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
     private jwtService: JwtService,
   ) {}
-  
+
   // @Get()
   // getUsers() {
   //   return this.userService.getUsers();
   // }
-  
+
   // @Get('id/:id')
   // findUsersById(@Param('id', ParseIntPipe) id: number) {
   //   return this.userService.findUsersById(id);
   // }
-  
+
   @Post('create')
   @UsePipes(ValidationPipe)
   async createUser(@Res() response, @Body() createUserDto: CreateUserDto) {
-    const newUser = await this.userService.createUser(createUserDto); 
-    if(!!newUser){
-      return response.status(HttpStatus.CREATED).json();  
+    const newUser = await this.userService.createUser(createUserDto);
+    if (!!newUser) {
+      return response.status(HttpStatus.CREATED).json();
     }
     return response.status(HttpStatus.CONFLICT).json();
   }
