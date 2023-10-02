@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import praderaImage from '../assets/pradera.jpg';
 import duelosImage from '../assets/duelos.jpg';
 import triviaImage from '../assets/trivia.jpg';
-
-
+import './styles.css'
 
 function Origin() {
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  /*const overlayStyles: React.CSSProperties = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    zIndex: 9999,
+    pointerEvents: 'auto' as 'auto',
+  };
+
+  const modalStyles: React.CSSProperties = {
+    zIndex: 1000, 
+  };*/
 
   return (
 
@@ -47,7 +71,7 @@ function Origin() {
 
             <ul className="navbar-nav ms-auto">
 
-              <button type="button" className="btn" style={{margin:'5px', backgroundColor: '#FFFFFF', color: '#353535', fontWeight: 'bold', borderColor: '#353535', borderWidth: '2px'}}>Iniciar sesion</button>
+              <button type="button" className="btn" style={{margin:'5px', backgroundColor: '#FFFFFF', color: '#353535', fontWeight: 'bold', borderColor: '#353535', borderWidth: '2px'}} onClick={openModal}>Iniciar sesion</button>
 
               <button type="button" className="btn btn-light" style={{margin:'5px', backgroundColor: '#FFFFFF', color: '#353535', fontWeight: 'bold', borderColor: '#353535', borderWidth: '2px'}}>Registrarse</button>
 
@@ -125,6 +149,37 @@ function Origin() {
 
         </div>
 
+      </div>
+
+      {isModalOpen && <div className="overlay" onClick={closeModal}></div>}
+
+      <div className={`modal fade ${isModalOpen ? 'show d-block' : ''} modal`} id="modalLoginForm" tabIndex={isModalOpen ? -1 : undefined} role="dialog" aria-labelledby="myModalLabel" aria-hidden={!isModalOpen}>
+        <div className="modal-dialog modal-dialog-center" role="document">
+          <div className="modal-content">
+            <div className="modal-header text-center">
+              <h4 className="modal-title w-100 font-weight-bold">Ingresa tus datos</h4>
+              <button type="button" className="btn btn-outline-secondary" onClick={closeModal} aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body mx-3">
+              <div className="md-form mb-5">
+                <i className="fas fa-envelope prefix grey-text"></i>
+                <label data-error="wrong" data-success="right">Correo electronico</label>
+                <input type="email" id="defaultForm-email" className="form-control validate" />
+              </div>
+
+              <div className="md-form mb-4">
+                <i className="fas fa-lock prefix grey-text"></i>
+                <label data-error="wrong" data-success="right">Contraseña</label>
+                <input type="password" id="defaultForm-pass" className="form-control validate" />
+              </div>
+            </div>
+            <div className="modal-footer d-flex justify-content-center">
+              <button className="btn btn-primary" onClick={closeModal}>Iniciar sesion</button>
+            </div>
+          </div>
+        </div>
       </div>
 
     </>
