@@ -12,15 +12,17 @@ import { Module, RequestMethod, MiddlewareConsumer } from '@nestjs/common';
 import { UserModule } from './modules/user.module';
 //import { isAuthenticated } from './app.middleware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import {TypeOrmModule} from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import entities from './entities/entities';
 import { TriviaQuestionModule } from './modules/trivia_question.module';
+import { QuestionModule } from './modules/question.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     UserModule,
     TriviaQuestionModule,
+    QuestionModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -32,19 +34,11 @@ import { TriviaQuestionModule } from './modules/trivia_question.module';
         database: configService.get('DB_NAME'),
         entities: entities,
         synchronize: true,
+        dropSchema: true,
       }),
       inject: [ConfigService],
     }),
-    //Para que es esto?
-    // MulterModule.register({
-    //   storage: diskStorage({
-    //     destination: './public',
-    //     filename: (req, file, cb) => {
-    //       const ext = file.mimetype.split('/')[1];
-    //       cb(null, `${uuidv4()}-${Date.now()}.${ext}`);
-    //     },
-    //   }),
-    // }),
+
     JwtModule.register({
       secret,
       signOptions: { expiresIn: '2h' },
