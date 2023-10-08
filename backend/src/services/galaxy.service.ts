@@ -19,7 +19,18 @@ export class GalaxyService {
     const existingGalaxy = await this.galaxyRepository.findOneBy({
       index: createGalaxyDto.index,
     });
+    if (existingGalaxy) {
+      throw new Error('Galaxy already exists');
+    }
     const newGalaxy = this.galaxyRepository.create(createGalaxyDto);
-    return existingGalaxy ? null : this.galaxyRepository.save(newGalaxy);
+    return this.galaxyRepository.save(newGalaxy);
+  }
+
+  async getGalaxy(id): Promise<Galaxy> {
+    const galaxy = await this.galaxyRepository.findOne({ where: { id } });
+    if (!galaxy) {
+      throw new Error('Galaxy not found');
+    }
+    return galaxy;
   }
 }

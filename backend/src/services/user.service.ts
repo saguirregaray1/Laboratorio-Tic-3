@@ -1,68 +1,85 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
-import { QueryFailedError, Repository } from 'typeorm';
-import {CreateUserDto} from '../dtos/CreateUserDto';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from '../dtos/CreateUserDto';
+import { LoginUserDto } from '../dtos/LoginUserDto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
-      
-  //Chequear nombre de usuario que no sea duplicado
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const existingUser = await this.userRepository.findOneBy({email:createUserDto.email})
+
+  /*async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const existingUser = await this.userRepository.findOneBy({
+      email: createUserDto.email,
+    });
+
     const newUser = this.userRepository.create(createUserDto);
     return existingUser ? null : this.userRepository.save(newUser);
+  } */
+
+  async getUser(id: number): Promise<User> {
+    const existingUser = await this.userRepository.findOne({ where: { id } });
+    if (!existingUser) {
+      throw new Error('User does not exist');
+    }
+    return existingUser;
   }
 
-      
-  // findUsersById(id: number): Promise<User> {
-  //   return this.userRepository.findOne(id);
-  // }
-  
-  
-  // constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  async getUserByUsername(username: string): Promise<User> {
+    const foundUser = await this.userRepository.findOneBy({
+      username: username,
+    });
+    if (!foundUser) {
+      throw new Error('User does not exist');
+    }
+    return foundUser;
+  }
 
-  // async signup(user: User): Promise<User> {
-  //   const salt = await bcrypt.genSalt();
-  //   const hash = await bcrypt.hash(user.password, salt);
-  //   const reqBody = {
-  //     fullname: user.fullname,
-  //     email: user.email,
-  //     password: hash,
-  //   };
-  //   const newUser = new this.userModel(reqBody);
-  //   return newUser.save();
-  // }
+  async login(loginUserDto: LoginUserDto): Promise<{ token: string }> {
+    const foundUser = await this.userRepository.findOneBy({
+      username: loginUserDto.username,
+    });
+    if (foundUser) {
+      const password = foundUser.password;
+      const isCorrect = await bcrypt.compare(loginUserDto.password, password);
+      if (isCorrect) {
+        const payload = { sub: foundUser.id, username: loginUserDto.username };
+        const jwtToken = await this.jwtService.signAsync(payload, {
+          secret: this.configService.get('SECRET'),
+        });
 
-  // async signin(user: User, jwt: JwtService): Promise<any> {
-  //   const foundUser = await this.userModel
-  //     .findOne({ email: user.email })
-  //     .exec();
-  //   if (foundUser) {
-  //     const { password } = foundUser;
-  //     if (bcrypt.compare(user.password, password)) {
-  //       const payload = { email: user.email };
-  //       return {
-  //         token: jwt.sign(payload),
-  //       };
-  //     }
-  //     return new HttpException(
-  //       'Incorrect username or password',
-  //       HttpStatus.UNAUTHORIZED,
-  //     );
-  //   }
-  //   return new HttpException(
-  //     'Incorrect username or password',
-  //     HttpStatus.UNAUTHORIZED,
-  //   );
-  // }
+        return {
+          token: jwtToken,
+        };
+      }
+    }
+    throw new Error('Username or password is incorrect');
+  }
 
-  // async getOne(email) : Promise<User>{  
-  //   return await this.userModel.findOne({ email }).exec();
-  // }
+  async signUp(createUserDto: CreateUserDto): Promise<User> {
+    const existingUser = await this.userRepository.findOne({
+      where: { email: createUserDto.email },
+    });
+    if (existingUser) {
+      throw new Error('Email is already registered');
+    }
+
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(createUserDto.password, salt);
+    const newUser = this.userRepository.create({
+      username: createUserDto.username,
+      password: hash,
+      email: createUserDto.email,
+    });
+
+    return this.userRepository.save(newUser);
+  }
 }

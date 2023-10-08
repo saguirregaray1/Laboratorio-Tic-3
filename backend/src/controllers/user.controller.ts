@@ -16,6 +16,7 @@ import {
 import { UserService } from '../services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from '../dtos/CreateUserDto';
+import { LoginUserDto } from '../dtos/LoginUserDto';
 @Controller('/api/v1/user')
 export class UserController {
   constructor(
@@ -23,35 +24,41 @@ export class UserController {
     private jwtService: JwtService,
   ) {}
 
-  // @Get()
-  // getUsers() {
-  //   return this.userService.getUsers();
-  // }
-
-  // @Get('id/:id')
-  // findUsersById(@Param('id', ParseIntPipe) id: number) {
-  //   return this.userService.findUsersById(id);
-  // }
-
-  @Post('create')
-  @UsePipes(ValidationPipe)
-  async createUser(@Res() response, @Body() createUserDto: CreateUserDto) {
-    const newUser = await this.userService.createUser(createUserDto);
-    if (!!newUser) {
-      return response.status(HttpStatus.CREATED).json();
+  @Get('/:id')
+  async getUsers(@Res() response, @Param('id') id) {
+    try {
+      const user = await this.userService.getUser(id);
+      return response.status(HttpStatus.OK).json(user);
+    } catch (error) {
+      return response
+        .status(HttpStatus.NO_CONTENT)
+        .json({ message: error.message });
     }
-    return response.status(HttpStatus.CONFLICT).json();
   }
-  // @Post('/signup')
-  // async Signup(@Res() response, @Body() user: User) {
-  //   const newUSer = await this.userService.signup(user);
-  //   return response.status(HttpStatus.CREATED).json({
-  //     newUSer,
-  //   });
-  // }
-  // @Post('/signin')
-  // async SignIn(@Res() response, @Body() user: User) {
-  //   const token = await this.userService.signin(user, this.jwtService);
-  //   return response.status(HttpStatus.OK).json(token);
-  // }
+
+  @Post('/signup')
+  @UsePipes(ValidationPipe)
+  async signUp(@Res() response, @Body() createUserDto: CreateUserDto) {
+    try {
+      const newUser = await this.userService.signUp(createUserDto);
+      return response.status(HttpStatus.CREATED).json(newUser);
+    } catch (error) {
+      return response
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: error.message });
+    }
+  }
+
+  @Post('/login')
+  @UsePipes(ValidationPipe)
+  async login(@Res() response, @Body() loginUserDto: LoginUserDto) {
+    try {
+      const token = await this.userService.login(loginUserDto);
+      return response.status(HttpStatus.OK).json(token);
+    } catch (error) {
+      return response
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: error.message });
+    }
+  }
 }

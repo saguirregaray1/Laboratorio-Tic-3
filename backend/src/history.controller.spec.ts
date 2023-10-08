@@ -1,15 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module'; // Adjust the import path to your app module
+import { AppModule } from './app.module'; // Adjust the import path to your app module
 import { UserModule } from './modules/user.module';
 import { QuestionModule } from './modules/question.module';
 describe('HistoryController (e2e)', () => {
   let app: INestApplication;
+  let authToken; // Declare a variable to store the JWT token
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule, UserModule, QuestionModule], // Adjust the import to your app module
+      imports: [AppModule, UserModule], // Adjust the import to your app module
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -20,6 +21,33 @@ describe('HistoryController (e2e)', () => {
     await app.close();
   });
 
+  it('/api/v1/user/signup (POST) - should create a new user', () => {
+    return request(app.getHttpServer())
+      .post('/api/v1/user/signup')
+      .send({
+        username: 'user3',
+        password: 'pass1234567',
+        email: 'test2@gmail.com',
+      })
+      .expect(HttpStatus.CREATED)
+      .expect((res) => {
+        console.log(res.body);
+      });
+  });
+
+  it('/api/v1/user/login (POST) - should login the new user', () => {
+    return request(app.getHttpServer())
+      .post('/api/v1/user/login')
+      .send({
+        username: 'user3',
+        password: 'pass1234567',
+      })
+      .expect((res) => {
+        console.log(res.body);
+        authToken = res.body.token;
+      });
+  });
+
   it('/api/v1/history/create/galaxy (POST) - should create a new galaxy', () => {
     return request(app.getHttpServer())
       .post('/api/v1/history/create/galaxy')
@@ -27,9 +55,10 @@ describe('HistoryController (e2e)', () => {
         name: 'Milky Way',
         index: 'milky-way',
       })
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
       .expect(HttpStatus.CREATED)
       .expect((res) => {
-        // Verify the response body here
+        console.log(res.body);
       });
   });
 
@@ -41,9 +70,20 @@ describe('HistoryController (e2e)', () => {
         index: 'earth',
         galaxyId: 1, // Replace with an existing galaxy ID
       })
-      .expect(HttpStatus.CREATED)
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
       .expect((res) => {
-        // Verify the response body here
+        // Check for a 400 Bad Request status
+        if (res.status !== HttpStatus.CREATED) {
+          throw new Error(
+            'Expected HTTP status 201 but got ' + res.body.message,
+          );
+        }
+
+        // You can also check the response body for error messages
+        const responseBody = res.body;
+        if (responseBody && responseBody.message) {
+          throw new Error('Error message in response: ' + responseBody.message);
+        }
       });
   });
 
@@ -57,6 +97,7 @@ describe('HistoryController (e2e)', () => {
         category: 'Geography',
         worldId: 1, // Replace with an existing world ID
       })
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
       .expect(HttpStatus.CREATED)
       .expect((res) => {
         // Verify the response body here
@@ -67,9 +108,10 @@ describe('HistoryController (e2e)', () => {
     const questionId = 1; // Replace with a valid question ID
     return request(app.getHttpServer())
       .get(`/api/v1/history/question/${questionId}`)
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
       .expect(HttpStatus.ACCEPTED)
       .expect((res) => {
-        // Verify the response body here
+        console.log(res.body);
       });
   });
 
@@ -77,9 +119,10 @@ describe('HistoryController (e2e)', () => {
     const worldId = 1; // Replace with a valid world ID
     return request(app.getHttpServer())
       .get(`/api/v1/history/world/${worldId}`)
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
       .expect(HttpStatus.ACCEPTED)
       .expect((res) => {
-        // Verify the response body here
+        console.log(res.body);
       });
   });
 
@@ -87,9 +130,10 @@ describe('HistoryController (e2e)', () => {
     const galaxyId = 1; // Replace with a valid galaxy ID
     return request(app.getHttpServer())
       .get(`/api/v1/history/galaxy/${galaxyId}`)
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
       .expect(HttpStatus.ACCEPTED)
       .expect((res) => {
-        // Verify the response body here
+        console.log(res.body);
       });
   });
 });

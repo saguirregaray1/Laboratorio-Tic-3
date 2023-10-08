@@ -11,7 +11,7 @@ import { CreateQuestionDto } from '../dtos/CreateQuestionDto';
 import { World } from '../entities/world.entity';
 
 @Injectable()
-export class HistoryService {
+export class QuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly historyRepository: Repository<Question>,
@@ -41,7 +41,11 @@ export class HistoryService {
   }
 
   async getQuestion(id): Promise<Question> {
-    return this.historyRepository.findOne({ where: { id } });
+    const question = await this.historyRepository.findOne({ where: { id } });
+    if (!question) {
+      throw new Error('Question not found');
+    }
+    return question;
   }
 
   // async updateQuestion(id, question: Question): Promise<Question> {
