@@ -1,17 +1,16 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { QuestionController } from '../controllers/question.controller';
-import { QuestionService } from '../services/question.service';
-import { Question, QuestionSchema } from '../schemas/question.schema';
+import { HistoryController } from '../controllers/history.controller';
+import { QuestionService } from '../services/history.service';
+import { Question } from '../entities/question.entity';
+import { World } from '../entities/world.entity';
+import { Galaxy } from '../entities/galaxy.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { GalaxyService } from '../services/galaxy.service';
+import { WorldService } from '../services/world.service';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: Question.name, schema: QuestionSchema },
-    ]),
-  ],
-  controllers: [QuestionController],
-  providers: [QuestionService],
-  exports: [MongooseModule],
+  imports: [TypeOrmModule.forFeature([Question, World, Galaxy])],
+  controllers: [HistoryController],
+  providers: [QuestionService, GalaxyService, WorldService],
 })
 export class QuestionModule {}

@@ -20,3 +20,20 @@
     padding: 20px 15px;
     text-align: center;
   }
+
+/* Overlay Styles */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 999 !important; /* Add !important to ensure priority */
+  }
+  
+  /* Modal Styles */
+  .modal {
+    z-index: 1000 !important; /* Add !important to ensure priority */
+  }
+  
