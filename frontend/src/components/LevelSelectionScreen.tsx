@@ -7,6 +7,7 @@ import './LevelSelectionScreen.css';
 const LevelSelectionScreen: React.FC<{}> = () => {
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
   const levels = Array.from({ length: 25 }, (_, i) => i + 1);
+  const current_level = 14;
 
   return (
     <div className="level-selection-screen">
@@ -14,7 +15,7 @@ const LevelSelectionScreen: React.FC<{}> = () => {
       <div className="level-grid">
         {levels.map((level) => (
             <Link to={`/question/${level}`} key={level}>
-                <LevelButton level={level} onClick={() => setSelectedLevel(level)} />
+                <LevelButton level={level} onClick={() => setSelectedLevel(level)} current_level={current_level} />
             </Link>
         ))}
       </div>
@@ -23,4 +24,3 @@ const LevelSelectionScreen: React.FC<{}> = () => {
 };
 
 export default LevelSelectionScreen;
-
