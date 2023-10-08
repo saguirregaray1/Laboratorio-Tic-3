@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 import Origin from './containers/origin';
+import FirstPage from './containers/FirstPage';
 
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Origin/>}/>
-        <Route path ="/nacional" element={<h1>Nacional nacional</h1>}/>
+        <Route path ="/nacional" element={<FirstPage/>}/>
         <Route path ="/*" element={<Navigate to="/" />}/>
       </Routes>
     </BrowserRouter>

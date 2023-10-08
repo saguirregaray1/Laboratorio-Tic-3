@@ -1,0 +1,48 @@
+/*Card.css*/
+
+.card {
+    width: 25%;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    border-width: 2px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+  
+.cardImg {
+    align-self: center;
+    max-width: 80%;
+    max-height: 30%;
+    margin-top: 5;
+    margin-bottom: 25px;
+}
+
+.card-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+  
+.card-button:hover {
+    background-color: #c0392b;
+}
+
+
+.text {
+    height: 100px;
+    text-align: justify;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.title {
+    text-align: center;
+    font-weight: 200;
+    font-size: 24;
+}
