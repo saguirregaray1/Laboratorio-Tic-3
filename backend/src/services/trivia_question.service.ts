@@ -50,8 +50,8 @@ export class TriviaQuestionService {
 
   //TODO: Chequear que ande bien esta funcion, no esta haciendo bien el filter creo, agarra cualquier cosa
   async playTrivia(universe: string, galaxy: string): Promise<any> {
-    const filter = {universe: universe, galaxy: galaxy}
-    const questions = await this.triviaQuestionRepository.findBy(filter);
+    const filter = {where:{universe: universe, galaxy: galaxy}}
+    const questions = await this.triviaQuestionRepository.find(filter)
     const question = questions[(Math.floor(Math.random() * questions.length))]
     return {id : question.id, body : question.body, option1:question.option1, option2:question.option2,
       option3 : question.option3 ,option4 : question.option4}
@@ -61,4 +61,6 @@ export class TriviaQuestionService {
     const question: TriviaQuestion = await this.getQuestion(id);
     return { is_correct: question.answer === answer, answer: question.answer };
   }
+
+  
 }

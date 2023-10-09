@@ -16,18 +16,19 @@ const TriviaPlayScreen: React.FC = () => {
 
   useEffect(() => {
 
-    let data = JSON.stringify({
+    const data = JSON.stringify({
       "universe": location.state.universe,
       "galaxy": location.state.galaxy
     });
 
     let config = {
-      method: 'get',
+      method: 'post',
+      maxBodyLength: Infinity,
       url: 'http://localhost:8000/api/v1/trivia/play',
-      data : data,
-      headers: {
-        'Content-Type': 'application/json',
-      }
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
     };
 
     axios.request(config)
@@ -42,6 +43,32 @@ const TriviaPlayScreen: React.FC = () => {
       console.log(error);
     });
 
+    // let data = JSON.stringify({
+    //   "universe": location.state.universe,
+    //   "galaxy": location.state.galaxy
+    // });
+
+    // let config = {
+    //   method: 'get',
+    //   url: 'http://localhost:8000/api/v1/trivia/play',
+    //   data : data,
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   }
+    // };
+
+    // axios.request(config)
+    // .then((response) => {
+    //   const data = response.data.question
+    //   setQuestion(data.body);
+    //   setOptions([data.option1, data.option2, data.option3, data.option4])
+    //   setQuestionId(data.id)
+    //   setIsLoading(false);
+    // })
+    // .catch((error) => {
+    //   console.log(error);
+    // });
+
     
   }, []);
 
@@ -54,7 +81,7 @@ const TriviaPlayScreen: React.FC = () => {
 
     let config = {
       method: 'post',
-      url: 'http://localhost:8000/api/v1/trivia/play',
+      url: 'http://localhost:8000/api/v1/trivia/play/check',
       data : data,
       headers: {
         'Content-Type': 'application/json',
@@ -84,11 +111,11 @@ const TriviaPlayScreen: React.FC = () => {
   const handleSiguienteClick = () => {
     let data = JSON.stringify({
       "universe": location.state.universe,
-      "world": location.state.galaxy
+      "galaxy": location.state.galaxy
     });
 
     let config = {
-      method: 'get',
+      method: 'post',
       url: 'http://localhost:8000/api/v1/trivia/play',
       data : data,
       headers: {
