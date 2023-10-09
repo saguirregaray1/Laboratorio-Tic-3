@@ -5,22 +5,25 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TriviaQuestion } from 'src/entities/trivia_question.entity';
+import { TriviaQuestion } from '../entities/trivia_question.entity';
 import { Repository } from 'typeorm';
-import { CreateTriviaQuestionDto } from 'src/dtos/CreateTriviaQuestionDto';
+import { CreateTriviaQuestionDto } from '../dtos/CreateTriviaQuestionDto';
 
 @Injectable()
 export class TriviaQuestionService {
   constructor(
-    @InjectRepository(TriviaQuestion) private readonly triviaQuestionRepository: Repository<TriviaQuestion>
+    @InjectRepository(TriviaQuestion)
+    private readonly triviaQuestionRepository: Repository<TriviaQuestion>,
   ) {}
 
-  async createQuestion(question: CreateTriviaQuestionDto): Promise<TriviaQuestion> {
+  async createQuestion(
+    question: CreateTriviaQuestionDto,
+  ): Promise<TriviaQuestion> {
     return this.triviaQuestionRepository.save(question);
   }
 
   async getQuestion(id): Promise<TriviaQuestion> {
-    return this.triviaQuestionRepository.findOne({where:{id}});
+    return this.triviaQuestionRepository.findOne({ where: { id } });
   }
 
   // async updateQuestion(id, question: Question): Promise<Question> {
@@ -54,8 +57,8 @@ export class TriviaQuestionService {
       option3 : question.option3 ,option4 : question.option4}
   }
 
-  async isCorrect(answer:string, id:string){
-    const question:TriviaQuestion = await this.getQuestion(id);
-    return {'is_correct' : question.answer === answer, 'answer': question.answer};
+  async isCorrect(answer: string, id: string) {
+    const question: TriviaQuestion = await this.getQuestion(id);
+    return { is_correct: question.answer === answer, answer: question.answer };
   }
 }

@@ -19,18 +19,23 @@ import {
   FileFieldsInterceptor,
   FilesInterceptor,
 } from '@nestjs/platform-express';
-import { CreateTriviaQuestionDto } from 'src/dtos/CreateTriviaQuestionDto';
-import { TriviaQuestion } from 'src/entities/trivia_question.entity';
-import { TriviaQuestionService } from 'src/services/trivia_question.service';
+import { CreateTriviaQuestionDto } from '../dtos/CreateTriviaQuestionDto';
+import { TriviaQuestion } from '../entities/trivia_question.entity';
+import { TriviaQuestionService } from '../services/trivia_question.service';
+import { json } from 'stream/consumers';
 
-@Controller('/api/v1/trivia_question')
+@Controller('/api/v1/trivia')
 export class TriviaQuestionController {
   constructor(private readonly triviaQuestionService: TriviaQuestionService) {}
 
   @Post('create')
   @UsePipes(ValidationPipe)
-  async createQuestion(@Res() response, @Body() question: CreateTriviaQuestionDto){
-    const newQuestion = await this.triviaQuestionService.createQuestion(question);
+  async createQuestion(
+    @Res() response,
+    @Body() question: CreateTriviaQuestionDto,
+  ) {
+    const newQuestion =
+      await this.triviaQuestionService.createQuestion(question);
     return response.status(HttpStatus.CREATED).json({
       newQuestion,
     });
@@ -44,15 +49,15 @@ export class TriviaQuestionController {
     });
   }
 
-  @Get('/play/trivia')
-  async getTrivia(@Res() response, @Body('universe') universe: string, @Body('world') world: string) {
-    const question = await this.triviaQuestionService.playTrivia(universe, world);
+  @Get('/play')
+  async getTrivia(@Res() response, @Body('category') category: string) {
+    const questions = await this.triviaQuestionService.playTrivia(category);
     return response.status(HttpStatus.ACCEPTED).json({
-      question,
+      questions,
     });
   }
 
-  // /*@Post('/play/trivia')
+  // /*@Post('/play')
   // async playTrivia(@Res() response, @Body('category') category: string) {
   //   const questions = await this.questionService.playTrivia(category);
   //   return response.status(HttpStatus.ACCEPTED).json({
@@ -77,13 +82,21 @@ export class TriviaQuestionController {
   //   });
   // }
 
-  @Post('/play/trivia')
-  async check(@Res() response, @Body('answer') answer, @Body('id') id: string){
+  @Post('/play')
+  async check(@Res() response, @Body('answer') answer, @Body('id') id: string) {
     const json = await this.triviaQuestionService.isCorrect(answer, id);
     return response.status(HttpStatus.OK).json({
-      is_correct : json.is_correct,
-      answer : json.answer
-    }) 
+      is_correct: json.is_correct,
+      answer: json.answer,
+    });
   }
 
+  /*@Post('/play/results')
+  async saveResults(@Res() response, @Body('answer') answer, @Body('id') id: string) {
+    const json = await this.triviaQuestionService.isCorrect(answer, id);
+    return response.status(HttpStatus.OK).json({
+      is_correct: json.is_correct,
+      answer: json.answer,
+    });
+  } */
 }
