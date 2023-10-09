@@ -18,7 +18,7 @@ const TriviaPlayScreen: React.FC = () => {
 
     let data = JSON.stringify({
       "universe": location.state.universe,
-      "world": location.state.galaxy
+      "galaxy": location.state.galaxy
     });
 
     let config = {

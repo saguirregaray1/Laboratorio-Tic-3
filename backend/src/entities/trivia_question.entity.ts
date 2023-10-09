@@ -33,5 +33,5 @@ export class TriviaQuestion {
   universe: string;
 
   @Column({ nullable: false })
-  world: string;
+  galaxy: string;
 }

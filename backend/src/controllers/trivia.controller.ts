@@ -50,8 +50,8 @@ export class TriviaQuestionController {
   }
 
   @Get('/play')
-  async getTrivia(@Res() response, @Body('category') category: string) {
-    const questions = await this.triviaQuestionService.playTrivia(category);
+  async getTrivia(@Res() response, @Body('universe') universe: string, @Body('galaxy') galaxy: string) {
+    const questions = await this.triviaQuestionService.playTrivia(universe, galaxy);
     return response.status(HttpStatus.ACCEPTED).json({
       questions,
     });
