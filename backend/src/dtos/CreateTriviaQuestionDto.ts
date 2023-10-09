@@ -23,7 +23,7 @@ export class CreateTriviaQuestionDto {
 
   @IsNotEmpty()
   @IsString()
-  world: string;
+  galaxy: string;
 
   @IsNotEmpty()
   @IsString()

@@ -48,7 +48,7 @@ export class TriviaQuestionService {
   // }
 
 
-  //TODO: Chequear que ande bien esta funcion
+  //TODO: Chequear que ande bien esta funcion, no esta haciendo bien el filter creo, agarra cualquier cosa
   async playTrivia(universe: string, galaxy: string): Promise<any> {
     const filter = {universe: universe, galaxy: galaxy}
     const questions = await this.triviaQuestionRepository.findBy(filter);
