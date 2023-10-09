@@ -23,7 +23,7 @@ const TriviaPlayScreen: React.FC = () => {
 
     let config = {
       method: 'get',
-      url: 'http://localhost:8000/api/v1/trivia_question/play/trivia',
+      url: 'http://localhost:8000/api/v1/trivia/play',
       data : data,
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const TriviaPlayScreen: React.FC = () => {
 
     let config = {
       method: 'post',
-      url: 'http://localhost:8000/api/v1/trivia_question/play/trivia',
+      url: 'http://localhost:8000/api/v1/trivia/play',
       data : data,
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const TriviaPlayScreen: React.FC = () => {
 
     let config = {
       method: 'get',
-      url: 'http://localhost:8000/api/v1/trivia_question/play/trivia',
+      url: 'http://localhost:8000/api/v1/trivia/play',
       data : data,
       headers: {
         'Content-Type': 'application/json',

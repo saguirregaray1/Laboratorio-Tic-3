@@ -13,7 +13,7 @@ const QuestionScreen: React.FC<{}> = () => {
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/v1/trivia_question/${level}`)
+    axios.get(`http://localhost:8000/api/v1/trivia/id/${level}`)
         .then((response) => {
             setQuestion(response.data.question);
             setIsLoading(false);
