@@ -22,7 +22,6 @@ import {
 import { CreateTriviaQuestionDto } from 'src/dtos/CreateTriviaQuestionDto';
 import { TriviaQuestion } from 'src/entities/trivia_question.entity';
 import { TriviaQuestionService } from 'src/services/trivia_question.service';
-import { json } from 'stream/consumers';
 
 @Controller('/api/v1/trivia_question')
 export class TriviaQuestionController {
@@ -46,10 +45,10 @@ export class TriviaQuestionController {
   }
 
   @Get('/play/trivia')
-  async getTrivia(@Res() response, @Body('category') category: string) {
-    const questions = await this.triviaQuestionService.playTrivia(category);
+  async getTrivia(@Res() response, @Body('universe') universe: string, @Body('world') world: string) {
+    const question = await this.triviaQuestionService.playTrivia(universe, world);
     return response.status(HttpStatus.ACCEPTED).json({
-      questions,
+      question,
     });
   }
 
