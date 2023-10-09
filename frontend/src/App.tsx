@@ -4,8 +4,9 @@ import Origin from './containers/origin';
 import LevelSelectionScreen from './components/LevelSelectionScreen';
 import GameScreen from './components/GameScreen';
 import QuestionScreen from './components/QuestionScreen';
+import TriviaScreen from './components/TriviaScreen';
+import TriviaPlayScreen from './components/TriviaPlayScreen';
 import FirstPage from './containers/FirstPage';
-
 
 function App() {
 
@@ -16,7 +17,10 @@ function App() {
         <Route path ="/nacional" element={<FirstPage/>}/>
         <Route path="/levels" element={<LevelSelectionScreen/>} />
         <Route path="/question/:level" element={<QuestionScreen />}/>
-        <Route path ="/*" element={<Navigate to="/" />}/>
+        <Route path = "/trivia" element={<TriviaScreen/>}/>
+        <Route path = "/trivia/play" element={<TriviaPlayScreen/>}/>
+        <Route path = "/*" element={<Navigate to="/" />}/>
+        
       </Routes>
     </BrowserRouter>
     

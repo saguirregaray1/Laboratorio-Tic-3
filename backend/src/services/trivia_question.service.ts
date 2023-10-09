@@ -36,17 +36,25 @@ export class TriviaQuestionService {
   //   return await this.questionModel.findByIdAndRemove(id);
   // }
 
-  async playTrivia(category: string): Promise<any> {
-    const filter = category !== undefined ? { category: category } : {}; //If category undefined, search all questions
+  // async playTrivia(category: string): Promise<any> {
+  //   const filter = category !== undefined ? { category: category } : {}; //If category undefined, search all questions
+  //   const questions = await this.triviaQuestionRepository.findBy(filter);
+  //   const shuffle = (array: TriviaQuestion[]) => {
+  //     return array.sort(() => Math.random() - 0.5);
+  //   };
+  //   const shuffledArray = shuffle(questions).slice(0, 3);
+  //   const questionArray = shuffledArray.map((item) => {return {id : item.id, body : item.body}})
+  //   return questionArray;
+  // }
+
+
+  //TODO: Chequear que ande bien esta funcion
+  async playTrivia(universe: string, galaxy: string): Promise<any> {
+    const filter = {universe: universe, galaxy: galaxy}
     const questions = await this.triviaQuestionRepository.findBy(filter);
-    const shuffle = (array: TriviaQuestion[]) => {
-      return array.sort(() => Math.random() - 0.5);
-    };
-    const shuffledArray = shuffle(questions).slice(0, 3);
-    const questionArray = shuffledArray.map((item) => {
-      return { id: item.id, body: item.body };
-    });
-    return questionArray;
+    const question = questions[(Math.floor(Math.random() * questions.length))]
+    return {id : question.id, body : question.body, option1:question.option1, option2:question.option2,
+      option3 : question.option3 ,option4 : question.option4}
   }
 
   async isCorrect(answer: string, id: string) {

@@ -16,4 +16,22 @@ export class TriviaQuestion {
 
   @Column({ nullable: false })
   category: string;
+
+  @Column({ nullable: false })
+  option1: string;
+
+  @Column({ nullable: false })
+  option2: string;
+
+  @Column({ nullable: false })
+  option3: string;
+
+  @Column({ nullable: false })
+  option4: string;
+
+  @Column({ nullable: false })
+  universe: string;
+
+  @Column({ nullable: false })
+  galaxy: string;
 }
