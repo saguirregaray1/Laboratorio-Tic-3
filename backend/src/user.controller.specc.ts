@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module'; // Adjust the import path to your app module
+import { AppModule } from './app.module'; // Adjust the import path to your app module
 import { UserModule } from './modules/user.module';
 import { QuestionModule } from './modules/question.module';
 describe('UserController (e2e)', () => {

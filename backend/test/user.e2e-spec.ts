@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module'; // Adjust the import path to your app module
-import { UserModule } from '../src//modules/user.module';
+import { AppModule } from '../src/app.module';
+import { UserModule } from '../src/modules/user.module';
 import { QuestionModule } from '../src/modules/question.module';
 describe('UserController (e2e)', () => {
   let app: INestApplication;
+  let authToken; // Declare a variable to store the JWT token
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -41,6 +42,16 @@ describe('UserController (e2e)', () => {
         username: 'user2',
         password: 'pass1234567',
       })
+      .expect((res) => {
+        console.log(res.body);
+        authToken = res.body.token;
+      });
+  });
+
+  it('/api/v1/user/id (GET) - should retrieve the new user', () => {
+    return request(app.getHttpServer())
+      .get('/api/v1/user/1')
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
       .expect((res) => {
         console.log(res.body);
       });

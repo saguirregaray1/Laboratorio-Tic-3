@@ -29,10 +29,10 @@ export class UserController {
     try {
       const user = await this.userService.getUser(id);
       return response.status(HttpStatus.OK).json(user);
-    } catch (error) {
+    } catch (HttpException) {
       return response
-        .status(HttpStatus.NO_CONTENT)
-        .json({ message: error.message });
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
     }
   }
 
@@ -42,10 +42,10 @@ export class UserController {
     try {
       const newUser = await this.userService.signUp(createUserDto);
       return response.status(HttpStatus.CREATED).json(newUser);
-    } catch (error) {
+    } catch (HttpException) {
       return response
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: error.message });
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
     }
   }
 
@@ -55,10 +55,10 @@ export class UserController {
     try {
       const token = await this.userService.login(loginUserDto);
       return response.status(HttpStatus.OK).json(token);
-    } catch (error) {
+    } catch (HttpException) {
       return response
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: error.message });
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
     }
   }
 }

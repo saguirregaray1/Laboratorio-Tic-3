@@ -22,7 +22,7 @@ export class WorldService {
     const galaxy = await this.galaxyRepository.findOne({ where: { id } });
 
     if (!galaxy) {
-      throw new Error('Galaxy not found');
+      throw new HttpException('Galaxy not found', HttpStatus.NOT_FOUND);
     }
 
     const existingWorld = await this.worldRepository.findOneBy({
@@ -30,7 +30,7 @@ export class WorldService {
     });
 
     if (existingWorld) {
-      throw new Error('World already exists');
+      throw new HttpException('World already exists', HttpStatus.BAD_REQUEST);
     }
 
     const newWorld = this.worldRepository.create({
@@ -45,8 +45,20 @@ export class WorldService {
   async getWorld(id): Promise<World> {
     const world = await this.worldRepository.findOne({ where: { id } });
     if (!world) {
-      throw new Error('World not found');
+      throw new HttpException('World not found', HttpStatus.NOT_FOUND);
     }
     return world;
+  }
+
+  async getWorldsByGalaxy(galaxyId): Promise<World[]> {
+    const galaxy = await this.galaxyRepository.findOne({
+      where: { id: galaxyId },
+    });
+
+    if (!galaxy) {
+      throw new HttpException('Galaxy not found', HttpStatus.NOT_FOUND);
+    }
+    const worlds = await this.worldRepository.findBy({ galaxy: galaxy });
+    return worlds;
   }
 }

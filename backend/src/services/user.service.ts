@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -28,7 +28,7 @@ export class UserService {
   async getUser(id: number): Promise<User> {
     const existingUser = await this.userRepository.findOne({ where: { id } });
     if (!existingUser) {
-      throw new Error('User does not exist');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     return existingUser;
   }
@@ -38,7 +38,7 @@ export class UserService {
       username: username,
     });
     if (!foundUser) {
-      throw new Error('User does not exist');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     return foundUser;
   }
@@ -61,7 +61,10 @@ export class UserService {
         };
       }
     }
-    throw new Error('Username or password is incorrect');
+    throw new HttpException(
+      'User or password is incorrect',
+      HttpStatus.BAD_REQUEST,
+    );
   }
 
   async signUp(createUserDto: CreateUserDto): Promise<User> {
@@ -69,7 +72,10 @@ export class UserService {
       where: { email: createUserDto.email },
     });
     if (existingUser) {
-      throw new Error('Email is already registered');
+      throw new HttpException(
+        'Email is already registered',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const salt = await bcrypt.genSalt();

@@ -3,7 +3,6 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './app.module'; // Adjust the import path to your app module
 import { UserModule } from './modules/user.module';
-import { QuestionModule } from './modules/question.module';
 describe('HistoryController (e2e)', () => {
   let app: INestApplication;
   let authToken; // Declare a variable to store the JWT token
@@ -67,23 +66,28 @@ describe('HistoryController (e2e)', () => {
       .post('/api/v1/history/create/world')
       .send({
         name: 'Earth',
-        index: 'earth',
+        index: '1',
         galaxyId: 1, // Replace with an existing galaxy ID
       })
       .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
+      .expect(HttpStatus.CREATED)
       .expect((res) => {
-        // Check for a 400 Bad Request status
-        if (res.status !== HttpStatus.CREATED) {
-          throw new Error(
-            'Expected HTTP status 201 but got ' + res.body.message,
-          );
-        }
+        console.log(res.body);
+      });
+  });
 
-        // You can also check the response body for error messages
-        const responseBody = res.body;
-        if (responseBody && responseBody.message) {
-          throw new Error('Error message in response: ' + responseBody.message);
-        }
+  it('/api/v1/history/create/world (POST) - should create a new world', () => {
+    return request(app.getHttpServer())
+      .post('/api/v1/history/create/world')
+      .send({
+        name: 'Mars',
+        index: '2',
+        galaxyId: 1, // Replace with an existing galaxy ID
+      })
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
+      .expect(HttpStatus.CREATED)
+      .expect((res) => {
+        console.log(res.body);
       });
   });
 
@@ -99,8 +103,45 @@ describe('HistoryController (e2e)', () => {
       })
       .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
       .expect(HttpStatus.CREATED)
+      .expect(HttpStatus.CREATED)
       .expect((res) => {
-        // Verify the response body here
+        console.log(res.body);
+      });
+  });
+
+  it('/api/v1/history/create/question (POST) - should create a new question', () => {
+    return request(app.getHttpServer())
+      .post('/api/v1/history/create/question')
+      .send({
+        body: 'What is the capital of Uruguay?',
+        answer: 'Montevideo',
+        type: 'Multiple Choice',
+        category: 'Geography',
+        worldId: 1, // Replace with an existing world ID
+      })
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
+      .expect(HttpStatus.CREATED)
+      .expect(HttpStatus.CREATED)
+      .expect((res) => {
+        console.log(res.body);
+      });
+  });
+
+  it('/api/v1/history/create/question (POST) - should create a new question', () => {
+    return request(app.getHttpServer())
+      .post('/api/v1/history/create/question')
+      .send({
+        body: '2+2?',
+        answer: '4',
+        type: 'Multiple Choice',
+        category: 'Geography',
+        worldId: 2, // Replace with an existing world ID
+      })
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
+      .expect(HttpStatus.CREATED)
+      .expect(HttpStatus.CREATED)
+      .expect((res) => {
+        console.log(res.body);
       });
   });
 
@@ -130,6 +171,65 @@ describe('HistoryController (e2e)', () => {
     const galaxyId = 1; // Replace with a valid galaxy ID
     return request(app.getHttpServer())
       .get(`/api/v1/history/galaxy/${galaxyId}`)
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
+      .expect(HttpStatus.ACCEPTED)
+      .expect((res) => {
+        console.log(res.body);
+      });
+  });
+  it('/api/v1/history/galaxies (GET) - should get all galaxies', () => {
+    return request(app.getHttpServer())
+      .get(`/api/v1/history/galaxies`)
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
+      .expect(HttpStatus.ACCEPTED)
+      .expect((res) => {
+        console.log(res.body);
+      });
+  });
+
+  it('/api/v1/history/galaxy/getworlds/:id (GET) - should get all worlds in a galaxy', () => {
+    const galaxyId = 1; // Replace with a valid galaxy ID
+    return request(app.getHttpServer())
+      .get(`/api/v1/history/galaxy/getworlds/${galaxyId}`)
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
+      .expect(HttpStatus.ACCEPTED)
+      .expect((res) => {
+        console.log(res.body);
+      });
+  });
+
+  it('/api/v1/history/world/getquestions/:id (GET) - should get all questions in a world', () => {
+    const worldId = 1; // Replace with a valid world ID
+    return request(app.getHttpServer())
+      .get(`/api/v1/history/world/getquestions/${worldId}`)
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
+      .expect(HttpStatus.ACCEPTED)
+      .expect((res) => {
+        console.log(res.body);
+      });
+  });
+
+  it('/api/v1/history/question/checkanswer/:id (POST) - should check a question answer', () => {
+    const questionId = 1; // Replace with a valid question ID
+    return request(app.getHttpServer())
+      .post(`/api/v1/history/question/checkanswer/${questionId}`)
+      .send({
+        answer: 'Paris',
+      })
+      .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
+      .expect(HttpStatus.ACCEPTED)
+      .expect((res) => {
+        console.log(res.body);
+      });
+  });
+
+  it('/api/v1/history/question/checkanswer/:id (POST) - should check a question answer', () => {
+    const questionId = 1; // Replace with a valid question ID
+    return request(app.getHttpServer())
+      .post(`/api/v1/history/question/checkanswer/${questionId}`)
+      .send({
+        answer: 'Pari',
+      })
       .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
       .expect(HttpStatus.ACCEPTED)
       .expect((res) => {

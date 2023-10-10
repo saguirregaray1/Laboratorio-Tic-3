@@ -10,6 +10,8 @@ import { TriviaQuestionModule } from './modules/trivia_question.module';
 import { QuestionModule } from './modules/question.module';
 import { UserController } from './controllers/user.controller';
 import { HistoryController } from './controllers/history.controller';
+import { DuelModule } from './modules/duel.module';
+import { DuelController } from './controllers/duel.controller';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { HistoryController } from './controllers/history.controller';
     UserModule,
     TriviaQuestionModule,
     QuestionModule,
+    DuelModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -46,6 +49,6 @@ export class AppModule {
         { path: 'api/v1/question/play/trivia', method: RequestMethod.POST },
         { path: 'api/v1/question/play/trivia', method: RequestMethod.GET },
       )
-      .forRoutes(UserController, HistoryController);
+      .forRoutes(UserController, HistoryController, DuelController);
   }
 }
