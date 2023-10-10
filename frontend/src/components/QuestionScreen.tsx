@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const QuestionScreen: React.FC<{}> = () => {
   const { level } = useParams();
@@ -8,14 +8,12 @@ const QuestionScreen: React.FC<{}> = () => {
   const [question, setQuestion] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Function to handle answer submission
   const handleSubmit = () => {
-    // Add your logic to validate and process the answer here
     console.log(`Level ${level} - Submitted answer: ${question.answer}`);
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/v1/trivia_question/${level}`)
+    axios.get(`http://localhost:8000/api/v1/trivia/id/${level}`)
         .then((response) => {
             setQuestion(response.data.question);
             setIsLoading(false);
@@ -29,7 +27,7 @@ const QuestionScreen: React.FC<{}> = () => {
   return (
     <div className="question-screen">
       {isLoading ? (
-        <p>Loading...</p>
+        <p>Loading...</p> //Cambiar esto por una pagina de loading
       ) : (
         <>
           <h1>{question.body} {level}</h1>
@@ -38,7 +36,7 @@ const QuestionScreen: React.FC<{}> = () => {
             placeholder="Enter your answer"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
-            disabled={!question} // Disable input until question is available
+            disabled={!question}
           />
           <button onClick={handleSubmit} disabled={!question}>Submit</button>
         </>

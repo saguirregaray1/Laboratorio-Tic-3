@@ -41,7 +41,7 @@ export class TriviaQuestionController {
     });
   }
 
-  @Get('/:id')
+  @Get('/id/:id')
   async get(@Res() response, @Param('id') id) {
     const question = await this.triviaQuestionService.getQuestion(id);
     return response.status(HttpStatus.ACCEPTED).json({
@@ -49,11 +49,11 @@ export class TriviaQuestionController {
     });
   }
 
-  @Get('/play')
-  async getTrivia(@Res() response, @Body('category') category: string) {
-    const questions = await this.triviaQuestionService.playTrivia(category);
+  @Post('/play')
+  async getTrivia(@Res() response, @Body('universe') universe: string, @Body('galaxy') galaxy: string) {
+    const question = await this.triviaQuestionService.playTrivia(universe, galaxy);
     return response.status(HttpStatus.ACCEPTED).json({
-      questions,
+      question,
     });
   }
 
@@ -82,7 +82,7 @@ export class TriviaQuestionController {
   //   });
   // }
 
-  @Post('/play')
+  @Post('/play/check')
   async check(@Res() response, @Body('answer') answer, @Body('id') id: string) {
     const json = await this.triviaQuestionService.isCorrect(answer, id);
     return response.status(HttpStatus.OK).json({

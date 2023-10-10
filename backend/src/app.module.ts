@@ -31,7 +31,7 @@ import { DuelController } from './controllers/duel.controller';
         database: configService.get('DB_NAME'),
         entities: entities,
         synchronize: true,
-        dropSchema: true,
+        dropSchema: false,
       }),
       inject: [ConfigService],
     }),

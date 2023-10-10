@@ -16,4 +16,28 @@ export class CreateTriviaQuestionDto {
   @IsNotEmpty()
   @IsString()
   category: string;
+
+  @IsNotEmpty()
+  @IsString()
+  universe: string;
+
+  @IsNotEmpty()
+  @IsString()
+  galaxy: string;
+
+  @IsNotEmpty()
+  @IsString()
+  option1: string;
+
+  @IsNotEmpty()
+  @IsString()
+  option2: string;
+
+  @IsNotEmpty()
+  @IsString()
+  option3: string;
+
+  @IsNotEmpty()
+  @IsString()
+  option4: string;
 }
