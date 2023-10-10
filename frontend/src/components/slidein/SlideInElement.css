@@ -1,0 +1,40 @@
+.slide-in-element {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: slideIn 1.5s ease-in-out forwards;
+  color: #fdfcdc;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0);
+    opacity: 1;
+  }
+}
+
+
+.slide-in-element-inverted {
+  position: relative;
+  left: 50%;
+  transform: translate(50%, 50%);
+  opacity: 0;
+  animation: slideInInverted 1.5s ease-in-out forwards;
+  color: #fdfcdc;
+}
+
+@keyframes slideInInverted {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0);
+    opacity: 1;
+  }
+}
