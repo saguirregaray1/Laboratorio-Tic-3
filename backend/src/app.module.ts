@@ -9,7 +9,7 @@ import entities from './entities/entities';
 import { TriviaQuestionModule } from './modules/trivia_question.module';
 import { QuestionModule } from './modules/question.module';
 import { UserController } from './controllers/user.controller';
-import { HistoryController } from './controllers/history.controller';
+import { HistoryController } from './controllers/question.controller';
 import { DuelModule } from './modules/duel.module';
 import { DuelController } from './controllers/duel.controller';
 
@@ -19,7 +19,7 @@ import { DuelController } from './controllers/duel.controller';
     UserModule,
     TriviaQuestionModule,
     QuestionModule,
-    DuelModule,
+    //DuelModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
