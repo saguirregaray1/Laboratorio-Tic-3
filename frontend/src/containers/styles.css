@@ -37,3 +37,21 @@
     z-index: 1000 !important; /* Add !important to ensure priority */
   }
   
+  .container-wavy {
+    margin-top: 20px;
+    width: 100%; /* Adjust the width as needed */
+    height: 200px; /* Adjust the height as needed */
+    background-color: #f94144; /* Set the background color */
+    border-radius: 20% 60% 30% 70%; /* Create a curved shape by customizing the border-radius values */
+    position: relative;
+  }
+  
+  .container-wavy-inverted {
+    margin-top: 20px;
+    width: 100%; /* Adjust the width as needed */
+    height: 200px; /* Adjust the height as needed */
+    background-color: #f3722c; /* Set the background color */
+    border-radius: 70% 30% 60% 20%; /* Create a curved shape by customizing the border-radius values */
+    position: relative;
+  }
+ 
