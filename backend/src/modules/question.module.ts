@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { HistoryController } from '../controllers/history.controller';
+import { HistoryController } from '../controllers/question.controller';
 import { QuestionService } from '../services/question.service';
 import { Question } from '../entities/question.entity';
 import { World } from '../entities/world.entity';

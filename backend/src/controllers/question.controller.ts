@@ -12,85 +12,169 @@ import {
   Req,
   Res,
   Query,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { Question } from '../schemas/question.schema';
-import { QuestionService } from '../services/question.service';
 import {
   FileFieldsInterceptor,
   FilesInterceptor,
 } from '@nestjs/platform-express';
+import { CreateGalaxyDto } from '../dtos/CreateGalaxyDto';
+import { CreateQuestionDto } from '../dtos/CreateQuestionDto';
+import { CreateWorldDto } from '../dtos/CreateWorldDto';
+import { GalaxyService } from '../services/galaxy.service';
+import { QuestionService } from '../services/question.service';
+import { WorldService } from '../services/world.service';
 import { json } from 'stream/consumers';
 
-@Controller('/api/v1/question')
-export class QuestionController {
-  constructor(private readonly questionService: QuestionService) {}
+@Controller('/api/v1/history')
+export class HistoryController {
+  constructor(
+    private readonly questionService: QuestionService,
+    private readonly worldService: WorldService,
+    private readonly galaxyService: GalaxyService,
+  ) {}
 
-  @Post()
-  async createQuestion(
-    @Res() response,
-    @Req() request,
-    @Body() question: Question,
-  ) {
-    const requestBody = {
-      createdBy: request.user,
-      question: question.body,
-      answer: question.answer,
-      type: question.type,
-    };
-    const newQuestion = await this.questionService.createQuestion(question);
-    return response.status(HttpStatus.CREATED).json({
-      newQuestion,
-    });
+  @Post('/create/question')
+  @UsePipes(ValidationPipe)
+  async createQuestion(@Res() response, @Body() question: CreateQuestionDto) {
+    try {
+      const newQuestion = await this.questionService.createQuestion(question);
+      return response.status(HttpStatus.CREATED).json({
+        newQuestion,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
   }
 
-  @Get('/:id')
-  async get(@Res() response, @Param('id') id) {
-    const question = await this.questionService.getQuestion(id);
-    return response.status(HttpStatus.ACCEPTED).json({
-      question,
-    });
+  @Post('/create/world')
+  @UsePipes(ValidationPipe)
+  async createWorld(@Res() response, @Body() world: CreateWorldDto) {
+    try {
+      const newWorld = await this.worldService.createWorld(world);
+      return response.status(HttpStatus.CREATED).json({
+        newWorld,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
   }
 
-  @Get('/play/trivia')
-  async getTrivia(@Res() response, @Body('category') category: string) {
-    const questions = await this.questionService.playTrivia(category);
-    return response.status(HttpStatus.ACCEPTED).json({
-      questions,
-    });
+  @Post('/create/galaxy')
+  @UsePipes(ValidationPipe)
+  async createGalaxy(@Res() response, @Body() galaxy: CreateGalaxyDto) {
+    try {
+      const newGalaxy = await this.galaxyService.createGalaxy(galaxy);
+      return response.status(HttpStatus.CREATED).json({
+        newGalaxy,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
   }
 
-  /*@Post('/play/trivia')
-  async playTrivia(@Res() response, @Body('category') category: string) {
-    const questions = await this.questionService.playTrivia(category);
-    return response.status(HttpStatus.ACCEPTED).json({
-      questions,
-    });
-  } */
-
-  @Put('/:id')
-  async update(@Res() response, @Param('id') id, @Body() question: Question) {
-    const updatedVideo = await this.questionService.updateQuestion(
-      id,
-      question,
-    );
-    return response.status(HttpStatus.OK).json(updatedVideo);
+  @Get('/question/:id')
+  async getQuestion(@Res() response, @Param('id') id) {
+    try {
+      const question = await this.questionService.getQuestion(id);
+      return response.status(HttpStatus.ACCEPTED).json({
+        question,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
   }
 
-  @Delete('/:id')
-  async delete(@Res() response, @Param('id') id) {
-    await this.questionService.deleteQuestion(id);
-    return response.status(HttpStatus.OK).json({
-      user: null,
-    });
+  @Get('/world/:id')
+  async getWorld(@Res() response, @Param('id') id) {
+    try {
+      const world = await this.worldService.getWorld(id);
+      return response.status(HttpStatus.ACCEPTED).json({
+        world,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
   }
 
-  @Post('/play/trivia')
-  async check(@Res() response, @Body('answer') answer, @Body('id') id: string){
-    const json = await this.questionService.isCorrect(answer, id);
-    return response.status(HttpStatus.OK).json({
-      is_correct : json.is_correct,
-      answer : json.answer
-    }) 
+  @Get('/galaxy/:id')
+  async getGalaxy(@Res() response, @Param('id') id) {
+    try {
+      const galaxy = await this.galaxyService.getGalaxy(id);
+      return response.status(HttpStatus.ACCEPTED).json({
+        galaxy,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
   }
 
+  @Get('/galaxies')
+  async getGalaxies(@Res() response) {
+    try {
+      const galaxies = await this.galaxyService.getGalaxies();
+      return response.status(HttpStatus.ACCEPTED).json({
+        galaxies,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
+  }
+
+  @Get('/galaxy/getworlds/:id')
+  async getWorldsByGalaxy(@Res() response, @Param('id') id) {
+    try {
+      const worlds = await this.worldService.getWorldsByGalaxy(id);
+      return response.status(HttpStatus.ACCEPTED).json({
+        worlds,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
+  }
+
+  @Get('/world/getquestions/:id')
+  async getQuestionsByWorld(@Res() response, @Param('id') id) {
+    try {
+      const questions = await this.questionService.getQuestionsByWorld(id);
+      return response.status(HttpStatus.ACCEPTED).json({
+        questions,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
+  }
+
+  @Post('/question/checkanswer/:id')
+  async checkAnswer(@Res() response, @Param('id') id, @Body() answer: string) {
+    try {
+      const result = await this.questionService.checkAnswer(id, answer);
+      return response.status(HttpStatus.ACCEPTED).json({
+        result,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
+  }
 }
