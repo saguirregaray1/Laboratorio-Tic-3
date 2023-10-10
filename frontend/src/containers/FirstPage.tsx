@@ -6,8 +6,9 @@ import Card from "../components/card/Card";
 import "../containers/styles.css"
 import ScrollingText from "../components/scrollingText/ScrollingText"
 import Header from "../components/header/Header";
-
+import Footer from "../components/footer/Footer";
 import Swiper from "../components/swiper/Swiper";
+import SlideInElement from "../components/slidein/SlideInElement";
 
 
 function FirstPage() {
@@ -48,14 +49,37 @@ function FirstPage() {
                 color="#fdf0d5"
                 font="Courier"/>           
             </div> 
-            <ScrollingText/>
+            <div className="container-wavy">
+                <SlideInElement
+                style= "slide-in-element"
+                title="Historia"
+                paragraph="Este modo de juego es..."/>
+            </div>
+            <div className="container-wavy-inverted">
+                <SlideInElement
+                style="slide-in-element-inverted"
+                title="Trivia"
+                paragraph="Este modo de juego es..."/>
+            </div>
+            <div className="container-wavy">
+                <SlideInElement
+                style="slide-in-element"
+                title="Duelos"
+                paragraph="Este modo de juego es..."/>
+            </div>
             <div className="container">
-                <h1>React TypeScript Swiper</h1>
+                <h1>Estas Preparado para el desafío?</h1>
                 <Swiper items={items} />
             </div>
-  );
+            <Footer 
+            aboutText="About us" 
+            contactText="Contact" 
+            servicesText="Sevices"
+            copyrightText="©Copyright 2023 Florida. All Rights Reserved."
+            />
         </>
-    )
+    );
+       
 
 }
 
