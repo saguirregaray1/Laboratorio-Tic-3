@@ -14,6 +14,7 @@ import {
   Query,
   UsePipes,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import {
   FileFieldsInterceptor,
@@ -26,8 +27,11 @@ import { GalaxyService } from '../services/galaxy.service';
 import { QuestionService } from '../services/question.service';
 import { WorldService } from '../services/world.service';
 import { json } from 'stream/consumers';
+import { RolesGuard } from '../roles/roles.guard';
+import { Roles } from '../roles/roles.decorator';
 
 @Controller('/api/v1/history')
+@UseGuards(RolesGuard)
 export class HistoryController {
   constructor(
     private readonly questionService: QuestionService,
@@ -37,6 +41,7 @@ export class HistoryController {
 
   @Post('/create/question')
   @UsePipes(ValidationPipe)
+  @Roles(['user', 'admin']) //fix
   async createQuestion(@Res() response, @Body() question: CreateQuestionDto) {
     try {
       const newQuestion = await this.questionService.createQuestion(question);
@@ -52,6 +57,7 @@ export class HistoryController {
 
   @Post('/create/world')
   @UsePipes(ValidationPipe)
+  @Roles(['user', 'admin']) //fix
   async createWorld(@Res() response, @Body() world: CreateWorldDto) {
     try {
       const newWorld = await this.worldService.createWorld(world);
@@ -67,6 +73,7 @@ export class HistoryController {
 
   @Post('/create/galaxy')
   @UsePipes(ValidationPipe)
+  @Roles(['user', 'admin']) //fix
   async createGalaxy(@Res() response, @Body() galaxy: CreateGalaxyDto) {
     try {
       const newGalaxy = await this.galaxyService.createGalaxy(galaxy);
@@ -81,6 +88,7 @@ export class HistoryController {
   }
 
   @Get('/question/:id')
+  @Roles(['user', 'admin'])
   async getQuestion(@Res() response, @Param('id') id) {
     try {
       const question = await this.questionService.getQuestion(id);
@@ -95,6 +103,7 @@ export class HistoryController {
   }
 
   @Get('/world/:id')
+  @Roles(['user', 'admin'])
   async getWorld(@Res() response, @Param('id') id) {
     try {
       const world = await this.worldService.getWorld(id);
@@ -109,6 +118,7 @@ export class HistoryController {
   }
 
   @Get('/galaxy/:id')
+  @Roles(['user', 'admin'])
   async getGalaxy(@Res() response, @Param('id') id) {
     try {
       const galaxy = await this.galaxyService.getGalaxy(id);
@@ -123,6 +133,7 @@ export class HistoryController {
   }
 
   @Get('/galaxies')
+  @Roles(['user', 'admin'])
   async getGalaxies(@Res() response) {
     try {
       const galaxies = await this.galaxyService.getGalaxies();
@@ -137,6 +148,7 @@ export class HistoryController {
   }
 
   @Get('/galaxy/getworlds/:id')
+  @Roles(['user', 'admin'])
   async getWorldsByGalaxy(@Res() response, @Param('id') id) {
     try {
       const worlds = await this.worldService.getWorldsByGalaxy(id);
@@ -151,6 +163,7 @@ export class HistoryController {
   }
 
   @Get('/world/getquestions/:id')
+  @Roles(['user', 'admin'])
   async getQuestionsByWorld(@Res() response, @Param('id') id) {
     try {
       const questions = await this.questionService.getQuestionsByWorld(id);
@@ -165,6 +178,7 @@ export class HistoryController {
   }
 
   @Post('/question/checkanswer/:id')
+  @Roles(['user', 'admin'])
   async checkAnswer(@Res() response, @Param('id') id, @Body() answer: string) {
     try {
       const result = await this.questionService.checkAnswer(id, answer);

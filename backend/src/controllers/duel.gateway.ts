@@ -13,7 +13,7 @@ import { Repository } from 'typeorm';
 import { Duel } from '../entities/duel.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Logger } from '@nestjs/common';
-import { DuelService } from 'src/services/duel.service';
+import { DuelService } from '../services/duel.service';
 
 @WebSocketGateway()
 export class DuelGateway

@@ -13,7 +13,7 @@ const entities = [
   Galaxy,
   Progress,
   Question,
-  //Duel,
+  Duel,
 ];
 
 export default entities;

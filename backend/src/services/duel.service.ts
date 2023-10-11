@@ -21,7 +21,6 @@ export class DuelService {
     private readonly duelRepository: Repository<Duel>,
     private readonly questionService: QuestionService,
     private readonly userService: UserService,
-    private readonly gateway: DuelGateway,
   ) {}
 
   async createDuel(createDuelDto: CreateDuelDto): Promise<Duel> {

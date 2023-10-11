@@ -24,7 +24,7 @@ describe('HistoryController (e2e)', () => {
     return request(app.getHttpServer())
       .post('/api/v1/user/signup')
       .send({
-        username: 'user3',
+        username: 'user4',
         password: 'pass1234567',
         email: 'test2@gmail.com',
       })
@@ -38,7 +38,7 @@ describe('HistoryController (e2e)', () => {
     return request(app.getHttpServer())
       .post('/api/v1/user/login')
       .send({
-        username: 'user3',
+        username: 'user4',
         password: 'pass1234567',
       })
       .expect((res) => {

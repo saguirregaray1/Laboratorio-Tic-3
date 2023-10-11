@@ -11,16 +11,21 @@ import {
   HttpStatus,
   UsePipes,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateDuelDto } from '../dtos/CreateDuelDto';
 import { DuelService } from '../services/duel.service';
 import { DuelAnswerQuestionDto } from '../dtos/DuelAnswerQuestionDto';
-@Controller('duels')
+import { RolesGuard } from '../roles/roles.guard';
+import { Roles } from '../roles/roles.decorator';
+@Controller('/api/v1/duel')
+@UseGuards(RolesGuard)
 export class DuelController {
   constructor(private readonly duelService: DuelService) {}
 
   @Post()
   @UsePipes(ValidationPipe)
+  @Roles(['user', 'admin'])
   async createDuel(@Res() response, @Body() createDuelDto: CreateDuelDto) {
     try {
       const newDuel = await this.duelService.createDuel(createDuelDto);
@@ -35,6 +40,7 @@ export class DuelController {
   }
 
   @Get(':id')
+  @Roles(['user', 'admin'])
   async getDuel(@Res() response, @Param('id') id) {
     try {
       const duel = await this.duelService.getDuel(id);
@@ -49,6 +55,7 @@ export class DuelController {
   }
 
   @Post('/answer')
+  @Roles(['user', 'admin'])
   async answerQuestion(
     @Res() response,
     @Body() duelAnswerQuestionDto: DuelAnswerQuestionDto,

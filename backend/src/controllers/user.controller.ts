@@ -12,19 +12,27 @@ import {
   Res,
   UsePipes,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from '../dtos/CreateUserDto';
 import { LoginUserDto } from '../dtos/LoginUserDto';
+import { AuthMiddleware } from '../app.middleware';
+import { RolesGuard } from '../roles/roles.guard';
+import { Roles } from '../roles/roles.decorator';
+
 @Controller('/api/v1/user')
+@UseGuards(RolesGuard)
 export class UserController {
   constructor(
     private readonly userService: UserService,
     private jwtService: JwtService,
+    private readonly isAuthenticated: AuthMiddleware,
   ) {}
 
   @Get('/:id')
+  @Roles(['admin'])
   async getUsers(@Res() response, @Param('id') id) {
     try {
       const user = await this.userService.getUser(id);
