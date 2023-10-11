@@ -25,9 +25,10 @@ describe('UserController (e2e)', () => {
     return request(app.getHttpServer())
       .post('/api/v1/user/signup')
       .send({
-        username: 'user2',
+        username: 'user3',
         password: 'pass1234567',
         email: 'test1@gmail.com',
+        role: 'admin',
       })
       .expect(HttpStatus.CREATED)
       .expect((res) => {
@@ -39,7 +40,7 @@ describe('UserController (e2e)', () => {
     return request(app.getHttpServer())
       .post('/api/v1/user/login')
       .send({
-        username: 'user2',
+        username: 'user3',
         password: 'pass1234567',
       })
       .expect((res) => {
@@ -52,6 +53,7 @@ describe('UserController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/api/v1/user/1')
       .set('Authorization', `Bearer ${authToken}`) // Set the Authorization header with the JWT token
+      .expect(HttpStatus.FORBIDDEN)
       .expect((res) => {
         console.log(res.body);
       });

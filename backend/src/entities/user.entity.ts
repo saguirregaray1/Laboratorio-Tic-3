@@ -2,6 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Entity()
 @Unique(['email'])
+@Unique(['username'])
 export class User {
   @PrimaryGeneratedColumn({
     type: 'bigint',
@@ -11,19 +12,22 @@ export class User {
 
   @Column({
     nullable: false,
-    default: '',
   })
   username: string;
 
   @Column({
     nullable: false,
-    default: '',
   })
   email: string;
 
   @Column({
     nullable: false,
-    default: '',
   })
   password: string;
+
+  @Column({
+    nullable: false,
+    default: 'user',
+  })
+  role: string;
 }

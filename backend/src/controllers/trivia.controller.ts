@@ -14,6 +14,7 @@ import {
   Query,
   UsePipes,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import {
   FileFieldsInterceptor,
@@ -23,13 +24,17 @@ import { CreateTriviaQuestionDto } from '../dtos/CreateTriviaQuestionDto';
 import { TriviaQuestion } from '../entities/trivia_question.entity';
 import { TriviaQuestionService } from '../services/trivia_question.service';
 import { json } from 'stream/consumers';
+import { RolesGuard } from '../roles/roles.guard';
+import { Roles } from '../roles/roles.decorator';
 
 @Controller('/api/v1/trivia')
+@UseGuards(RolesGuard)
 export class TriviaQuestionController {
   constructor(private readonly triviaQuestionService: TriviaQuestionService) {}
 
   @Post('create')
   @UsePipes(ValidationPipe)
+  @Roles(['user', 'admin']) //fix
   async createQuestion(
     @Res() response,
     @Body() question: CreateTriviaQuestionDto,
@@ -50,8 +55,15 @@ export class TriviaQuestionController {
   }
 
   @Post('/play')
-  async getTrivia(@Res() response, @Body('universe') universe: string, @Body('galaxy') galaxy: string) {
-    const question = await this.triviaQuestionService.playTrivia(universe, galaxy);
+  async getTrivia(
+    @Res() response,
+    @Body('universe') universe: string,
+    @Body('galaxy') galaxy: string,
+  ) {
+    const question = await this.triviaQuestionService.playTrivia(
+      universe,
+      galaxy,
+    );
     return response.status(HttpStatus.ACCEPTED).json({
       question,
     });

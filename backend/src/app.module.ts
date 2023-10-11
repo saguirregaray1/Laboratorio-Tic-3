@@ -2,7 +2,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Module, RequestMethod, MiddlewareConsumer } from '@nestjs/common';
 import { UserModule } from './modules/user.module';
-import { isAuthenticated } from './app.middleware';
+import { AuthMiddleware } from './app.middleware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import entities from './entities/entities';
@@ -12,6 +12,8 @@ import { UserController } from './controllers/user.controller';
 import { HistoryController } from './controllers/question.controller';
 import { DuelModule } from './modules/duel.module';
 import { DuelController } from './controllers/duel.controller';
+import { TriviaQuestionController } from './controllers/trivia.controller';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { DuelController } from './controllers/duel.controller';
     UserModule,
     TriviaQuestionModule,
     QuestionModule,
-    //DuelModule,
+    DuelModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -31,7 +33,7 @@ import { DuelController } from './controllers/duel.controller';
         database: configService.get('DB_NAME'),
         entities: entities,
         synchronize: true,
-        dropSchema: false,
+        dropSchema: true,
       }),
       inject: [ConfigService],
     }),
@@ -42,13 +44,19 @@ import { DuelController } from './controllers/duel.controller';
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(isAuthenticated)
+      .apply(AuthMiddleware)
       .exclude(
         { path: 'api/v1/user/signup', method: RequestMethod.POST },
         { path: 'api/v1/user/login', method: RequestMethod.POST },
-        { path: 'api/v1/question/play/trivia', method: RequestMethod.POST },
-        { path: 'api/v1/question/play/trivia', method: RequestMethod.GET },
+        { path: 'api/v1/trivia/id/:id', method: RequestMethod.GET },
+        { path: 'api/v1/trivia/play', method: RequestMethod.POST },
+        { path: 'api/v1/trivia/play/check', method: RequestMethod.POST },
       )
-      .forRoutes(UserController, HistoryController, DuelController);
+      .forRoutes(
+        UserController,
+        HistoryController,
+        DuelController,
+        TriviaQuestionController,
+      );
   }
 }

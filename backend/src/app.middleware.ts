@@ -10,7 +10,7 @@ import { UserService } from './services/user.service';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class isAuthenticated implements NestMiddleware {
+export class AuthMiddleware implements NestMiddleware {
   constructor(
     private readonly jwt: JwtService,
     private readonly userService: UserService,

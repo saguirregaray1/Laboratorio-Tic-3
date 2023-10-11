@@ -19,9 +19,6 @@ export class Duel {
   @JoinColumn()
   owner: User;
 
-  @Column({
-    nullable: true,
-  })
   @ManyToMany(() => User)
   @JoinTable()
   players: User[];
