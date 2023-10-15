@@ -58,3 +58,42 @@
 
 
 
+
+
+/* StarRain.css */
+.star-rain-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: black;
+}
+
+.star {
+position: absolute;
+background: white;
+width: 2px;
+height: 2px;
+border-radius: 50%;
+animation: starFall 2s linear infinite, twinkle 1s alternate infinite;
+animation-delay: 0s; /* Set a delay of 0 seconds for all stars */
+}
+
+@keyframes starFall {
+0% {
+  transform: translateY(0);
+}
+100% {
+  transform: translateY(100vh);
+}
+}
+
+@keyframes twinkle {
+0% {
+  opacity: 1;
+}
+100% {
+  opacity: 0;
+}
+}
+
