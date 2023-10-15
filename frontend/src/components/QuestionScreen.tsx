@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import LoadingPage from './LoadingPage';
 
 const QuestionScreen: React.FC<{}> = () => {
   const { level } = useParams();
@@ -27,7 +28,7 @@ const QuestionScreen: React.FC<{}> = () => {
   return (
     <div className="question-screen">
       {isLoading ? (
-        <p>Loading...</p> //Cambiar esto por una pagina de loading
+        <LoadingPage />
       ) : (
         <>
           <h1>{question.body} {level}</h1>
