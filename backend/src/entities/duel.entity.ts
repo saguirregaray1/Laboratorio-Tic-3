@@ -12,7 +12,7 @@ import { OneToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class Duel {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @OneToOne(() => User)

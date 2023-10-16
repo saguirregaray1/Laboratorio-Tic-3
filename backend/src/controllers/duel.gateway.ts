@@ -1,17 +1,12 @@
 import {
-  ConnectedSocket,
   OnGatewayInit,
   OnGatewayConnection,
   OnGatewayDisconnect,
-  SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
   WsException,
 } from '@nestjs/websockets';
-import { Socket, Namespace, Server } from 'socket.io';
-import { Repository } from 'typeorm';
-import { Duel } from '../entities/duel.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Socket, Server } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { DuelService } from '../services/duel.service';
 
