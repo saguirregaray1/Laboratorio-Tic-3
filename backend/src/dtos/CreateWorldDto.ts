@@ -7,10 +7,6 @@ export class CreateWorldDto {
   name: string;
 
   @IsNotEmpty()
-  @IsString()
-  index: string;
-
-  @IsNotEmpty()
   @IsNumber()
   galaxyId: number;
 }

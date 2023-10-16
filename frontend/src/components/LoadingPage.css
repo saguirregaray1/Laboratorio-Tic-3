@@ -1,0 +1,25 @@
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+  
+.loading-image {
+    width: 80px;
+    height: 80px;
+    animation: spinAndResize 2.5s linear infinite;
+    transform-origin: center center;
+}
+  
+@keyframes spinAndResize {
+    0% {
+      transform: rotate(0deg) scale(1);
+    }
+    50% {
+      transform: rotate(180deg) scale(1.5);
+    }
+    100% {
+      transform: rotate(360deg) scale(1);
+    }
+  }

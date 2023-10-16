@@ -16,9 +16,6 @@ export class World {
   @Column({ nullable: false })
   name: string;
 
-  @Column({ nullable: false })
-  index: string;
-
   @OneToMany(() => Question, (question) => question.world)
   questions: Question[];
 

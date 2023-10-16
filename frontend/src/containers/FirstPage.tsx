@@ -9,9 +9,14 @@ import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import Swiper from "../components/swiper/Swiper";
 import SlideInElement from "../components/slidein/SlideInElement";
+import NavBar from "../components/NavBar";
 
 
 function FirstPage() {
+
+    const handleClick = () => {
+        alert('Button clicked!');
+    }
 
     const items = [
         {
@@ -29,25 +34,28 @@ function FirstPage() {
     ]
     return(
         <>
-            <Header/>
+            <NavBar showButtons={true}/>
             <div className="card-container">
                 <Card title="Historia"
                 text="Diferentes mundos con distintos problemas esperan para poner a prueba tu nivel y avanzar hasta el final."
                 imageSrc={praderaImage}
                 color="#fdf0d5"
-                font="Courier"/>
+                font="Courier"
+                onClick={handleClick}/>
 
                 <Card title="Trivia"
                 text="Desafiate intentando hacer numerosos e ingeniosos problemas de matematicas segun tu nivel."
                 imageSrc={triviaImage}
                 color="#fdf0d5"
-                font="Courier"/>
+                font="Courier"
+                onClick={handleClick}/>
 
                 <Card title="Duelos"
                 text="Juega y diviertete con amigos y personas online, desafialos a distinos modos de juego."
                 imageSrc={duelosImage}
                 color="#fdf0d5"
-                font="Courier"/>           
+                font="Courier"
+                onClick={handleClick}/>           
             </div> 
             <div className="container-wavy">
                 <SlideInElement

@@ -132,6 +132,22 @@ export class HistoryController {
     }
   }
 
+  @Get('galaxies/:universe')
+  @Roles(['user', 'admin'])
+  async getGalaxiesByUniverse(@Res() response, @Param('universe') universe){
+    try{
+      const galaxies = await this.galaxyService.getGalaxiesByUniverse(universe);
+      return response.status(HttpStatus.ACCEPTED).json({
+        galaxies,
+      });
+    } catch(HttpException){
+      return response
+        .status(HttpException.status)
+        .json({message: HttpException.message});
+    }
+    
+  }
+
   @Get('/galaxies')
   @Roles(['user', 'admin'])
   async getGalaxies(@Res() response) {

@@ -8,5 +8,5 @@ export class CreateGalaxyDto {
 
   @IsNotEmpty()
   @IsString()
-  index: string;
+  universe: string;
 }
