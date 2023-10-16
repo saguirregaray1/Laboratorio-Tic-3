@@ -33,7 +33,7 @@ import { JwtModule } from '@nestjs/jwt';
         database: configService.get('DB_NAME'),
         entities: entities,
         synchronize: true,
-        dropSchema: true,
+        dropSchema: false,
       }),
       inject: [ConfigService],
     }),

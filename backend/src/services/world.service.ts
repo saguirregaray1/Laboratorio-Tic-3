@@ -25,17 +25,17 @@ export class WorldService {
       throw new HttpException('Galaxy not found', HttpStatus.NOT_FOUND);
     }
 
-    const existingWorld = await this.worldRepository.findOneBy({
-      index: createWorldDto.index,
-    });
+    // const existingWorld = await this.worldRepository.findOneBy({
+    //   index: createWorldDto.index,
+    // });
 
-    if (existingWorld) {
-      throw new HttpException('World already exists', HttpStatus.BAD_REQUEST);
-    }
+    // if (existingWorld) {
+    //   throw new HttpException('World already exists', HttpStatus.BAD_REQUEST);
+    // }
 
     const newWorld = this.worldRepository.create({
       name: createWorldDto.name,
-      index: createWorldDto.index,
+      //index: createWorldDto.index,
       galaxy,
     });
 

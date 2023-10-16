@@ -6,7 +6,9 @@ import QuestionScreen from './components/QuestionScreen';
 import TriviaScreen from './components/TriviaScreen';
 import TriviaPlayScreen from './components/TriviaPlayScreen';
 import FirstPage from './containers/FirstPage';
-import HistoryWorldSelect from './components/HistoryWorldSelect'
+import HistoryUniverseSelect from './components/historyUniverseSelect/HistoryUniverseSelect';
+import HistoryGalaxySelect from './components/historyGalaxySelect/HistoryGalaxySelect';
+import HistoryWorldSelect from './components/historyWorldSelect/HistoryWorldSelect';
 
 function App() {
 
@@ -15,14 +17,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Origin/>}/>
         <Route path ="/nacional" element={<FirstPage/>}/>
-        <Route path="/levels" element={<LevelSelectionScreen/>} />
+        <Route path="/history/world" element={<LevelSelectionScreen/>} />
         <Route path="/question/:level" element={<QuestionScreen />}/>
         <Route path = "/trivia" element={<TriviaScreen/>}/>
         <Route path = "/trivia/play" element={<TriviaPlayScreen/>}/>
-        <Route path = "/history" element={<HistoryWorldSelect/>}/>
-        <Route path = "/history/galaxies>"/>
-        <Route path = "/*" element={<Navigate to="/" />}/>
-        
+        <Route path = "/history" element={<HistoryUniverseSelect/>}/>
+        <Route path = "/history/universe" element={<HistoryGalaxySelect/>}/>
+        <Route path = "/history/galaxy" element={<HistoryWorldSelect/>}/>
+        <Route path = "/*" element={<Navigate to="/" />}/> 
       </Routes>
     </BrowserRouter>
     
