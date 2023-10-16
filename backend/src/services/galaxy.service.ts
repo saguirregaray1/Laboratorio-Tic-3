@@ -16,12 +16,12 @@ export class GalaxyService {
   ) {}
 
   async createGalaxy(createGalaxyDto: CreateGalaxyDto): Promise<Galaxy> {
-    const existingGalaxy = await this.galaxyRepository.findOneBy({
-      index: createGalaxyDto.index,
-    });
-    if (existingGalaxy) {
-      throw new Error('Galaxy already exists');
-    }
+    //const existingGalaxy = await this.galaxyRepository.findOneBy({
+    //  index: createGalaxyDto.index,
+    //});
+    //if (existingGalaxy) {
+    //throw new Error('Galaxy already exists');
+    //}
     const newGalaxy = this.galaxyRepository.create(createGalaxyDto);
     return this.galaxyRepository.save(newGalaxy);
   }
@@ -38,6 +38,14 @@ export class GalaxyService {
     const galaxies = await this.galaxyRepository.find({});
     if(!galaxies){
         throw new Error('Galaxies not found');
+    }
+    return galaxies;
+  }
+
+  async getGalaxiesByUniverse(universe:string): Promise<Galaxy[]> {
+    const galaxies = await this.galaxyRepository.find({where:{universe:universe}});
+    if(!galaxies){
+      throw new Error('Galaxies not found');
     }
     return galaxies;
   }

@@ -9,8 +9,8 @@ export class Galaxy {
   @Column({ nullable: false })
   name: string;
 
-  @Column({ nullable: false })
-  index: string;
+  @Column({nullable: false})
+  universe: string;
 
   @OneToMany(() => World, (world) => world.galaxy)
   worlds: World[];
