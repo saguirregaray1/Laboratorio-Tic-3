@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRef } from 'react';
 
 interface NavBarProps {
     showButtons: boolean;
@@ -16,6 +17,41 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
         setModalOpen(false);
     };
 
+    const emailRef = useRef<HTMLInputElement | null>(null);
+    const passwordRef = useRef<HTMLInputElement | null>(null);
+
+    const handleLogin = () => {
+        if (emailRef.current && passwordRef.current) {
+            const email = emailRef.current.value;
+            const password = passwordRef.current.value;
+        
+            const userData = {
+            email: email,
+            password: password,
+            };
+        
+            fetch('/your-api-endpoint', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+            })
+            .then((response) => {
+                if (response.ok) {
+                
+                } else {
+                    console.error('The responde of the login request was not ok');
+                }
+            })
+            .catch((error) => {
+                console.error('Something was worng with the login request');
+            });
+        } else {
+            console.error('Ref objects are not properly initialized.');
+          }
+      };
+
     return(
         <>
         <nav className="navbar navbar-expand-lg navbar-dark" style={{backgroundColor: '#284B63'}} >
@@ -30,7 +66,7 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
 
                 <li className="nav-item active">
 
-                    <a className="nav-link" href="#">Inicio</a>
+                    <a className="nav-link" href="/">Inicio</a>
 
                 </li>
 
@@ -83,17 +119,17 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
                     <div className="md-form mb-5">
                     <i className="fas fa-envelope prefix grey-text"></i>
                     <label data-error="wrong" data-success="right">Correo electronico</label>
-                    <input type="email" id="defaultForm-email" className="form-control validate" />
+                    <input type="email" id="defaultForm-email" className="form-control validate" ref={emailRef} />
                     </div>
 
                     <div className="md-form mb-4">
                     <i className="fas fa-lock prefix grey-text"></i>
                     <label data-error="wrong" data-success="right">Contraseña</label>
-                    <input type="password" id="defaultForm-pass" className="form-control validate" />
+                    <input type="password" id="defaultForm-pass" className="form-control validate" ref={passwordRef} />
                     </div>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                    <button className="btn btn-primary" onClick={closeModal}>Iniciar sesion</button>
+                    <button className="btn btn-primary" onClick={handleLogin}>Iniciar sesion</button>
                 </div>
                 </div>
             </div>
