@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import LoadingPage from './LoadingPage';
+import LoadingPage from './loadingPage/LoadingPage';
 
 const QuestionScreen: React.FC<{}> = () => {
   const { level } = useParams();

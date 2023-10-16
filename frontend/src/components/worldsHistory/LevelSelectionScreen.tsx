@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from "./NavBar"
+import NavBar from "../NavBar"
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import LevelButton from './LevelButton';
+import LevelButton from '../LevelButton';
 import './LevelSelectionScreen.css';
 
 const LevelSelectionScreen: React.FC<{}> = () => {

@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TriviaScreen.css';
-import Footer from './footer/Footer';
-import NavBar from './NavBar';
-import Card from './card/Card';
-import duelosImage from '../assets/duelos.jpg';
-import CustomButton from './customButton/customButton';
-import StarRain from './starRain/StarRain';
+import NavBar from '../NavBar';
+import Card from '../card/Card';
+import CustomButton from '../customButton/customButton';
 
 const TriviaScreen: React.FC = () => {
   const [selectedUniverse, setSelectedUniverse] = useState<string | null>(null);

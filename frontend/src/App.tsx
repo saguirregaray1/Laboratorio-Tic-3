@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useParams} from 'react-router-dom'
 import Origin from './containers/origin';
-import LevelSelectionScreen from './components/LevelSelectionScreen';
+import LevelSelectionScreen from './components/worldsHistory/LevelSelectionScreen';
 import QuestionScreen from './components/QuestionScreen';
-import TriviaScreen from './components/TriviaScreen';
-import TriviaPlayScreen from './components/TriviaPlayScreen';
+import TriviaScreen from './components/triviaScreen/TriviaScreen';
+import TriviaPlayScreen from './components/triviaPlayScreen/TriviaPlayScreen';
 import FirstPage from './containers/FirstPage';
 import HistoryUniverseSelect from './components/historyUniverseSelect/HistoryUniverseSelect';
 import HistoryGalaxySelect from './components/historyGalaxySelect/HistoryGalaxySelect';
@@ -15,8 +15,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Origin/>}/>
-        <Route path ="/nacional" element={<FirstPage/>}/>
+        <Route path="/" element={<FirstPage/>}/>
         <Route path="/history/world" element={<LevelSelectionScreen/>} />
         <Route path="/question/:level" element={<QuestionScreen />}/>
         <Route path = "/trivia" element={<TriviaScreen/>}/>

@@ -19,7 +19,7 @@
 
 .level-grid::before {
   content: '';
-  background-image: url('../assets/fondo_cielo.jpg');
+  background-image: url('../../assets/fondo_cielo.jpg');
   background-size: cover;
   background-position: center;
   position: absolute;

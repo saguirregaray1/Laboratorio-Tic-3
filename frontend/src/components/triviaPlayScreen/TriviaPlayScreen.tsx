@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router';
 import axios from 'axios';
 import './TriviaPlayScreen.css'
-import LoadingPage from './LoadingPage';
-import NavBar from './NavBar';
-import backTrivia from '../assets/back_trivia.png'
-import nextQuestion from '../assets/next_question.png'
+import LoadingPage from '../loadingPage/LoadingPage';
+import NavBar from '../NavBar';
+import backTrivia from '../../assets/back_trivia.png'
+import nextQuestion from '../../assets/next_question.png'
 
 const TriviaPlayScreen: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);

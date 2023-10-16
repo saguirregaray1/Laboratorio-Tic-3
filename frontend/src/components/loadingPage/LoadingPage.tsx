@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/loading_logo.png';
+import logo from '../../assets/loading_logo.png';
 import './LoadingPage.css';
 
 const LoadingPage: React.FC = () => {
