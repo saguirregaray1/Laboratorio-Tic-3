@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TriviaScreen.css';
 import NavBar from '../NavBar';
-import Card from '../card/Card';
 import CustomButton from '../customButton/customButton';
+import WorldSelect from '../worldSelect/WorldSelect';
 
 const TriviaScreen: React.FC = () => {
   const [selectedUniverse, setSelectedUniverse] = useState<string | null>(null);
@@ -38,83 +38,71 @@ const TriviaScreen: React.FC = () => {
   const secundariaGalaxies = ['1', '2', '3', '4', '5', '6'];
   const universidadGalaxies = ['Analisis 1', 'Analisis 2', 'Analisis 3', 'GAL 1', 'GAL 2', 'PyE'];
 
-/*
-  return (
-    <div>
-      <NavBar showButtons={false}/>
-      <div className="trivia-screen">
-        <div className='title'>
-          <h1>Elige un mundo</h1>
-        </div>
-        <div className="worlds">
-          {universes.map((universe) => (
-            <div
-              key={universe}
-              className={`world-card ${selectedUniverse === universe ? 'selected' : ''}`}
-              onClick={() => handleUniverseSelect(universe)}
-            >
-              <h2>{universe}</h2>
-            </div>
+
+
+return (
+  <div className='star-rain-container'>
+    {stars}
+    <NavBar showButtons={false}/>
+    <h1 className='title-trivia'>Elige un mundo</h1>
+    <div className="worlds">
+      {universes.map((universe) => (
+        <WorldSelect
+        title={universe}
+        borderColor='red'
+        onClick={() => handleUniverseSelect(universe)}
+        />
+      ))}
+    </div>
+
+    {(selectedUniverse === 'Primaria' || selectedUniverse === 'Secundaria') && (
+      <div className='trivia-screen'>
+        <h1 className='title-trivia'>Elige un nivel</h1>
+        <div className="levels">
+          {(selectedUniverse === 'Primaria' ? primariaGalaxies : secundariaGalaxies).map((level) => (
+            <WorldSelect
+            title={level}
+            borderColor = 'blue'
+            onClick={() => handleWorldSelect(level)}
+            />
           ))}
         </div>
-
-        {(selectedUniverse === 'Primaria' || selectedUniverse === 'Secundaria') && (
-          <div>
-            <h1>Choose a Level</h1>
-            <div className="levels">
-              {(selectedUniverse === 'Primaria' ? primariaGalaxies : secundariaGalaxies).map((level) => (
-                <div
-                  key={level}
-                  className={`level-card ${selectedGalaxy === level ? 'selected' : ''}`}
-                  onClick={() => handleWorldSelect(level)}
-                >
-                  <h2>Level {level}</h2>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {selectedUniverse === 'Universidad' && (
-          <div>
-            <h1>Choose a Level</h1>
-            <div className="levels">
-              {universidadGalaxies.map((level) => (
-                <div
-                  key={level}
-                  className={`level-card ${selectedGalaxy === level ? 'selected' : ''}`}
-                  onClick={() => handleWorldSelect(level)}
-                >
-                  <h2>{level}</h2>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {selectedUniverse && selectedGalaxy && (
-          <button className="practice-button" onClick={handlePracticeClick}>
-            Practicar
-          </button>
-        )}
       </div>
-      
-    </div>
-  );
+    )}
+
+    {selectedUniverse === 'Universidad' && (
+      <div className='trivia-screen'>
+        <h1 className='title-trivia'>Elige un nivel</h1>
+        <div className="levels">
+          {universidadGalaxies.map((level) => (
+            <WorldSelect
+            title={level}
+            borderColor = 'blue'
+            onClick={() => handleWorldSelect(level)}
+            />
+          ))}
+        </div>
+      </div>
+    )}
+
+    {selectedUniverse && selectedGalaxy && (
+      <div className='button'>
+        <CustomButton color="#3d5a80"
+        label='Jugar'
+        onClick={handlePracticeClick}
+        />
+      </div>
+    )}
+
+  </div>
+);
 };
 
 export default TriviaScreen;
-*/
+
+
+
 /*
-<Footer 
-aboutText="About us" 
-contactText="Contact" 
-servicesText="Sevices"
-copyrightText="©Copyright 2023 Florida. All Rights Reserved."
-/>
-*/
-
-
 return (
   <div className='star-rain-container'>
     {stars}
@@ -182,3 +170,4 @@ return (
 };
 
 export default TriviaScreen;
+*/
