@@ -116,70 +116,69 @@ copyrightText="©Copyright 2023 Florida. All Rights Reserved."
 
 
 return (
-  <div>
-    <div className='star-rain-container'>
-      {stars}
-      <NavBar showButtons={false}/>
-      <h1 className='title-trivia'>Elige un mundo</h1>
-      <div className="worlds">
-        {universes.map((universe) => (
-          <Card
-          title={universe}
-          text="Juega y diviertete con amigos y personas online, desafialos a distinos modos de juego."
-          imageSrc={null}
-          color="#fdf0d5"
-          font="Courier"
-          onClick={() => handleUniverseSelect(universe)}
-          />
-        ))}
+  <div className='star-rain-container'>
+    {stars}
+    <NavBar showButtons={false}/>
+    <h1 className='title-trivia'>Elige un mundo</h1>
+    <div className="worlds">
+      {universes.map((universe) => (
+        <Card
+        title={universe}
+        text="Juega y diviertete con amigos y personas online, desafialos a distinos modos de juego."
+        imageSrc={null}
+        color="#fdf0d5"
+        font="Courier"
+        onClick={() => handleUniverseSelect(universe)}
+        />
+      ))}
+    </div>
+
+    {(selectedUniverse === 'Primaria' || selectedUniverse === 'Secundaria') && (
+      <div className='trivia-screen'>
+        <h1 className='title-trivia'>Elige un nivel</h1>
+        <div className="levels">
+          {(selectedUniverse === 'Primaria' ? primariaGalaxies : secundariaGalaxies).map((level) => (
+            <Card
+            title={level}
+            text="En este nivel podras encontrar"
+            imageSrc={null}
+            color="#fdf0d5"
+            font="Courier"
+            onClick={() => handleWorldSelect(level)}
+            />
+          ))}
+        </div>
       </div>
+    )}
 
-      {(selectedUniverse === 'Primaria' || selectedUniverse === 'Secundaria') && (
-        <div className='trivia-screen'>
-          <h1 className='title-trivia'>Elige un nivel</h1>
-          <div className="levels">
-            {(selectedUniverse === 'Primaria' ? primariaGalaxies : secundariaGalaxies).map((level) => (
-              <Card
-              title={level}
-              text="En este nivel podras encontrar"
-              imageSrc={null}
-              color="#fdf0d5"
-              font="Courier"
+    {selectedUniverse === 'Universidad' && (
+      <div className='trivia-screen'>
+        <h1 className='title-trivia'>Elige un nivel</h1>
+        <div className="levels">
+          {universidadGalaxies.map((level) => (
+            <div
+              key={level}
+              className={`level-card ${selectedGalaxy === level ? 'selected' : ''}`}
               onClick={() => handleWorldSelect(level)}
-              />
-            ))}
-          </div>
+            >
+              <h2>{level}</h2>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
+    )}
 
-      {selectedUniverse === 'Universidad' && (
-        <div className='trivia-screen'>
-          <h1 className='title-trivia'>Elige un nivel</h1>
-          <div className="levels">
-            {universidadGalaxies.map((level) => (
-              <div
-                key={level}
-                className={`level-card ${selectedGalaxy === level ? 'selected' : ''}`}
-                onClick={() => handleWorldSelect(level)}
-              >
-                <h2>{level}</h2>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {selectedUniverse && selectedGalaxy && (
-        <CustomButton
+    {selectedUniverse && selectedGalaxy && (
+      <div className='button'>
+        <CustomButton color="#3d5a80"
         label='Jugar'
         onClick={handlePracticeClick}
         />
-      )}
+      </div>
+    )}
 
-    </div>
   </div>
 );
 };
 
 export default TriviaScreen;
-

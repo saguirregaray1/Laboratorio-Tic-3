@@ -26,6 +26,7 @@ const Card: React.FC<CardProps> = ({title, onClick, text, imageSrc, color = 'whi
                     <p>{text}</p>
                 </div>
                 <CustomButton
+                color="#ff7f51"
                 onClick={onClick}
                 label="Jugar"
                 />
