@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { HistoryController } from '../controllers/question.controller';
+import { QuestionController } from '../controllers/question.controller';
 import { QuestionService } from '../services/question.service';
 import { Question } from '../entities/question.entity';
 import { World } from '../entities/world.entity';
@@ -10,7 +10,7 @@ import { WorldService } from '../services/world.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Question, World, Galaxy])],
-  controllers: [HistoryController],
+  controllers: [QuestionController],
   providers: [QuestionService, GalaxyService, WorldService],
   exports: [QuestionService],
 })

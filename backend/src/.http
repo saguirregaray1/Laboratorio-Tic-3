@@ -1,0 +1,109 @@
+POST http://localhost:8000/api/v1/user/signup
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "pass1234567",
+  "email": "test@gmail.com"
+}
+
+POST http://localhost:8000/api/v1/user/signup
+Content-Type: application/json
+
+{
+  "username": "user2",
+  "password": "pass1234567",
+  "email": "test1@gmail.com"
+}
+
+POST http://localhost:8000/api/v1/user/login
+Content-Type: application/json
+
+{
+  "username": "user4",
+  "password": "pass1234567"
+}
+
+POST http://localhost:8000/api/v1/history/create/galaxy
+Content-Type: application/json
+
+{
+  "name": "Milky Way",
+  "index": "milky-way"
+}
+
+POST http://localhost:8000/api/v1/history/create/world
+Content-Type: application/json
+
+{
+  "name": "Earth",
+  "index": "earth",
+  "galaxyId": 1
+}
+
+POST http://localhost:8000/api/v1/history/create/question
+Content-Type: application/json
+
+{
+  "body": "What is the capital of France?",
+  "answer": "Paris",
+  "type": "Multiple Choice",
+  "category": "Geography",
+  "worldId": 1
+}
+
+POST http://localhost:8000/api/v1/history/create/question
+Content-Type: application/json
+
+{
+  "body": "What is the capital of Uruguay?",
+  "answer": "Montevideo",
+  "type": "Multiple Choice",
+  "category": "Geography",
+  "worldId": 1
+}
+
+POST http://localhost:8000/api/v1/history/create/question
+Content-Type: application/json
+
+{
+  "body": "question3",
+  "answer": "a",
+  "type": "Multiple Choice",
+  "category": "Geography",
+  "worldId": 1
+}
+
+POST http://localhost:8000/duels
+Content-Type: application/json
+
+{
+  "player1Id": "3",
+  "player2Id": "4",
+  "rounds": "3"
+}
+
+POST http://localhost:8000/duels/answer
+Content-Type: application/json
+
+{
+  "duelId": "1",
+  "playerId": "1",
+  "questionId": "1",
+  "answer": "Paris"
+}
+
+POST http://localhost:8000/api/v1/duels/1/answer
+Content-Type: application/json
+
+{
+  "answer": "answer1"
+}
+
+POST http://localhost:8000/api/v1/duels/1/answer
+Content-Type: application/json
+
+{
+  "answer": "answer1"
+}
+
