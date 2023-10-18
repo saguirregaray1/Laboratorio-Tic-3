@@ -28,11 +28,13 @@ export class DuelController {
   @Roles(['user', 'admin'])
   async createDuel(@Res() response, @Body() createDuelDto: CreateDuelDto) {
     try {
+      console.log(createDuelDto);
       const newDuel = await this.duelService.createDuel(createDuelDto);
       return response.status(HttpStatus.CREATED).json({
         newDuel,
       });
     } catch (HttpException) {
+      console.log('HOLAAAAAA')
       return response
         .status(HttpException.status)
         .json({ message: HttpException.message });
