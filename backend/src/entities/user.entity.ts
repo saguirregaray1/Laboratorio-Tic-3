@@ -30,4 +30,14 @@ export class User {
     default: 'user',
   })
   role: string;
+
+  @Column({
+    nullable: false,
+  })
+  course: string;
+
+  @Column({
+    nullable: false,
+  })
+  lives: number;
 }

@@ -53,24 +53,4 @@ export class DuelController {
         .json({ message: HttpException.message });
     }
   }
-
-  @Post('/answer')
-  @Roles(['user', 'admin'])
-  async answerQuestion(
-    @Res() response,
-    @Body() duelAnswerQuestionDto: DuelAnswerQuestionDto,
-  ) {
-    try {
-      const newDuel = await this.duelService.answerQuestion(
-        duelAnswerQuestionDto,
-      );
-      return response.status(HttpStatus.OK).json({
-        newDuel,
-      });
-    } catch (HttpException) {
-      return response
-        .status(HttpException.status)
-        .json({ message: HttpException.message });
-    }
-  }
 }

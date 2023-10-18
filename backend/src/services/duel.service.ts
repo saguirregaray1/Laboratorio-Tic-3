@@ -71,7 +71,12 @@ export class DuelService {
     return is_correct;
   }
 
-  async checkAnswerAndUpdate(duelId: string, answer: string, clientId: string) {
+  async checkAnswerAndUpdate(
+    duelId: string,
+    answer: string,
+    playerId: number,
+    answers: Set<string>,
+  ): Promise<boolean> {
     const duel = await this.getDuel(duelId);
     const question = duel.questions[duel.currentRound];
     const [is_correct, ans] = await this.questionService.checkAnswer(
@@ -80,7 +85,14 @@ export class DuelService {
     );
 
     if (is_correct) {
-      duel.playerScores[clientId] += 1;
+      switch (answers.size) {
+        case 1:
+          duel.playerScores[playerId] += 3;
+        case 2:
+          duel.playerScores[playerId] += 2;
+        default:
+          duel.playerScores[playerId] += 1;
+      }
     }
     await this.duelRepository.save(duel);
     return is_correct;
@@ -118,5 +130,9 @@ export class DuelService {
   async getWinner(duelId: string): Promise<number> {
     const duel = await this.getDuel(duelId);
     return duel.winner;
+  }
+
+  async checkLives(id: number) {
+    throw new Error('Method not implemented.');
   }
 }

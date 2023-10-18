@@ -5,10 +5,14 @@ import {
   WebSocketGateway,
   WebSocketServer,
   WsException,
+  SubscribeMessage,
+  ConnectedSocket,
+  MessageBody,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { DuelService } from '../services/duel.service';
+import { DuelAnswerQuestionDto } from 'src/dtos/DuelAnswerQuestionDto';
 
 @WebSocketGateway()
 export class DuelGateway
@@ -42,7 +46,14 @@ export class DuelGateway
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 
-  async handleReady(client: Socket, duelId: string) {
+  //arroba
+  @SubscribeMessage('ready')
+  async handleReady(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() duelId: string,
+  ) {
+    const userId = client.handshake.query.userId;
+
     this.logger.log(`Client ${client.id} is ready`);
 
     // Add the client to the set of ready clients
@@ -69,46 +80,53 @@ export class DuelGateway
     }
   }
 
-  async handleAnswer(client: Socket, answer: string, duelId: string) {
+  @SubscribeMessage('answer')
+  async handleAnswer(
+    @MessageBody() data: DuelAnswerQuestionDto,
+    @ConnectedSocket() client: Socket,
+  ) {
     // Add the client to the set of ready clients
-    if (!this.readyClients.has(duelId)) {
-      this.readyClients.set(duelId, new Set());
+    if (!this.readyClients.has(data.duelId)) {
+      this.readyClients.set(data.duelId, new Set());
     }
 
-    if (this.readyClients.get(duelId).has(client.id)) {
+    const answers = this.readyClients.get(data.duelId);
+
+    if (answers.has(client.id)) {
       throw new WsException('Client already answered');
     }
 
-    this.readyClients.get(duelId).add(client.id);
+    answers.add(client.id);
 
-    this.logger.log(`Client ${client.id} answered: ${answer}`);
+    this.logger.log(`Client ${client.id} answered`);
 
     // Validate the answer
     const isCorrect = await this.duelService.checkAnswerAndUpdate(
-      duelId,
-      answer,
-      client.id,
+      data.duelId,
+      data.answer,
+      data.playerId,
+      answers,
     );
 
     // Emit a 'questionAnswered' event to all clients in the room
-    this.server.to(duelId).emit('questionAnswered', {
+    this.server.to(data.duelId).emit('questionAnswered', {
       clientId: client.id,
-      answer,
+      answer: data.answer,
       isCorrect,
     });
 
-    const allReady = this.allReady(duelId);
+    const allReady = this.allReady(data.duelId);
 
     if (allReady) {
-      this.readyClients.delete(duelId);
-      const nextQuestion = this.duelService.endRound(duelId);
+      this.readyClients.delete(data.duelId);
+      const nextQuestion = this.duelService.endRound(data.duelId);
       if (!nextQuestion) {
-        this.server.to(duelId).emit('duelEnded', nextQuestion);
+        this.server.to(data.duelId).emit('duelEnded', nextQuestion);
         this.server
-          .to(duelId)
-          .emit('duelWinner', this.duelService.getWinner(duelId));
+          .to(data.duelId)
+          .emit('duelWinner', this.duelService.getWinner(data.duelId));
       }
-      this.server.to(duelId).emit('Question: ', nextQuestion);
+      this.server.to(data.duelId).emit('Question: ', nextQuestion);
     }
   }
 

@@ -9,7 +9,7 @@ import entities from './entities/entities';
 import { TriviaQuestionModule } from './modules/trivia_question.module';
 import { QuestionModule } from './modules/question.module';
 import { UserController } from './controllers/user.controller';
-import { HistoryController } from './controllers/question.controller';
+import { QuestionController } from './controllers/question.controller';
 import { DuelModule } from './modules/duel.module';
 import { DuelController } from './controllers/duel.controller';
 import { TriviaQuestionController } from './controllers/trivia.controller';
@@ -33,7 +33,7 @@ import { JwtModule } from '@nestjs/jwt';
         database: configService.get('DB_NAME'),
         entities: entities,
         synchronize: true,
-        dropSchema: false,
+        dropSchema: true,
       }),
       inject: [ConfigService],
     }),
@@ -54,7 +54,7 @@ export class AppModule {
       )
       .forRoutes(
         UserController,
-        HistoryController,
+        QuestionController,
         DuelController,
         TriviaQuestionController,
       );

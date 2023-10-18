@@ -32,7 +32,7 @@ import { Roles } from '../roles/roles.decorator';
 
 @Controller('/api/v1/history')
 @UseGuards(RolesGuard)
-export class HistoryController {
+export class QuestionController {
   constructor(
     private readonly questionService: QuestionService,
     private readonly worldService: WorldService,
@@ -134,18 +134,17 @@ export class HistoryController {
 
   @Get('galaxies/:universe')
   @Roles(['user', 'admin'])
-  async getGalaxiesByUniverse(@Res() response, @Param('universe') universe){
-    try{
+  async getGalaxiesByUniverse(@Res() response, @Param('universe') universe) {
+    try {
       const galaxies = await this.galaxyService.getGalaxiesByUniverse(universe);
       return response.status(HttpStatus.ACCEPTED).json({
         galaxies,
       });
-    } catch(HttpException){
+    } catch (HttpException) {
       return response
         .status(HttpException.status)
-        .json({message: HttpException.message});
+        .json({ message: HttpException.message });
     }
-    
   }
 
   @Get('/galaxies')
