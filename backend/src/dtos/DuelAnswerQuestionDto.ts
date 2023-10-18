@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class DuelAnswerQuestionDto {
   @IsNotEmpty()
@@ -6,11 +6,11 @@ export class DuelAnswerQuestionDto {
   duelId: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   playerId: number;
 
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   questionId: number;
 
   @IsNotEmpty()

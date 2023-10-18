@@ -9,6 +9,7 @@ import FirstPage from './containers/FirstPage';
 import HistoryUniverseSelect from './components/historyUniverseSelect/HistoryUniverseSelect';
 import HistoryGalaxySelect from './components/historyGalaxySelect/HistoryGalaxySelect';
 import HistoryWorldSelect from './components/historyWorldSelect/HistoryWorldSelect';
+import MainDuelScreen from './components/mainDuelScreen/mainDuelScreen';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Route path = "/history" element={<HistoryUniverseSelect/>}/>
         <Route path = "/history/universe" element={<HistoryGalaxySelect/>}/>
         <Route path = "/history/galaxy" element={<HistoryWorldSelect/>}/>
+        <Route path = "/duel" element = {<MainDuelScreen/>}/>
         <Route path = "/*" element={<Navigate to="/" />}/> 
       </Routes>
     </BrowserRouter>
