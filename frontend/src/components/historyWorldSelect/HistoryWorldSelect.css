@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@900&display=swap');
+
+.planet-selection-screen {
+    text-align: center;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+  
+.planet-selection-screen::before {
+    content: '';
+    background-image: url('../../assets/space_background.jpeg');
+    background-size: cover;
+    background-position: center top;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.planet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-items: center;
+    position: relative;
+    padding: 10px;
+    width: 100%;
+    margin: 0;
+}
+
+.planet-title {
+    font-family: 'Catamaran', sans-serif;
+    color: white; 
+    font-size: 40px;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.4);
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
