@@ -6,9 +6,9 @@ const MainDuelScreen: React.FC = () => {
     const [number, setNumber] = useState(0);
     const [inputNumber, setInputNumber] = useState('');
     const [result, setResult] = useState<number | null>(null);
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJoZXJuYW4iLCJpYXQiOjE2OTc4Mjg0OTd9.GQvfU9Z8mYzLhVpT3hJIXX900uV9Rm43M3jA9EcBzXE"
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs"
     const [roundsNumber, setRoundsNumber] = useState<number>(3);
-    const userId = 3;
+    const userId = 1;
     const [duelId, setDuelId] = useState<string>('');
 
     const handleGetNumber = () => {
@@ -21,15 +21,27 @@ const MainDuelScreen: React.FC = () => {
             'Content-Type' : 'application/json'
             },
             data: {
-                ownerId : userId,
+                id : userId,
                 rounds: roundsNumber
             }
         };
     
+        
+
+        /*let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${PATH}/duel/dM0ge`,
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                'Content-Type' : 'application/json'
+                },
+        }; */
+
         axios.request(config)
         .then((response) => {
             setDuelId(response.data.newDuel.id);
-            console.log(duelId);
+            console.log(response.data.newDuel.id);
         })
         .catch((error) => {
             console.log(error);
