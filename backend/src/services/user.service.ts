@@ -84,6 +84,7 @@ export class UserService {
       username: createUserDto.username,
       password: hash,
       email: createUserDto.email,
+      course: createUserDto.course
     });
 
     return this.userRepository.save(newUser);

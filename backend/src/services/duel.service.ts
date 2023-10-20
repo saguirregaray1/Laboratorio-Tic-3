@@ -25,7 +25,7 @@ export class DuelService {
 
   async createDuel(createDuelDto: CreateDuelDto): Promise<Duel> {
     const owner = await this.userService.getUser(createDuelDto.ownerId);
-
+    console.log(owner);
     if (!owner) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
@@ -33,7 +33,7 @@ export class DuelService {
     const questions = await this.questionService.getRandomQuestions(
       createDuelDto.rounds,
     );
-
+    console.log(questions);
     const duel = this.duelRepository.create({
       owner: owner,
       questions,
