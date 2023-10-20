@@ -14,7 +14,7 @@ import { Logger } from '@nestjs/common';
 import { DuelService } from '../services/duel.service';
 import { DuelAnswerQuestionDto } from 'src/dtos/DuelAnswerQuestionDto';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true })
 export class DuelGateway
   implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit
 {
@@ -32,6 +32,7 @@ export class DuelGateway
 
   async handleConnection(client: Socket, duelId: string) {
     this.logger.log(`Client connected: ${client.id}`);
+    console.log(`Client connected: ${client.id}`);
 
     // Add the client to the room with the specified duelId
     client.join(duelId);

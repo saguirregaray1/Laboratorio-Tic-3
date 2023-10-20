@@ -38,6 +38,7 @@ export class User {
 
   @Column({
     nullable: false,
+    default: 3
   })
   lives: number;
 }
