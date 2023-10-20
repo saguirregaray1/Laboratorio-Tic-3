@@ -25,7 +25,7 @@ export class DuelService {
 
   async createDuel(createDuelDto: CreateDuelDto): Promise<Duel> {
     const owner = await this.userService.getUser(createDuelDto.ownerId);
-    console.log(owner);
+    console.log('Owner:', owner);
     if (!owner) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
@@ -33,21 +33,26 @@ export class DuelService {
     const questions = await this.questionService.getRandomQuestions(
       createDuelDto.rounds,
     );
-    console.log(questions);
-    const duel = this.duelRepository.create({
-      owner: owner,
+    console.log('Questions:', questions);
+
+    const duel = await this.duelRepository.create({
+      owner,
+      players: [owner],
       questions,
       rounds: createDuelDto.rounds,
+      playerScores: {},
     });
+    console.log('Duel', duel);
+
     return this.duelRepository.save(duel);
   }
 
   async getDuel(id: string): Promise<Duel> {
-    const question = await this.duelRepository.findOne({ where: { id } });
-    if (!question) {
+    const duel = await this.duelRepository.findOneBy({ id: id });
+    if (!duel) {
       throw new HttpException('Duel not found', HttpStatus.NOT_FOUND);
     }
-    return question;
+    return duel;
   }
 
   async answerQuestion(
