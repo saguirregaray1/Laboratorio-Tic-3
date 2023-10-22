@@ -4,7 +4,10 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToMany,
+  ManyToOne,
   JoinTable,
+  Generated,
+  BeforeInsert,
 } from 'typeorm';
 import { User } from './user.entity';
 import { Question } from './question.entity';
@@ -12,10 +15,13 @@ import { OneToOne, JoinColumn } from 'typeorm';
 
 @Entity()
 export class Duel {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn({ name: 'id' })
+  _id: string;
+
+  @Column({ name: 'duelId', unique: true, length: 6 })
   id: string;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   owner: User;
 
@@ -23,7 +29,8 @@ export class Duel {
   @JoinTable()
   players: User[];
 
-  @OneToMany(() => Question, (question) => question.world)
+  @ManyToMany(() => Question)
+  @JoinTable()
   questions: Question[];
 
   @Column({ nullable: false })
@@ -37,4 +44,16 @@ export class Duel {
 
   @Column({ nullable: true })
   winner: number;
+
+  // Define a custom ID generator function
+  @BeforeInsert()
+  generateId() {
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let id = '';
+    for (let i = 0; i < 6; i++) {
+      id += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    this.id = id;
+  }
 }

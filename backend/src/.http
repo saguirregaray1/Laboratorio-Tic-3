@@ -1,0 +1,114 @@
+POST http://localhost:8000/api/v1/user/signup
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "pass1234567",
+  "email": "test@gmail.com",
+  "course": "primaria"
+}
+
+POST http://localhost:8000/api/v1/user/signup
+Content-Type: application/json
+
+{
+  "username": "user2",
+  "password": "pass1234567",
+  "email": "test1@gmail.com"
+}
+
+POST http://localhost:8000/api/v1/user/login
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "pass1234567"
+}
+
+POST http://localhost:8000/api/v1/history/create/galaxy
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
+
+{
+  "name": "Milky Way",
+  "universe": "primaria"
+}
+
+POST http://localhost:8000/api/v1/history/create/world
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
+
+{
+  "name": "Earth",
+  "galaxyId": 1
+}
+
+POST http://localhost:8000/api/v1/history/create/question
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
+
+{
+  "body": "What is the capital of France?",
+  "answer": "Paris",
+  "type": "Multiple Choice",
+  "category": "Geography",
+  "worldId": 1
+}
+
+POST http://localhost:8000/api/v1/history/create/question
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
+
+{
+  "body": "What is the capital of Uruguay?",
+  "answer": "Montevideo",
+  "type": "Multiple Choice",
+  "category": "Geography",
+  "worldId": 1
+}
+
+POST http://localhost:8000/api/v1/history/create/question
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
+
+{
+  "body": "question3",
+  "answer": "a",
+  "type": "Multiple Choice",
+  "category": "Geography",
+  "worldId": 1
+}
+
+POST http://localhost:8000/duels
+Content-Type: application/json
+
+{
+  "player1Id": "3",
+  "player2Id": "4",
+  "rounds": "3"
+}
+
+POST http://localhost:8000/duels/answer
+Content-Type: application/json
+
+{
+  "duelId": "1",
+  "playerId": "1",
+  "questionId": "1",
+  "answer": "Paris"
+}
+
+POST http://localhost:8000/api/v1/duels/1/answer
+Content-Type: application/json
+
+{
+  "answer": "answer1"
+}
+
+POST http://localhost:8000/api/v1/duels/1/answer
+Content-Type: application/json
+
+{
+  "answer": "answer1"
+}
+

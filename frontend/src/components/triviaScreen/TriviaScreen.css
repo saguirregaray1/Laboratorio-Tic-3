@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: auto;
 }
 
 
@@ -85,8 +84,8 @@ background: white;
 width: 2px;
 height: 2px;
 border-radius: 50%;
-animation: starFall 2s linear infinite, twinkle 1s alternate infinite;
-animation-delay: 0s; /* Set a delay of 0 seconds for all stars */
+animation: starFall 2s linear infinite, twinkle 2s alternate infinite;
+animation-delay: 0s;
 }
 
 @keyframes starFall {

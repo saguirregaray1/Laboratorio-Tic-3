@@ -38,6 +38,7 @@ const TriviaScreen: React.FC = () => {
   const secundariaGalaxies = ['1', '2', '3', '4', '5', '6'];
   const universidadGalaxies = ['Analisis 1', 'Analisis 2', 'Analisis 3', 'GAL 1', 'GAL 2', 'PyE'];
 
+<<<<<<< HEAD
 
 
 return (
@@ -99,6 +100,8 @@ return (
 };
 
 export default TriviaScreen;
+=======
+>>>>>>> a5d8a6983431e6d67046d497af5029d7883e160a
 
 
 
@@ -110,28 +113,23 @@ return (
     <h1 className='title-trivia'>Elige un mundo</h1>
     <div className="worlds">
       {universes.map((universe) => (
-        <Card
+        <WorldSelect
         title={universe}
-        text="Juega y diviertete con amigos y personas online, desafialos a distinos modos de juego."
-        imageSrc={null}
-        color="#fdf0d5"
-        font="Courier"
+        borderColor='#d00000'
         onClick={() => handleUniverseSelect(universe)}
         />
       ))}
     </div>
+    
 
     {(selectedUniverse === 'Primaria' || selectedUniverse === 'Secundaria') && (
       <div className='trivia-screen'>
         <h1 className='title-trivia'>Elige un nivel</h1>
         <div className="levels">
           {(selectedUniverse === 'Primaria' ? primariaGalaxies : secundariaGalaxies).map((level) => (
-            <Card
+            <WorldSelect
             title={level}
-            text="En este nivel podras encontrar"
-            imageSrc={null}
-            color="#fdf0d5"
-            font="Courier"
+            borderColor = 'blue'
             onClick={() => handleWorldSelect(level)}
             />
           ))}
@@ -144,13 +142,11 @@ return (
         <h1 className='title-trivia'>Elige un nivel</h1>
         <div className="levels">
           {universidadGalaxies.map((level) => (
-            <div
-              key={level}
-              className={`level-card ${selectedGalaxy === level ? 'selected' : ''}`}
-              onClick={() => handleWorldSelect(level)}
-            >
-              <h2>{level}</h2>
-            </div>
+            <WorldSelect
+            title={level}
+            borderColor = 'blue'
+            onClick={() => handleWorldSelect(level)}
+            />
           ))}
         </div>
       </div>
@@ -170,4 +166,8 @@ return (
 };
 
 export default TriviaScreen;
+<<<<<<< HEAD
 */
+=======
+
+>>>>>>> a5d8a6983431e6d67046d497af5029d7883e160a

@@ -28,11 +28,14 @@ export class DuelController {
   @Roles(['user', 'admin'])
   async createDuel(@Res() response, @Body() createDuelDto: CreateDuelDto) {
     try {
+      console.log(createDuelDto);
       const newDuel = await this.duelService.createDuel(createDuelDto);
       return response.status(HttpStatus.CREATED).json({
         newDuel,
       });
     } catch (HttpException) {
+      console.log('HOLAAAAAA')
+      console.log(HttpException.status)
       return response
         .status(HttpException.status)
         .json({ message: HttpException.message });
@@ -46,26 +49,6 @@ export class DuelController {
       const duel = await this.duelService.getDuel(id);
       return response.status(HttpStatus.OK).json({
         duel,
-      });
-    } catch (HttpException) {
-      return response
-        .status(HttpException.status)
-        .json({ message: HttpException.message });
-    }
-  }
-
-  @Post('/answer')
-  @Roles(['user', 'admin'])
-  async answerQuestion(
-    @Res() response,
-    @Body() duelAnswerQuestionDto: DuelAnswerQuestionDto,
-  ) {
-    try {
-      const newDuel = await this.duelService.answerQuestion(
-        duelAnswerQuestionDto,
-      );
-      return response.status(HttpStatus.OK).json({
-        newDuel,
       });
     } catch (HttpException) {
       return response

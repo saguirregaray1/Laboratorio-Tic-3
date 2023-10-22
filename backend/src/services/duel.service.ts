@@ -25,7 +25,7 @@ export class DuelService {
 
   async createDuel(createDuelDto: CreateDuelDto): Promise<Duel> {
     const owner = await this.userService.getUser(createDuelDto.ownerId);
-
+    console.log('Owner:', owner);
     if (!owner) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
@@ -33,21 +33,26 @@ export class DuelService {
     const questions = await this.questionService.getRandomQuestions(
       createDuelDto.rounds,
     );
+    console.log('Questions:', questions);
 
-    const duel = this.duelRepository.create({
-      owner: owner,
+    const duel = await this.duelRepository.create({
+      owner,
+      players: [owner],
       questions,
       rounds: createDuelDto.rounds,
+      playerScores: {},
     });
+    console.log('Duel', duel);
+
     return this.duelRepository.save(duel);
   }
 
   async getDuel(id: string): Promise<Duel> {
-    const question = await this.duelRepository.findOne({ where: { id } });
-    if (!question) {
+    const duel = await this.duelRepository.findOneBy({ id: id });
+    if (!duel) {
       throw new HttpException('Duel not found', HttpStatus.NOT_FOUND);
     }
-    return question;
+    return duel;
   }
 
   async answerQuestion(
@@ -71,7 +76,12 @@ export class DuelService {
     return is_correct;
   }
 
-  async checkAnswerAndUpdate(duelId: string, answer: string, clientId: string) {
+  async checkAnswerAndUpdate(
+    duelId: string,
+    answer: string,
+    playerId: number,
+    answers: Set<string>,
+  ): Promise<boolean> {
     const duel = await this.getDuel(duelId);
     const question = duel.questions[duel.currentRound];
     const [is_correct, ans] = await this.questionService.checkAnswer(
@@ -80,7 +90,14 @@ export class DuelService {
     );
 
     if (is_correct) {
-      duel.playerScores[clientId] += 1;
+      switch (answers.size) {
+        case 1:
+          duel.playerScores[playerId] += 3;
+        case 2:
+          duel.playerScores[playerId] += 2;
+        default:
+          duel.playerScores[playerId] += 1;
+      }
     }
     await this.duelRepository.save(duel);
     return is_correct;
@@ -118,5 +135,9 @@ export class DuelService {
   async getWinner(duelId: string): Promise<number> {
     const duel = await this.getDuel(duelId);
     return duel.winner;
+  }
+
+  async checkLives(id: number) {
+    throw new Error('Method not implemented.');
   }
 }
