@@ -4,19 +4,28 @@ import duelosImage from '../assets/duelos.jpg';
 import triviaImage from '../assets/trivia.jpg';
 import Card from "../components/card/Card";
 import "../containers/styles.css"
-import ScrollingText from "../components/scrollingText/ScrollingText"
-import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import Swiper from "../components/swiper/Swiper";
 import SlideInElement from "../components/slidein/SlideInElement";
 import NavBar from "../components/NavBar";
+import { useNavigate } from "react-router-dom";
 
 
 function FirstPage() {
+    const navigate = useNavigate();
 
-    const handleClick = () => {
-        alert('Button clicked!');
+    const handleClickHistory = () => {
+        navigate('/history');
     }
+
+    const handleClickTrivia = () => {
+        navigate('/trivia');
+    }
+
+    const handleClickDuelos = () => {
+        navigate('/duel');
+    }
+
 
     const items = [
         {
@@ -41,21 +50,21 @@ function FirstPage() {
                 imageSrc={praderaImage}
                 color="#fdf0d5"
                 font="Courier"
-                onClick={handleClick}/>
+                onClick={handleClickHistory}/>
 
                 <Card title="Trivia"
                 text="Desafiate intentando hacer numerosos e ingeniosos problemas de matematicas segun tu nivel."
                 imageSrc={triviaImage}
                 color="#fdf0d5"
                 font="Courier"
-                onClick={handleClick}/>
+                onClick={handleClickTrivia}/>
 
                 <Card title="Duelos"
                 text="Juega y diviertete con amigos y personas online, desafialos a distinos modos de juego."
                 imageSrc={duelosImage}
                 color="#fdf0d5"
                 font="Courier"
-                onClick={handleClick}/>           
+                onClick={handleClickDuelos}/>           
             </div> 
             <div className="container-wavy">
                 <SlideInElement
