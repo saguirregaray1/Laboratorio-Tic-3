@@ -1,0 +1,24 @@
+/* WorldSelect.css */
+
+.world-select-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .ring {
+    width: 200px;
+    height: 200px;
+    border: 10px solid;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+  }
+  
+  .center-text {
+    cursor: pointer;
+  }
+  
