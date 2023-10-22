@@ -38,7 +38,6 @@ const TriviaScreen: React.FC = () => {
   const secundariaGalaxies = ['1', '2', '3', '4', '5', '6'];
   const universidadGalaxies = ['Analisis 1', 'Analisis 2', 'Analisis 3', 'GAL 1', 'GAL 2', 'PyE'];
 
-<<<<<<< HEAD
 
 
 return (
@@ -100,74 +99,5 @@ return (
 };
 
 export default TriviaScreen;
-=======
->>>>>>> a5d8a6983431e6d67046d497af5029d7883e160a
 
 
-
-/*
-return (
-  <div className='star-rain-container'>
-    {stars}
-    <NavBar showButtons={false}/>
-    <h1 className='title-trivia'>Elige un mundo</h1>
-    <div className="worlds">
-      {universes.map((universe) => (
-        <WorldSelect
-        title={universe}
-        borderColor='#d00000'
-        onClick={() => handleUniverseSelect(universe)}
-        />
-      ))}
-    </div>
-    
-
-    {(selectedUniverse === 'Primaria' || selectedUniverse === 'Secundaria') && (
-      <div className='trivia-screen'>
-        <h1 className='title-trivia'>Elige un nivel</h1>
-        <div className="levels">
-          {(selectedUniverse === 'Primaria' ? primariaGalaxies : secundariaGalaxies).map((level) => (
-            <WorldSelect
-            title={level}
-            borderColor = 'blue'
-            onClick={() => handleWorldSelect(level)}
-            />
-          ))}
-        </div>
-      </div>
-    )}
-
-    {selectedUniverse === 'Universidad' && (
-      <div className='trivia-screen'>
-        <h1 className='title-trivia'>Elige un nivel</h1>
-        <div className="levels">
-          {universidadGalaxies.map((level) => (
-            <WorldSelect
-            title={level}
-            borderColor = 'blue'
-            onClick={() => handleWorldSelect(level)}
-            />
-          ))}
-        </div>
-      </div>
-    )}
-
-    {selectedUniverse && selectedGalaxy && (
-      <div className='button'>
-        <CustomButton color="#3d5a80"
-        label='Jugar'
-        onClick={handlePracticeClick}
-        />
-      </div>
-    )}
-
-  </div>
-);
-};
-
-export default TriviaScreen;
-<<<<<<< HEAD
-*/
-=======
-
->>>>>>> a5d8a6983431e6d67046d497af5029d7883e160a
