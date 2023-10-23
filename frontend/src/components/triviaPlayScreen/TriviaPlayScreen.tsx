@@ -71,7 +71,7 @@ const TriviaPlayScreen: React.FC = () => {
 
     let config = {
       method: 'post',
-      url: 'http://localhost:8000/api/v1/trivia/play/check',
+      url: `${PATH}/trivia/play/check`,
       data : data,
       headers: {
         'Content-Type': 'application/json',
