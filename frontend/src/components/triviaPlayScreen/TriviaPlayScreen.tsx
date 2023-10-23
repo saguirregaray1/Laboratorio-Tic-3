@@ -7,6 +7,7 @@ import LoadingPage from '../loadingPage/LoadingPage';
 import NavBar from '../NavBar';
 import backTrivia from '../../assets/back_trivia.png'
 import nextQuestion from '../../assets/next_question.png'
+import {PATH} from '../../constants'
 
 const TriviaPlayScreen: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -23,7 +24,7 @@ const TriviaPlayScreen: React.FC = () => {
 
   useEffect(() => {
 
-    /*const data = JSON.stringify({
+    const data = JSON.stringify({
       "universe": location.state.universe,
       "galaxy": location.state.galaxy
     });
@@ -31,7 +32,7 @@ const TriviaPlayScreen: React.FC = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:8000/api/v1/trivia/play',
+      url: `${PATH}/trivia/play`,
       headers: { 
         'Content-Type': 'application/json'
       },
@@ -48,60 +49,24 @@ const TriviaPlayScreen: React.FC = () => {
     })
     .catch((error) => {
       console.log(error);
-    });*/
-
-    // let data = JSON.stringify({
-    //   "universe": location.state.universe,
-    //   "galaxy": location.state.galaxy
-    // });
-
-    // let config = {
-    //   method: 'get',
-    //   url: 'http://localhost:8000/api/v1/trivia/play',
-    //   data : data,
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   }
-    // };
-
-    // axios.request(config)
-    // .then((response) => {
-    //   const data = response.data.question
-    //   setQuestion(data.body);
-    //   setOptions([data.option1, data.option2, data.option3, data.option4])
-    //   setQuestionId(data.id)
-    //   setIsLoading(false);
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // });
-
-    //HardCode para estilizar
-    const data = {
-      body: "Si Juan tiene 8 manzanas, se come 3 y regala 4, ¿Cuantas manzanas le quedan a Juan?",
-      option1: "5",
-      option2: "8",
-      option3: "1",
-      option4: "Ninguna gil, el de las manzanas es Newton",
-      id: "1",
-    };
-    setQuestion(data.body);
-    setOptions([data.option1, data.option2, data.option3, data.option4])
-    setQuestionId(data.id)
-    setCorrectAnswer("1");
-    setIsLoading(false);
+    });
     
   }, []);
 
   const handleOptionSelect = (option: string) => {
     setSelectedOption(option);
     if(showMessage){
-      setShowMessage(false)
+      setShowMessage(false);
     }
 
-    /*let data = JSON.stringify({
+    setShowResults(true);
+
+  };
+
+  const handleConfirmAnswer = () => {
+    let data = JSON.stringify({
       "id": questionId,
-      "answer": option
+      "answer": selectedOption
     });
 
     let config = {
@@ -114,34 +79,30 @@ const TriviaPlayScreen: React.FC = () => {
     };
     axios.request(config)
     .then((response) => {
-      console.log(response.data)
-      setCorrectAnswer(response.data.answer);
+      const answer = response.data.answer;
+      if (selectedOption === answer) {
+        const selectedOpt = document.querySelector('.selected-option');
+        if (selectedOpt) {
+          selectedOpt.classList.add('correct-option');
+          selectedOpt.classList.remove('selected-option');
+        }
+        setCorrectChoice(true)
+      } else {
+        const selectedOpt = document.querySelector('.selected-option');
+        if (selectedOpt) {
+          selectedOpt.classList.add('incorrect-option');
+          selectedOpt.classList.remove('selected-option');
+        }
+        setCorrectChoice(false)
+      }
+      setShowMessage(true);
     })
     .catch((error) => {
       console.log(error);
-    });*/
+    });
 
-    setShowResults(true);
 
-  };
-
-  const handleConfirmAnswer = () => {
-    if (selectedOption === correctAnswer) {
-      const selectedOpt = document.querySelector('.selected-option');
-      if (selectedOpt) {
-        selectedOpt.classList.add('correct-option');
-        selectedOpt.classList.remove('selected-option');
-      }
-      setCorrectChoice(true)
-    } else {
-      const selectedOpt = document.querySelector('.selected-option');
-      if (selectedOpt) {
-        selectedOpt.classList.add('incorrect-option');
-        selectedOpt.classList.remove('selected-option');
-      }
-      setCorrectChoice(false)
-    }
-    setShowMessage(true);
+    
   };
 
   const handleNextQuestion = () => {
@@ -152,7 +113,7 @@ const TriviaPlayScreen: React.FC = () => {
 
     let config = {
       method: 'post',
-      url: 'http://localhost:8000/api/v1/trivia/play',
+      url: `${PATH}/trivia/play`,
       data : data,
       headers: {
         'Content-Type': 'application/json',
@@ -169,6 +130,7 @@ const TriviaPlayScreen: React.FC = () => {
       setShowResults(false);
       setSelectedOption(null);
       setCorrectAnswer('');
+      setShowMessage(false);
     })
     .catch((error) => {
       console.log(error);
@@ -237,25 +199,3 @@ const TriviaPlayScreen: React.FC = () => {
 };
 
 export default TriviaPlayScreen;
-
-
-//Old Code
-/*{options.map((option, index) => (
-  <div
-    key={index}
-    className={`option ${selectedOption === option ? 'selected' : ''} ${option === correctAnswer ? 'correct': ''}`}
-    onClick={() => handleOptionSelect(option)}
-  >
-    {option}
-  </div>
-))}
-
-
-{showResults && (
-  <div>
-    <p>Correct Answer: {correctAnswer}</p>
-    <button onClick={handleInicioClick}>Inicio</button>
-    <button onClick={handleChangeClick}>Change</button>
-    <button onClick={handleSiguienteClick}>Siguiente</button>
-  </div>
-)}*/
