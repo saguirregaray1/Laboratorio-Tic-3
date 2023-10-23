@@ -6,7 +6,7 @@ const MainDuelScreen: React.FC = () => {
     const [number, setNumber] = useState(0);
     const [inputNumber, setInputNumber] = useState('');
     const [result, setResult] = useState<number | null>(null);
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs"
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJoZXJuYW4iLCJpYXQiOjE2OTgwNjEwNDZ9.fMyl_OUTHORE-W6wOJRW8Z4XE4fpiGJtBfVdT9ziV0g"
     const [roundsNumber, setRoundsNumber] = useState<number>(3);
     const userId = 1;
     const [duelId, setDuelId] = useState<string>('');

@@ -20,7 +20,6 @@ const TriviaScreen: React.FC = () => {
   };
 
   const handlePracticeClick = () => {
-    //console.log(`Starting practice in ${selectedWorld} - Level ${selectedLevel}`);
     navigate('/trivia/play',{replace: true, state:{universe: selectedUniverse, galaxy: selectedGalaxy}});
   };
 
