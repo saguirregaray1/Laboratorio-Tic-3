@@ -43,7 +43,7 @@ export class UserService {
     return foundUser;
   }
 
-  async login(loginUserDto: LoginUserDto): Promise<{ token: string }> {
+  async login(loginUserDto: LoginUserDto): Promise<{ token: string, userId:number }> {
     const foundUser = await this.userRepository.findOneBy({
       username: loginUserDto.username,
     });
@@ -58,6 +58,7 @@ export class UserService {
 
         return {
           token: jwtToken,
+          userId: foundUser.id
         };
       }
     }
