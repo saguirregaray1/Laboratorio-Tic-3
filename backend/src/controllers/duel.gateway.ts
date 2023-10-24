@@ -32,7 +32,11 @@ export class DuelGateway
 
   async handleConnection(client: Socket, duelId: string) {
     this.logger.log(`Client connected: ${client.id}`);
-    console.log(`Client connected: ${client.id}`);
+  }
+
+  @SubscribeMessage('join')
+  async handleJoin(client: Socket, duelId: string) {
+    this.logger.log(`Client joined: ${client.id}`);
 
     // Add the client to the room with the specified duelId
     client.join(duelId);
@@ -42,7 +46,6 @@ export class DuelGateway
     // Notify the other clients in the room that a new client has joined
     client.to(duelId).emit('users', Array.from(clients));
   }
-
   async handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
   }

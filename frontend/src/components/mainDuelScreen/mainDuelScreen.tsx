@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { PATH } from '../../constants';
 import axios from 'axios';
 
 const MainDuelScreen: React.FC = () => {
-    const [number, setNumber] = useState(0);
-    const [inputNumber, setInputNumber] = useState('');
+    const [id, setId] = useState<string>('');
     const [result, setResult] = useState<number | null>(null);
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs"
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgzOTg1Nn0.lXUHJB-R24Te9PFvriceK_eZJKoZQ5lW035jPPS0p3k"
     const [roundsNumber, setRoundsNumber] = useState<number>(3);
     const userId = 1;
     const [duelId, setDuelId] = useState<string>('');
+    const navigate = useNavigate();
 
-    const handleGetNumber = () => {
+    const handleCreateDuel = () => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
@@ -21,7 +22,7 @@ const MainDuelScreen: React.FC = () => {
             'Content-Type' : 'application/json'
             },
             data: {
-                id : userId,
+                ownerId : userId,
                 rounds: roundsNumber
             }
         };
@@ -36,37 +37,37 @@ const MainDuelScreen: React.FC = () => {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type' : 'application/json'
                 },
-        }; */
+        }; /*/
 
         axios.request(config)
         .then((response) => {
             setDuelId(response.data.newDuel.id);
-            console.log(response.data.newDuel.id);
         })
         .catch((error) => {
             console.log(error);
         });
     };
 
-    const handleSetNumber = () => {
-        const newNumber = parseInt(inputNumber, 10);
-        if (!isNaN(newNumber)) {
-        setNumber(newNumber);
-        setResult(null);
-        }
+    const handleJoinDuel = () => {
+        setDuelId(id)
     };
+
+    useEffect(() => {
+        if (duelId !== '') {
+            navigate(`/duel/${duelId}`, {state:{token: token, userId: userId, duelId: duelId}})
+        }
+    },[duelId]);
 
     return (
         <div>
-        <p>Current Number: {number}</p>
+        <>{duelId}</>
         <input
-            type="number"
-            value={inputNumber}
-            onChange={(e) => setInputNumber(e.target.value)}
+            type="text"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
         />
-        <button onClick={handleSetNumber}>Set Number</button>
-        <p>Result: {result !== null ? result : 'Click "Get Number" to retrieve a random number.'}</p>
-        <button onClick={handleGetNumber}>Get Number</button>
+        <button onClick={handleJoinDuel}>Join Duel</button>
+        <button onClick={handleCreateDuel}>Create Duel</button>
         </div>
     );
 };
