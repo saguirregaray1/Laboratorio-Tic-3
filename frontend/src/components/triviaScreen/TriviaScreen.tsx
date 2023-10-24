@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TriviaScreen.css';
 import NavBar from '../NavBar';
-import Card from '../card/Card';
 import CustomButton from '../customButton/customButton';
+import WorldSelect from '../worldSelect/WorldSelect';
 
 const TriviaScreen: React.FC = () => {
   const [selectedUniverse, setSelectedUniverse] = useState<string | null>(null);
@@ -20,7 +20,6 @@ const TriviaScreen: React.FC = () => {
   };
 
   const handlePracticeClick = () => {
-    //console.log(`Starting practice in ${selectedWorld} - Level ${selectedLevel}`);
     navigate('/trivia/play',{replace: true, state:{universe: selectedUniverse, galaxy: selectedGalaxy}});
   };
 
@@ -38,81 +37,6 @@ const TriviaScreen: React.FC = () => {
   const secundariaGalaxies = ['1', '2', '3', '4', '5', '6'];
   const universidadGalaxies = ['Analisis 1', 'Analisis 2', 'Analisis 3', 'GAL 1', 'GAL 2', 'PyE'];
 
-/*
-  return (
-    <div>
-      <NavBar showButtons={false}/>
-      <div className="trivia-screen">
-        <div className='title'>
-          <h1>Elige un mundo</h1>
-        </div>
-        <div className="worlds">
-          {universes.map((universe) => (
-            <div
-              key={universe}
-              className={`world-card ${selectedUniverse === universe ? 'selected' : ''}`}
-              onClick={() => handleUniverseSelect(universe)}
-            >
-              <h2>{universe}</h2>
-            </div>
-          ))}
-        </div>
-
-        {(selectedUniverse === 'Primaria' || selectedUniverse === 'Secundaria') && (
-          <div>
-            <h1>Choose a Level</h1>
-            <div className="levels">
-              {(selectedUniverse === 'Primaria' ? primariaGalaxies : secundariaGalaxies).map((level) => (
-                <div
-                  key={level}
-                  className={`level-card ${selectedGalaxy === level ? 'selected' : ''}`}
-                  onClick={() => handleWorldSelect(level)}
-                >
-                  <h2>Level {level}</h2>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {selectedUniverse === 'Universidad' && (
-          <div>
-            <h1>Choose a Level</h1>
-            <div className="levels">
-              {universidadGalaxies.map((level) => (
-                <div
-                  key={level}
-                  className={`level-card ${selectedGalaxy === level ? 'selected' : ''}`}
-                  onClick={() => handleWorldSelect(level)}
-                >
-                  <h2>{level}</h2>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {selectedUniverse && selectedGalaxy && (
-          <button className="practice-button" onClick={handlePracticeClick}>
-            Practicar
-          </button>
-        )}
-      </div>
-      
-    </div>
-  );
-};
-
-export default TriviaScreen;
-*/
-/*
-<Footer 
-aboutText="About us" 
-contactText="Contact" 
-servicesText="Sevices"
-copyrightText="©Copyright 2023 Florida. All Rights Reserved."
-/>
-*/
 
 
 return (
@@ -122,12 +46,9 @@ return (
     <h1 className='title-trivia'>Elige un mundo</h1>
     <div className="worlds">
       {universes.map((universe) => (
-        <Card
+        <WorldSelect
         title={universe}
-        text="Juega y diviertete con amigos y personas online, desafialos a distinos modos de juego."
-        imageSrc={null}
-        color="#fdf0d5"
-        font="Courier"
+        borderColor='red'
         onClick={() => handleUniverseSelect(universe)}
         />
       ))}
@@ -138,12 +59,9 @@ return (
         <h1 className='title-trivia'>Elige un nivel</h1>
         <div className="levels">
           {(selectedUniverse === 'Primaria' ? primariaGalaxies : secundariaGalaxies).map((level) => (
-            <Card
+            <WorldSelect
             title={level}
-            text="En este nivel podras encontrar"
-            imageSrc={null}
-            color="#fdf0d5"
-            font="Courier"
+            borderColor = 'blue'
             onClick={() => handleWorldSelect(level)}
             />
           ))}
@@ -156,13 +74,11 @@ return (
         <h1 className='title-trivia'>Elige un nivel</h1>
         <div className="levels">
           {universidadGalaxies.map((level) => (
-            <div
-              key={level}
-              className={`level-card ${selectedGalaxy === level ? 'selected' : ''}`}
-              onClick={() => handleWorldSelect(level)}
-            >
-              <h2>{level}</h2>
-            </div>
+            <WorldSelect
+            title={level}
+            borderColor = 'blue'
+            onClick={() => handleWorldSelect(level)}
+            />
           ))}
         </div>
       </div>
@@ -182,3 +98,5 @@ return (
 };
 
 export default TriviaScreen;
+
+
