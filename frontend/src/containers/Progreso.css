@@ -37,10 +37,8 @@
     flex-direction: row;
     width: 100%;
     justify-content: space-around;
-    margin-top: 20px;
+    height: 10%;
   }
-  
-
   
 
 
@@ -75,3 +73,10 @@
   .dropdown-menu button:hover {
     background-color: #555;
   }
+
+  .body {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

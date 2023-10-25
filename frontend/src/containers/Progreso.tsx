@@ -8,7 +8,7 @@ const Progreso: React.FC = () => {
   const [year, setYear] = useState<string>('1');
   const [course, setCourse] = useState<string>('Primaria');
   const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string>(''); // Store the selected option
+  const [selectedOption, setSelectedOption] = useState<string>('');
   const navigate = useNavigate();
 
   const handleContinue = () => {
@@ -16,20 +16,21 @@ const Progreso: React.FC = () => {
   };
 
   const handleDropdownClick = () => {
-    setShowDropdown(!showDropdown); // Toggle the dropdown menu visibility
+    setShowDropdown(!showDropdown);
   };
 
   const handleYearSelect = (option: string) => {
     setSelectedOption(option);
-    setShowDropdown(false); // Close the dropdown menu when an option is selected
+    setShowDropdown(false);
     setCourse(option);
   };
 
   const handleCourseSelect = (option: string) => {
     setSelectedOption(option);
-    setShowDropdown(false); // Close the dropdown menu when an option is selected
+    setShowDropdown(false); 
     setYear(option);
   };
+
 
 
   const generateButtons = () => {
@@ -43,7 +44,28 @@ const Progreso: React.FC = () => {
     }
     return buttons;
   };
-  
+
+
+
+const yearOptions: string[] = ['Primaria', 'Secundaria', 'Universidad'];
+const collegeOptions: string[] = ['Analisis 1', 'Analisis 2', 'Analisis 3', 'GAL 1', 'GAL 2', 'PYE'];
+
+const generateYearButtons = (options: string[]) => {
+  return options.map((option, index) => (
+    <button key={index} onClick={() => handleYearSelect(option)}>
+      {option}
+    </button>
+  ));
+};
+
+const generateCollegeButtons = (options: string[]) => {
+  return options.map((option, index) => (
+    <button key={index} onClick={() => handleCourseSelect(option)}>
+      {option}
+    </button>
+  ));
+};
+
 
   return (
     <div className="space-screen" style={{ backgroundImage: `url(${spaceBackground})` }}>
@@ -51,6 +73,7 @@ const Progreso: React.FC = () => {
         <div className="student-info">
           <h1>{year} - {course}</h1>
         </div>
+        <div className='body'>
         <div className="button-container">
           <CustomButton
           label='Continuar nivel'
@@ -63,10 +86,8 @@ const Progreso: React.FC = () => {
             onClick={handleDropdownClick}/>
             {showDropdown && (
               <div className="dropdown-menu">
-                <button onClick={() => handleYearSelect('Primaria')}>Primaria</button>
-                <button onClick={() => handleYearSelect('Secundaria')}>Secundaria</button>
-                <button onClick={() => handleYearSelect('Universidad')}>Universidad</button>
-              </div>
+               {generateYearButtons(yearOptions)}
+             </div>
             )}
           </div>
           <div className='dropdown-container'>
@@ -74,15 +95,21 @@ const Progreso: React.FC = () => {
             label='Cambiar Curso'
             color='#14213d'
             onClick={handleDropdownClick}/>
-            {showDropdown && (
+            {showDropdown &&  ( (course === 'Primaria' || course === 'Secundaria') &&
               <div className="dropdown-menu">
                 {generateButtons()}
-                {/* Add more options as needed */}
+              </div>
+            )}
+            {showDropdown &&  (course === 'Universidad' &&
+              <div className="dropdown-menu">
+
+                {generateCollegeButtons(collegeOptions)}
               </div>
             )}
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
@@ -90,15 +117,3 @@ const Progreso: React.FC = () => {
 export default Progreso;
 
 
-
-/*
-<button onClick={handleContinue}>
-  Continuar nivel
-</button>
-
-
-
- <button onClick={handleDropdownClick} className='change-button'>
-  Cambiar nivel
-</button>
-*/
