@@ -71,7 +71,7 @@ export class DuelService {
     return duel;
   }
 
-  async answerQuestion(
+  /* async answerQuestion(
     duelAnswerQuestionDto: DuelAnswerQuestionDto,
   ): Promise<boolean> {
     const duel = await this.getDuel(duelAnswerQuestionDto.duelId);
@@ -90,7 +90,7 @@ export class DuelService {
     }
     await this.duelRepository.save(duel);
     return is_correct;
-  }
+  } */
 
   async checkAnswerAndUpdate(
     duelId: string,
@@ -102,18 +102,29 @@ export class DuelService {
     const question = duel.questions[duel.currentRound];
 
     const { is_correct } = await this.triviaQuestionService.isCorrect(
-      question.id.toString(),
       playerAnswer,
+      question.id.toString(),
     );
+
+    const currentScore = duel.playerScores[playerId] || 0;
 
     if (is_correct) {
       switch (answers.size) {
         case 1:
-          duel.playerScores[playerId] += 3;
+          duel.playerScores = {
+            ...duel.playerScores,
+            [playerId]: currentScore + 3,
+          };
         case 2:
-          duel.playerScores[playerId] += 2;
+          duel.playerScores = {
+            ...duel.playerScores,
+            [playerId]: currentScore + 2,
+          };
         default:
-          duel.playerScores[playerId] += 1;
+          duel.playerScores = {
+            ...duel.playerScores,
+            [playerId]: currentScore + 1,
+          };
       }
     }
     await this.duelRepository.save(duel);

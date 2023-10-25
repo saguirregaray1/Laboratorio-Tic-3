@@ -116,6 +116,8 @@ export class DuelGateway
       this.readyClients.set(data.duelId, new Set());
     }
 
+    this.logger.log(`Client ${client.data.username} answered`);
+
     const answers = this.readyClients.get(data.duelId);
 
     if (answers.has(client.id)) {
@@ -124,35 +126,29 @@ export class DuelGateway
 
     answers.add(client.id);
 
-    this.logger.log(`Client ${client.id} answered`);
-
     // Validate the answer
     const isCorrect = await this.duelService.checkAnswerAndUpdate(
       data.duelId,
       data.answer,
-      data.playerId,
+      client.data.userId,
       answers,
     );
 
     // Emit a 'questionAnswered' event to all clients in the room
-    this.server.to(data.duelId).emit('questionAnswered', {
-      clientId: client.id,
-      answer: data.answer,
-      isCorrect,
-    });
+    this.server.to(data.duelId).emit('questionAnswered', isCorrect);
 
     const allReady = this.allReady(data.duelId);
 
     if (allReady) {
       this.readyClients.delete(data.duelId);
-      const nextQuestion = this.duelService.endRound(data.duelId);
+      const nextQuestion = await this.duelService.endRound(data.duelId);
       if (!nextQuestion) {
         this.server.to(data.duelId).emit('duelEnded', nextQuestion);
         this.server
           .to(data.duelId)
           .emit('duelWinner', this.duelService.getWinner(data.duelId));
       }
-      this.server.to(data.duelId).emit('Question: ', nextQuestion);
+      this.server.to(data.duelId).emit('question: ', nextQuestion);
     }
   }
 
