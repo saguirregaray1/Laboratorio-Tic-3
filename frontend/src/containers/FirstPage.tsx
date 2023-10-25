@@ -15,7 +15,7 @@ function FirstPage() {
     const navigate = useNavigate();
 
     const handleClickHistory = () => {
-        navigate('/history');
+        navigate('/progress');
     }
 
     const handleClickTrivia = () => {

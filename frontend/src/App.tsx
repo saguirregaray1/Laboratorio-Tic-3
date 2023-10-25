@@ -12,6 +12,7 @@ import HistoryWorldSelect from './components/historyWorldSelect/HistoryWorldSele
 
 import MainDuelScreen from './components/mainDuelScreen/mainDuelScreen';
 import DuelPlayScreen from './components/duelPlayScreen/DuelPlayScreen';
+import Progreso from './containers/Progreso';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path = "/duel" element = {<MainDuelScreen/>}/>
         <Route path = "/duel/:duelId" element = {<DuelPlayScreen/>}/>
         <Route path = "/*" element={<Navigate to="/" />}/> 
+        <Route path = "/progress" element={<Progreso/>}/>
       </Routes>
     </BrowserRouter>
     
