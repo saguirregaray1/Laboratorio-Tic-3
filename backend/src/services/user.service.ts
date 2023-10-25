@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/CreateUserDto';
 import { LoginUserDto } from '../dtos/LoginUserDto';
 import { ConfigService } from '@nestjs/config';
+import { WsException } from '@nestjs/websockets';
 
 @Injectable()
 export class UserService {
@@ -43,7 +44,21 @@ export class UserService {
     return foundUser;
   }
 
-  async login(loginUserDto: LoginUserDto): Promise<{ token: string, userId:number }> {
+  async getUserFromToken(token: any): Promise<User> {
+    const decoded = await this.jwtService.verify(token, {
+      secret: this.configService.get('SECRET'),
+    });
+
+    const user = await this.getUserByUsername(decoded.username);
+    if (!user) {
+      throw new WsException('User not found');
+    }
+    return user;
+  }
+
+  async login(
+    loginUserDto: LoginUserDto,
+  ): Promise<{ token: string; userId: number }> {
     const foundUser = await this.userRepository.findOneBy({
       username: loginUserDto.username,
     });
@@ -58,7 +73,7 @@ export class UserService {
 
         return {
           token: jwtToken,
-          userId: foundUser.id
+          userId: foundUser.id,
         };
       }
     }
@@ -85,7 +100,7 @@ export class UserService {
       username: createUserDto.username,
       password: hash,
       email: createUserDto.email,
-      course: createUserDto.course
+      course: createUserDto.course,
     });
 
     return this.userRepository.save(newUser);
