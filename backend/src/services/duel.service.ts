@@ -13,13 +13,16 @@ import { UserService } from './user.service';
 import { DuelAnswerQuestionDto } from '../dtos/DuelAnswerQuestionDto';
 import { DuelGateway } from '../controllers/duel.gateway';
 import { WsException } from '@nestjs/websockets';
+import { User } from '../entities/user.entity';
+import { TriviaQuestion } from '../entities/trivia_question.entity';
+import { TriviaQuestionService } from './trivia_question.service';
 
 @Injectable()
 export class DuelService {
   constructor(
     @InjectRepository(Duel)
     private readonly duelRepository: Repository<Duel>,
-    private readonly questionService: QuestionService,
+    private readonly triviaQuestionService: TriviaQuestionService,
     private readonly userService: UserService,
   ) {}
 
@@ -30,8 +33,10 @@ export class DuelService {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const questions = await this.questionService.getRandomQuestions(
+    const questions = await this.triviaQuestionService.getRandomQuestions(
       createDuelDto.rounds,
+      createDuelDto.universe,
+      createDuelDto.galaxy,
     );
     console.log('Questions:', questions);
 
@@ -47,15 +52,26 @@ export class DuelService {
     return this.duelRepository.save(duel);
   }
 
+  async getUserFromToken(token): Promise<User> {
+    const user = await this.userService.getUserFromToken(token);
+    return user;
+  }
+
   async getDuel(id: string): Promise<Duel> {
-    const duel = await this.duelRepository.findOneBy({ id: id });
+    const duel = await this.duelRepository
+      .createQueryBuilder('duel')
+      .leftJoinAndSelect('duel.questions', 'trivia_questions')
+      .where('duel.id = :id', { id })
+      .getOne();
+
     if (!duel) {
       throw new HttpException('Duel not found', HttpStatus.NOT_FOUND);
     }
+
     return duel;
   }
 
-  async answerQuestion(
+  /* async answerQuestion(
     duelAnswerQuestionDto: DuelAnswerQuestionDto,
   ): Promise<boolean> {
     const duel = await this.getDuel(duelAnswerQuestionDto.duelId);
@@ -74,29 +90,41 @@ export class DuelService {
     }
     await this.duelRepository.save(duel);
     return is_correct;
-  }
+  } */
 
   async checkAnswerAndUpdate(
     duelId: string,
-    answer: string,
+    playerAnswer: string,
     playerId: number,
     answers: Set<string>,
   ): Promise<boolean> {
     const duel = await this.getDuel(duelId);
     const question = duel.questions[duel.currentRound];
-    const [is_correct, ans] = await this.questionService.checkAnswer(
-      question.id,
-      answer,
+
+    const { is_correct } = await this.triviaQuestionService.isCorrect(
+      playerAnswer,
+      question.id.toString(),
     );
+
+    const currentScore = duel.playerScores[playerId] || 0;
 
     if (is_correct) {
       switch (answers.size) {
         case 1:
-          duel.playerScores[playerId] += 3;
+          duel.playerScores = {
+            ...duel.playerScores,
+            [playerId]: currentScore + 3,
+          };
         case 2:
-          duel.playerScores[playerId] += 2;
+          duel.playerScores = {
+            ...duel.playerScores,
+            [playerId]: currentScore + 2,
+          };
         default:
-          duel.playerScores[playerId] += 1;
+          duel.playerScores = {
+            ...duel.playerScores,
+            [playerId]: currentScore + 1,
+          };
       }
     }
     await this.duelRepository.save(duel);

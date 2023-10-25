@@ -34,8 +34,8 @@ export class DuelController {
         newDuel,
       });
     } catch (HttpException) {
-      console.log('HOLAAAAAA')
-      console.log(HttpException.status)
+      console.log('HOLAAAAAA');
+      console.log(HttpException.status);
       return response
         .status(HttpException.status)
         .json({ message: HttpException.message });

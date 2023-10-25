@@ -14,14 +14,15 @@ Content-Type: application/json
 {
   "username": "user2",
   "password": "pass1234567",
-  "email": "test1@gmail.com"
+  "email": "test1@gmail.com",
+  "course": "Primaria"
 }
 
 POST http://localhost:8000/api/v1/user/login
 Content-Type: application/json
 
 {
-  "username": "user1",
+  "username": "user2",
   "password": "pass1234567"
 }
 
@@ -112,3 +113,53 @@ Content-Type: application/json
   "answer": "answer1"
 }
 
+POST http://localhost:8000/api/v1/trivia/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTY5ODIzNzAzMn0.A6U-eXRUAJUMtyKNJFZRfj4erQJL4jrRxSa4jMIANOg
+
+{
+  "body": "triviaQuestion1",
+  "answer": "b",
+  "type": "1",
+  "category": "1",
+  "universe": "Primaria",
+  "galaxy": "1",
+  "option1": "a",
+  "option2": "b",
+  "option3": "c",
+  "option4": "d"
+}
+
+POST http://localhost:8000/api/v1/trivia/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTY5ODIzNzAzMn0.A6U-eXRUAJUMtyKNJFZRfj4erQJL4jrRxSa4jMIANOg
+
+{
+  "body": "triviaQuestion2",
+  "answer": "c",
+  "type": "1",
+  "category": "1",
+  "universe": "Primaria",
+  "galaxy": "1",
+  "option1": "a",
+  "option2": "b",
+  "option3": "c",
+  "option4": "d"
+}
+
+POST http://localhost:8000/api/v1/trivia/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTY5ODIzNzAzMn0.A6U-eXRUAJUMtyKNJFZRfj4erQJL4jrRxSa4jMIANOg
+
+{
+  "body": "triviaQuestion3",
+  "answer": "a",
+  "type": "1",
+  "category": "1",
+  "universe": "Primaria",
+  "galaxy": "1",
+  "option1": "a",
+  "option2": "b",
+  "option3": "c",
+  "option4": "d"
+}

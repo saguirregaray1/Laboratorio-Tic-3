@@ -11,6 +11,7 @@ import { In, Repository } from 'typeorm';
 import { Question } from '../entities/question.entity';
 import { CreateQuestionDto } from '../dtos/CreateQuestionDto';
 import { World } from '../entities/world.entity';
+import { Galaxy } from '../entities/galaxy.entity';
 
 @Injectable()
 export class QuestionService {
@@ -19,6 +20,8 @@ export class QuestionService {
     private readonly questionRepository: Repository<Question>,
     @InjectRepository(World)
     private readonly worldRepository: Repository<World>,
+    @InjectRepository(Galaxy)
+    private readonly galaxyRepository: Repository<Galaxy>,
   ) {}
 
   async createQuestion(

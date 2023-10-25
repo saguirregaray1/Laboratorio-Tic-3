@@ -12,6 +12,8 @@ import {
 import { User } from './user.entity';
 import { Question } from './question.entity';
 import { OneToOne, JoinColumn } from 'typeorm';
+import { Galaxy } from './galaxy.entity';
+import { TriviaQuestion } from './trivia_question.entity';
 
 @Entity()
 export class Duel {
@@ -29,12 +31,16 @@ export class Duel {
   @JoinTable()
   players: User[];
 
-  @ManyToMany(() => Question)
+  @ManyToMany(() => TriviaQuestion)
   @JoinTable()
-  questions: Question[];
+  questions: TriviaQuestion[];
 
   @Column({ nullable: false })
   rounds: number;
+
+  @ManyToOne(() => Galaxy)
+  @JoinColumn()
+  galaxy: Galaxy;
 
   @Column({ nullable: false, default: 0 })
   currentRound: number;

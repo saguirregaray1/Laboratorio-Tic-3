@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { PATH } from '../../constants';
 import axios from 'axios';
 import DuelPlay from './DuelPlay';
@@ -7,8 +8,7 @@ import NavBar from '../NavBar';
 import DuelSelect from './DuelSelect';
 
 const MainDuelScreen: React.FC = () => {
-    const [number, setNumber] = useState(0);
-    const [inputNumber, setInputNumber] = useState('');
+    const [id, setId] = useState<string>('');
     const [result, setResult] = useState<number | null>(null);
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJoZXJuYW4iLCJpYXQiOjE2OTgwNjEwNDZ9.fMyl_OUTHORE-W6wOJRW8Z4XE4fpiGJtBfVdT9ziV0g"
     const [roundsNumber, setRoundsNumber] = useState<number>(3);
@@ -16,8 +16,9 @@ const MainDuelScreen: React.FC = () => {
     const [duelId, setDuelId] = useState<string>('');
     const [showPlay, setShowPlay] = useState(true);
     const [showIncorrectCode, setShowIncorrectCode] = useState(false);
+    const navigate = useNavigate();
 
-    const handleGetNumber = () => {
+    const handleCreateDuel = () => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
@@ -27,7 +28,7 @@ const MainDuelScreen: React.FC = () => {
             'Content-Type' : 'application/json'
             },
             data: {
-                id : userId,
+                ownerId : userId,
                 rounds: roundsNumber
             }
         };
@@ -42,12 +43,11 @@ const MainDuelScreen: React.FC = () => {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type' : 'application/json'
                 },
-        }; */
+        }; /*/
 
         axios.request(config)
         .then((response) => {
             setDuelId(response.data.newDuel.id);
-            console.log(response.data.newDuel.id);
         })
         .catch((error) => {
             console.log(error);
@@ -57,6 +57,16 @@ const MainDuelScreen: React.FC = () => {
     const enterRoom = (room:string) => {
         console.log(room);
     }
+
+    const handleJoinDuel = () => {
+        setDuelId(id)
+    };
+
+    useEffect(() => {
+        if (duelId !== '') {
+            navigate(`/duel/${duelId}`, {state:{token: token, userId: userId, duelId: duelId}})
+        }
+    },[duelId]);
 
     return (
         // <div>
