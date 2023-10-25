@@ -10,7 +10,7 @@ import DuelSelect from './DuelSelect';
 const MainDuelScreen: React.FC = () => {
     const [id, setId] = useState<string>('');
     const [result, setResult] = useState<number | null>(null);
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJoZXJuYW4iLCJpYXQiOjE2OTgwNjEwNDZ9.fMyl_OUTHORE-W6wOJRW8Z4XE4fpiGJtBfVdT9ziV0g"
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5ODE1OTYwMX0.gooCcAbIdZvI2OeDEFM-BjGGueaIVeu5epYQnpuPOsM"
     const [roundsNumber, setRoundsNumber] = useState<number>(3);
     const userId = 1;
     const [duelId, setDuelId] = useState<string>('');
@@ -29,7 +29,9 @@ const MainDuelScreen: React.FC = () => {
             },
             data: {
                 ownerId : userId,
-                rounds: roundsNumber
+                rounds: roundsNumber,
+                universe: 'Primaria',
+                galaxy: '1'
             }
         };
     
