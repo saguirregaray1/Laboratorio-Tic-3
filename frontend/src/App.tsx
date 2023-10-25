@@ -9,8 +9,11 @@ import FirstPage from './containers/FirstPage';
 import HistoryUniverseSelect from './components/historyUniverseSelect/HistoryUniverseSelect';
 import HistoryGalaxySelect from './components/historyGalaxySelect/HistoryGalaxySelect';
 import HistoryWorldSelect from './components/historyWorldSelect/HistoryWorldSelect';
+
 import MainDuelScreen from './components/mainDuelScreen/mainDuelScreen';
+import DuelPlayScreen from './components/duelPlayScreen/DuelPlayScreen';
 import Progreso from './containers/Progreso';
+
 
 function App() {
 
@@ -26,6 +29,7 @@ function App() {
         <Route path = "/history/universe" element={<HistoryGalaxySelect/>}/>
         <Route path = "/history/galaxy" element={<HistoryWorldSelect/>}/>
         <Route path = "/duel" element = {<MainDuelScreen/>}/>
+        <Route path = "/duel/:duelId" element = {<DuelPlayScreen/>}/>
         <Route path = "/*" element={<Navigate to="/" />}/> 
         <Route path = "/progress" element={<Progreso/>}/>
       </Routes>

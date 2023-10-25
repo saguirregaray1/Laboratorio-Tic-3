@@ -1,0 +1,46 @@
+.select-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width: 320px;
+    height: 500px;
+    border-radius: 10px;
+}
+
+.round-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.round-div{
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 30px;
+}
+
+.create-button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 288px;
+    height: 48px;
+}
+
+.room-title{
+    margin: 5px;
+}
+
+.duel-dropdown{
+    margin-bottom: 10px;
+    width: 288px;
+}

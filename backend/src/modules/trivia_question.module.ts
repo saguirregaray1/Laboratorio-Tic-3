@@ -8,5 +8,6 @@ import { TriviaQuestionService } from '../services/trivia_question.service';
   imports: [TypeOrmModule.forFeature([TriviaQuestion])],
   controllers: [TriviaQuestionController],
   providers: [TriviaQuestionService],
+  exports: [TriviaQuestionService],
 })
 export class TriviaQuestionModule {}

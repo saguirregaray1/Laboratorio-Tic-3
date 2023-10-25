@@ -14,11 +14,13 @@ import { Question } from '../entities/question.entity';
 import { World } from '../entities/world.entity';
 import { Galaxy } from '../entities/galaxy.entity';
 import { User } from '../entities/user.entity';
+import { TriviaQuestion } from 'src/entities/trivia_question.entity';
+import { TriviaQuestionModule } from './trivia_question.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Duel, Question, World, Galaxy, User]),
-    QuestionModule,
+    TypeOrmModule.forFeature([Duel, TriviaQuestion, World, Galaxy, User]),
+    TriviaQuestionModule,
     UserModule,
   ],
   controllers: [DuelController],
