@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { PATH } from '../../constants';
 import axios from 'axios';
+import DuelPlay from './DuelPlay';
+import './MainDuelScreen.css';
+import NavBar from '../NavBar';
+import DuelSelect from './DuelSelect';
 
 const MainDuelScreen: React.FC = () => {
     const [number, setNumber] = useState(0);
@@ -10,6 +14,8 @@ const MainDuelScreen: React.FC = () => {
     const [roundsNumber, setRoundsNumber] = useState<number>(3);
     const userId = 1;
     const [duelId, setDuelId] = useState<string>('');
+    const [showPlay, setShowPlay] = useState(true);
+    const [showIncorrectCode, setShowIncorrectCode] = useState(false);
 
     const handleGetNumber = () => {
         let config = {
@@ -48,26 +54,27 @@ const MainDuelScreen: React.FC = () => {
         });
     };
 
-    const handleSetNumber = () => {
-        const newNumber = parseInt(inputNumber, 10);
-        if (!isNaN(newNumber)) {
-        setNumber(newNumber);
-        setResult(null);
-        }
-    };
+    const enterRoom = (room:string) => {
+        console.log(room);
+    }
 
     return (
-        <div>
-        <p>Current Number: {number}</p>
-        <input
-            type="number"
-            value={inputNumber}
-            onChange={(e) => setInputNumber(e.target.value)}
-        />
-        <button onClick={handleSetNumber}>Set Number</button>
-        <p>Result: {result !== null ? result : 'Click "Get Number" to retrieve a random number.'}</p>
-        <button onClick={handleGetNumber}>Get Number</button>
-        </div>
+        // <div>
+        // <p>Current Number: {number}</p>
+        // <input
+        //     type="number"
+        //     value={inputNumber}
+        //     onChange={(e) => setInputNumber(e.target.value)}
+        // />
+        // <button onClick={handleSetNumber}>Set Number</button>
+        // <p>Result: {result !== null ? result : 'Click "Get Number" to retrieve a random number.'}</p>
+        // <button onClick={handleGetNumber}>Get Number</button>
+        <>
+            <NavBar showButtons={false}/>
+            <div className='main-duel-screen-container'>
+                {showPlay ? <DuelPlay onClick={() => setShowPlay(false)} onSubmit = {() => enterRoom(duelId)} setDuelId={setDuelId}/> : <DuelSelect onClick={() => setShowPlay(true)}/>} 
+            </div>
+        </>
     );
 };
 

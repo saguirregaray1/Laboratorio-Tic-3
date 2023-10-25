@@ -9,7 +9,7 @@ import FirstPage from './containers/FirstPage';
 import HistoryUniverseSelect from './components/historyUniverseSelect/HistoryUniverseSelect';
 import HistoryGalaxySelect from './components/historyGalaxySelect/HistoryGalaxySelect';
 import HistoryWorldSelect from './components/historyWorldSelect/HistoryWorldSelect';
-import MainDuelScreen from './components/mainDuelScreen/mainDuelScreen';
+import MainDuelScreen from './components/mainDuelScreen/MainDuelScreen';
 
 function App() {
 
