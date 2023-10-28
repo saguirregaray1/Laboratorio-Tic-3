@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.background-container {
+    background: url('../../assets/space_background.jpeg') center/cover no-repeat;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.profile-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #999999;
+    width: 80%;
+    margin: 100px auto 0;
+    box-shadow: 0 4px 4px rgba(255, 255, 255, 0.3);
+    border: 4px solid white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+  
+.profile-image-container {
+    width: 140px;
+    height: 140px;
+    background: #fff;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: absolute;
+    top: -90px;
+    left: 50%;
+    transform: translateX(-50%); 
+}
+  
+.profile-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+  
+.edit-profile-form {
+    position: relative;
+    margin-top: 20px;
+    padding: 20px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.h2-form {
+    font-family: 'Playpen Sans', cursive;
+    font-size: 45px;
+    color: white;
+    margin-bottom: 25px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.label {
+    color: black;
+    font-weight: bold;
+    font-family: 'Tilt Neon', sans-serif;
+    font-size: 30px;
+    margin-right: 10px;
+    flex: 1;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.value {
+    flex: 2;
+    color: black;
+    font-family: 'Tilt Neon', sans-serif; 
+    font-size: 30px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.edit-container {
+    margin-top: -20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-left: auto; 
+    border: 3px solid black; 
+    border-radius: 50%; 
+    padding: 5px; 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.edit-container:hover {
+    background-color: lightgray;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7); 
+}
+
+.edit-container img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.edit-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    padding: 10px;
+    background-color: #cccccc;
+    border: 2.5px solid white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.edit-level-title {
+    text-align: center;
+    font-family: 'Tilt Neon', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.drop-box {
+    width: 100%; 
+    padding: 5px;
+    font-family: 'Tilt Neon', sans-serif; 
+    font-size: 25px; 
+    border: 2px solid white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.drop-box:hover {
+    background-color: #d0d0d0; 
+}
+
+.drop-box option {
+    font-family: 'Tilt Neon', sans-serif; 
+    font-size: 25px; 
+}
+
+.button-container {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 25px;
+}
+
+.notchange-button {
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background-color: #CC0000;
+    color: #ffffff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+}
+
+.notchange-button:hover {
+    background-color: #990000;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.change-button {
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    background-color: #0074d9;
+    color: #ffffff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+}
+
+.change-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+}
