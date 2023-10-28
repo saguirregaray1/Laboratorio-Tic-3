@@ -30,30 +30,46 @@ export class DuelGateway
     this.logger.log('Initialized');
   }
 
-  async handleConnection(client: Socket, duelId: string) {
-    this.logger.log(`Client connected: ${client.id}`);
-    console.log(`Client connected: ${client.id}`);
+  async handleConnection(client: Socket) {
+    const token = client.handshake.auth.token;
+    try {
+      const user = await this.duelService.getUserFromToken(token);
+      client.data.username = user.username;
+      client.data.userId = user.id;
+    } catch (e) {
+      throw new WsException('Invalid token');
+    }
+  }
+
+  @SubscribeMessage('join')
+  async handleJoin(client: Socket, duelId: string) {
+    this.logger.log(`Client joined: ${client.id}`);
 
     // Add the client to the room with the specified duelId
     client.join(duelId);
 
-    const clients = this.server.sockets.adapter.rooms.get(duelId);
+    const roomSockets = await this.server.sockets.in(duelId).fetchSockets();
 
-    // Notify the other clients in the room that a new client has joined
-    client.to(duelId).emit('users', Array.from(clients));
+    const usernames = [];
+
+    for (const socket of roomSockets) {
+      usernames.push(socket.data.username);
+    }
+
+    this.logger.log(usernames);
+
+    this.server.to(duelId).emit('users', usernames);
   }
-
   async handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 
-  //arroba
   @SubscribeMessage('ready')
   async handleReady(
     @ConnectedSocket() client: Socket,
     @MessageBody() duelId: string,
   ) {
-    const userId = client.handshake.query.userId;
+    const username = client.data.username;
 
     this.logger.log(`Client ${client.id} is ready`);
 
@@ -61,24 +77,33 @@ export class DuelGateway
     if (!this.readyClients.has(duelId)) {
       this.readyClients.set(duelId, new Set());
     }
-    this.readyClients.get(duelId).add(client.id);
+    this.readyClients.get(duelId).add(username);
 
-    const allReady = this.allReady(duelId);
+    this.server
+      .to(duelId)
+      .emit('usersReady', Array.from(this.readyClients.get(duelId)));
+  }
 
-    if (allReady) {
-      this.readyClients.delete(duelId);
+  @SubscribeMessage('start')
+  async handleStart(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() duelId: string,
+  ) {
+    this.readyClients.delete(duelId);
 
-      // Get the first question for the duel
-      const duel = await this.duelService.getDuel(duelId);
+    // Get the first question for the duel
+    const duel = await this.duelService.getDuel(duelId);
 
-      if (!duel) {
-        throw new WsException('Duel not found');
-      }
-      const firstQuestion = duel.questions[0];
-
-      // Notify all clients in the room that the duel has started
-      this.server.to(duelId).emit('duelStarted', firstQuestion.body);
+    if (!duel) {
+      throw new WsException('Duel not found');
     }
+
+    console.log(duel);
+
+    const firstQuestion = duel.questions[0];
+
+    // Notify all clients in the room that the duel has started
+    this.server.to(duelId).emit('duelStarted', firstQuestion.body);
   }
 
   @SubscribeMessage('answer')
@@ -91,6 +116,8 @@ export class DuelGateway
       this.readyClients.set(data.duelId, new Set());
     }
 
+    this.logger.log(`Client ${client.data.username} answered`);
+
     const answers = this.readyClients.get(data.duelId);
 
     if (answers.has(client.id)) {
@@ -99,35 +126,29 @@ export class DuelGateway
 
     answers.add(client.id);
 
-    this.logger.log(`Client ${client.id} answered`);
-
     // Validate the answer
     const isCorrect = await this.duelService.checkAnswerAndUpdate(
       data.duelId,
       data.answer,
-      data.playerId,
+      client.data.userId,
       answers,
     );
 
     // Emit a 'questionAnswered' event to all clients in the room
-    this.server.to(data.duelId).emit('questionAnswered', {
-      clientId: client.id,
-      answer: data.answer,
-      isCorrect,
-    });
+    this.server.to(data.duelId).emit('questionAnswered', isCorrect);
 
     const allReady = this.allReady(data.duelId);
 
     if (allReady) {
       this.readyClients.delete(data.duelId);
-      const nextQuestion = this.duelService.endRound(data.duelId);
+      const nextQuestion = await this.duelService.endRound(data.duelId);
       if (!nextQuestion) {
         this.server.to(data.duelId).emit('duelEnded', nextQuestion);
         this.server
           .to(data.duelId)
           .emit('duelWinner', this.duelService.getWinner(data.duelId));
       }
-      this.server.to(data.duelId).emit('Question: ', nextQuestion);
+      this.server.to(data.duelId).emit('question: ', nextQuestion);
     }
   }
 

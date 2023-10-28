@@ -6,14 +6,6 @@ export class DuelAnswerQuestionDto {
   duelId: string;
 
   @IsNotEmpty()
-  @IsNumber()
-  playerId: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  questionId: number;
-
-  @IsNotEmpty()
   @IsString()
   answer: string;
 }

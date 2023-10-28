@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateDuelDto {
   @IsNotEmpty()
@@ -8,4 +8,12 @@ export class CreateDuelDto {
   @IsNotEmpty()
   @IsNumber()
   rounds: number;
+
+  @IsNotEmpty()
+  @IsString()
+  universe: string;
+
+  @IsNotEmpty()
+  @IsString()
+  galaxy: string;
 }
