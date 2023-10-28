@@ -7,6 +7,7 @@ import { User } from '../entities/user.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from '../roles/roles.guard';
 import { AuthMiddleware } from '../app.middleware';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AuthMiddleware } from '../app.middleware';
       global: true,
       signOptions: { expiresIn: '2h' },
     }),
+    ScheduleModule.forRoot(),
   ],
   controllers: [UserController],
   providers: [

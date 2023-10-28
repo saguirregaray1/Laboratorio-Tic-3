@@ -1,5 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { World } from './world.entity';
+import { Theorem } from './theorem.entity';
 
 @Entity()
 export class Question {
@@ -20,4 +27,8 @@ export class Question {
 
   @ManyToOne(() => World, (world) => world.questions)
   world: World;
+
+  @ManyToOne(() => Theorem, { nullable: true })
+  @JoinColumn()
+  theorem: Theorem;
 }

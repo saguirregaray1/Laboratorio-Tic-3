@@ -8,6 +8,7 @@ import { CreateUserDto } from '../dtos/CreateUserDto';
 import { LoginUserDto } from '../dtos/LoginUserDto';
 import { ConfigService } from '@nestjs/config';
 import { WsException } from '@nestjs/websockets';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class UserService {
@@ -16,15 +17,6 @@ export class UserService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
-
-  /*async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const existingUser = await this.userRepository.findOneBy({
-      email: createUserDto.email,
-    });
-
-    const newUser = this.userRepository.create(createUserDto);
-    return existingUser ? null : this.userRepository.save(newUser);
-  } */
 
   async getUser(id: number): Promise<User> {
     const existingUser = await this.userRepository.findOne({ where: { id } });
@@ -104,5 +96,15 @@ export class UserService {
     });
 
     return this.userRepository.save(newUser);
+  }
+
+  @Cron('0 0 * * *')
+  async updateLives() {
+    await this.userRepository
+      .createQueryBuilder()
+      .update(User)
+      .set({ lives: () => 'lives + 1' })
+      .where('lives < :lives', { lives: 3 })
+      .execute();
   }
 }
