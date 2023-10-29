@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+.page-background {
+    background-image: url('../../assets/history_play_background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 30px;
+    min-height:100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-container {
+    border: 3px solid black;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px black;
+    background-color: #AA8B56;
+    padding: 20px;
+}
+
+.page-title {
+    text-align: center;
+    margin-top: 5px;
+    font-family: 'Titan One', sans-serif;
+    font-size: 50px;
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.intro-text {
+    margin-top: 30px;
+    color: white;
+    font-family: 'Secular One', sans-serif;
+    font-size: 25px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.question-body {
+    margin-top: 1px;
+    color: black;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 38px;
+    text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.input-answer {
+    margin-left: 10px;
+    margin-right: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 20px;
+    padding: 10px;
+    border: 2px solid #ccc;
+}
+
+.confirm-answer {
+    background-color: #8B4513; 
+    color: white;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.confirm-answer:hover {
+    background-color: #5E2612;
+}
+
+.correction-text {
+    margin-left: 20px;
+    display: inline-flex;
+    color: white;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 25px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.view-theorem {
+    margin-top: -6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    float: right;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.2s;
+}
+  
+.view-theorem:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.03);
+}
+
+.image-clue {
+    width: 40px;
+    height: auto;
+    margin: 10px;
+}
+
+.text-clue {
+    margin: 10px;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    color: #333;
+}
+
+.center-theorem {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.theorem-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    padding: 10px;
+    width: 80%;
+    background-color: white;
+    border: 3px solid #562B08;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.theorem-title {
+    text-align: center;
+    margin-top: 20px;
+    color: #562B08;
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 35px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.theorem-body {
+    margin: 15px;
+    font-family: 'Indie Flower', cursive;
+    font-size: 30px;
+    color: black;
+}
+
+.navigate-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.back-level {
+    background-color: #865439;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border: 2.5px solid white;
+    margin: 1px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(160, 82, 45, 0.2);
+}
+
+.back-level:hover {
+    background-color: #402218;
+    transform: scale(1.03);
+}
+
+.back-level img {
+    width: 50px; 
+    height: 50px;
+    margin-right: 10px;
+}
+
+.back-level p {
+    font-family: 'Secular One', sans-serif;
+    font-size: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    color: white;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.resolved-button {
+    display: inline-flex;
+    float: right;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #83B271; 
+    border: 3px solid #0B4619;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    animation: bounce 1s 2;
+}
+
+.resolved-button:hover {
+    background-color: #0B4619;
+    border: 3px solid white;
+    transform: scale(1.03);
+    animation: none;
+}
+
+.resolved-button p {
+    font-family: 'Secular One', sans-serif;
+    font-size: 23px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    color: white;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.resolved-button img {
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
