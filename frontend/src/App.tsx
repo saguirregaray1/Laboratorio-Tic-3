@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useParams} from 'react-router-dom'
 import Origin from './containers/origin';
 import LevelSelectionScreen from './components/worldsHistory/LevelSelectionScreen';
-import QuestionScreen from './components/QuestionScreen';
+import QuestionScreen from './components/questionScreenHistory/QuestionScreen';
 import TriviaScreen from './components/triviaScreen/TriviaScreen';
 import TriviaPlayScreen from './components/triviaPlayScreen/TriviaPlayScreen';
 import FirstPage from './containers/FirstPage';
