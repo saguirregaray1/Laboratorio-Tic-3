@@ -33,7 +33,7 @@ export class UserController {
   ) {}
 
   @Get('/:id')
-  @Roles(['admin'])
+  @Roles(['user', 'admin'])
   async getUsers(@Res() response, @Param('id') id) {
     try {
       const user = await this.userService.getUser(id);
@@ -68,6 +68,22 @@ export class UserController {
     try {
       const question =
         await this.userService.getCurrentQuestion(getCurrentQuestion);
+      return response.status(HttpStatus.OK).json(question);
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
+  }
+
+  @Post('/updateCourse')
+  @Roles(['admin', 'user'])
+  async updateCourse(
+    @Res() response,
+    @Body() request: { id: number; course: string },
+  ) {
+    try {
+      const question = await this.userService.updateCourse(request);
       return response.status(HttpStatus.OK).json(question);
     } catch (HttpException) {
       return response

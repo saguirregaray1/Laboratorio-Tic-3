@@ -6,6 +6,7 @@ import './LevelSelectionScreen.css';
 import axios from 'axios';
 import { PATH } from '../../constants';
 import { AnyARecord } from 'dns';
+import LoadingPage from '../loadingPage/LoadingPage';
 
 const LevelSelectionScreen: React.FC<{}> = () => {
 
@@ -16,6 +17,9 @@ const LevelSelectionScreen: React.FC<{}> = () => {
   const [currentLevel, setCurrentLevel] = useState<any>(0);
   const navigate = useNavigate();
   const location = useLocation();
+  const [galaxyName,setGalaxy] = useState<string>('')
+  const [worldName,setWorld] = useState<string>('')
+  const [isLoading,setIsLoading] = useState<boolean>(true)
 
 
   useEffect(() => {
@@ -77,32 +81,74 @@ const LevelSelectionScreen: React.FC<{}> = () => {
       console.log(error);
     });   
 
-    
+    let config3 = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${PATH}/history/galaxy/${location.state.galaxyId}`,
+      headers: { 
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    };
 
+    axios.request(config3)
+    .then((response) => {
+      console.log('galaxy', response.data.galaxy)
+      localStorage.setItem('galaxyId', response.data.galaxy.id)
+      setGalaxy(response.data.galaxy.name)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+    let config4 = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${PATH}/history/world/${location.state.worldId}`,
+      headers: { 
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    };
+
+    axios.request(config4)
+    .then((response) => {
+      console.log('world', response.data.world)
+      setWorld(response.data.world.name)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+    
+    setIsLoading(false);
     
 
     
   }, []);
   
       return (
-    <>
-      <NavBar showButtons={false}/>
-      <div className="level-selection-screen">
-        <h1 className='level-title'>3° Escuela | Divisiones</h1>
-        <hr className="horizontal-line"/>
-        <div className="level-grid">
-          {levels.map((level, index) => (
-              (currentLevel < level.id) ? (
-                <LevelButton level={level.id} index={index} onClick={() => setSelectedLevel(level.id)} current_level={currentLevel} />
-              ) : (
-                <Link to={`/question/${level.id}`} key={level.id}>
-                    <LevelButton level={level.id} index = {index} onClick={() => setSelectedLevel(level.id)} current_level={currentLevel} />
-                </Link>
-              )
-          ))}
-        </div>
-      </div>
-    </>
+        <div className="level-loading-screen">
+      {isLoading ? (
+        <LoadingPage />
+      ) : (
+        <>
+          <NavBar showButtons={false}/>
+          <div className="level-selection-screen">
+            <h1 className='level-title'>{galaxyName} | {worldName}</h1>
+            <hr className="horizontal-line"/>
+            <div className="level-grid">
+              {levels.map((level, index) => (
+                  (currentLevel < level.id) ? (
+                    <LevelButton level={level.id} index={index} onClick={() => setSelectedLevel(level.id)} current_level={currentLevel} />
+                  ) : (
+                    <Link to={`/question/${level.id}`} key={level.id}>
+                        <LevelButton level={level.id} index = {index} onClick={() => setSelectedLevel(level.id)} current_level={currentLevel} />
+                    </Link>
+                  )
+              ))}
+            </div>
+          </div>
+        </>)}
+    </div>
   );
 };
 

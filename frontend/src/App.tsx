@@ -29,7 +29,7 @@ function App() {
         <Route path = "/history/universe" element={<HistoryGalaxySelect/>}/>
         <Route path = "/history/galaxy" element={<HistoryWorldSelect/>}/>
         <Route path = "/duel" element = {<MainDuelScreen/>}/>
-        <Route path = "/myprofile" element = {<EditProfile/>}/>
+        <Route path = "/myProfile" element = {<EditProfile/>}/>
         <Route path = "/duel/:duelId" element = {<DuelPlayScreen/>}/>
         <Route path = "/*" element={<Navigate to="/" />}/> 
         <Route path = "/progress" element={<Progreso/>}/>

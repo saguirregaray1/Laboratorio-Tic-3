@@ -15,6 +15,8 @@ const HistoryWorldSelect: React.FC = () => {
     const location = useLocation();
     const token = localStorage.getItem('token')
     const userId = localStorage.getItem('userId')
+    const [oneRow,setOneRow] = useState<boolean>(true);
+
     const handleWorldSelect = (world:any) => {
         navigate('/history/world', {state:{worldId: world.id, galaxyId:location.state.galaxyId}})
     }
@@ -32,6 +34,10 @@ const HistoryWorldSelect: React.FC = () => {
         axios.request(config)
         .then((response) => {
             setWorlds(response.data.worlds);
+
+            if (response.data.worlds.length > 3){
+                setOneRow(false);
+            }
             setIsLoading(false);
         })
         .catch((error) => {
@@ -77,7 +83,7 @@ const HistoryWorldSelect: React.FC = () => {
             {isLoading ? <LoadingPage/> : 
                 <>
                     <NavBar showButtons={false}/>
-                    <div className="planet-selection-screen">
+                    <div className={oneRow ? `planet-selection-screen-one-row`: `planet-selection-screen`}>
                         <h1 className='planet-title'>Cada tema es un mundo elegí el tuyo</h1>
                         <div className="planet-grid">
                             {worlds.map((world) => (

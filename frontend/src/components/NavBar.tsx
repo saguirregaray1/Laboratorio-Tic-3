@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRef } from 'react';
 import {PATH} from '../constants';
 import axios from 'axios'
+import { useNavigate } from 'react-router';
 
 interface NavBarProps {
     showButtons: boolean;
@@ -21,6 +22,7 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
     const [registerUsername, setRegisterUsername] = useState('');
     const [registerPassword, setRegisterPassword] = useState('');
     const [registerEmail, setRegisterEmail] = useState('');
+    const navigate = useNavigate();
 
     const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedOption(event.target.value);
@@ -82,6 +84,10 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
         }
         
     };
+
+    const handleMyProfile = () => {
+        navigate('/myProfile');
+    }
 
     const handleRegistration = () => {   
         if (registerEmail != '' && registerUsername != '' && selectedOption && registerPassword != '') {
@@ -156,7 +162,7 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
                 </div>
 
                 <div className="collapse navbar-collapse" id="navbarButtons">
-                    <>{!isLoggedIn ? localStorage.getItem('userId') : <ul className="navbar-nav ms-auto">
+                    <>{!isLoggedIn ? <button onClick={handleMyProfile} /> : <ul className="navbar-nav ms-auto">
                                                 <button type="button" className="btn" style={{margin:'5px', backgroundColor: '#FFFFFF', color: '#353535', fontWeight: 'bold', borderColor: '#353535', borderWidth: '2px'}} onClick={openModal}>Iniciar sesion</button>
                                                 <button type="button" className="btn btn-light" style={{margin:'5px', backgroundColor: '#FFFFFF', color: '#353535', fontWeight: 'bold', borderColor: '#353535', borderWidth: '2px'}} onClick={openRegistrationModal}>Registrarse</button>
                                                 </ul>}</>    

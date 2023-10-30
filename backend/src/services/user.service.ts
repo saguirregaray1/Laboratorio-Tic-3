@@ -30,7 +30,11 @@ export class UserService {
   ) {}
 
   async getUser(id: number): Promise<User> {
-    const existingUser = await this.userRepository.findOne({ where: { id } });
+    const existingUser = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.book', 'books')
+      .where('user.id = :id', { id })
+      .getOne();
     if (!existingUser) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
@@ -143,7 +147,6 @@ export class UserService {
           HttpStatus.NOT_FOUND,
         );
       }
-      console.log('aaaa');
 
       const newProgress = await this.progressRepository.create({
         user: user,
@@ -151,13 +154,9 @@ export class UserService {
         world: world,
       });
 
-      console.log('bbbb');
-
       await this.progressRepository.save(newProgress).catch((err) => {
         console.log(err);
       });
-
-      console.log('cccc');
 
       return newProgress.currentQuestion.id;
     }
@@ -195,6 +194,12 @@ export class UserService {
             : null;
 
         userProgress.currentQuestion = nextQuestion;
+
+        if (question.theorem) {
+          const user = await this.getUser(userId);
+          user.book.push(question.theorem);
+          await this.userRepository.save(user);
+        }
         await this.progressRepository.save(userProgress);
       }
     }
@@ -223,5 +228,14 @@ export class UserService {
       isCorrect: isCorrect,
       answer: question.answer,
     };
+  }
+
+  async updateCourse(request: { id: number; course: string }) {
+    const user = await this.getUser(request.id);
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    user.course = request.course;
+    await this.userRepository.save(user);
   }
 }

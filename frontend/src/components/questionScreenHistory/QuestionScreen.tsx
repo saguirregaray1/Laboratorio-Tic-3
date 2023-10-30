@@ -42,7 +42,6 @@ const QuestionScreen: React.FC<{}> = () => {
 
     axios.request(config)
           .then((response) => {
-            console.log(response.data)
             if (response.data.result.isCorrect){
               setCorrectionText(`Respuesta ${response.data.result.answer} es correcta`)
               setIsResolved(true);
@@ -66,12 +65,11 @@ const QuestionScreen: React.FC<{}> = () => {
   };
 
   const handleBackLevel = () => {
-    console.log('worldId', question.world.id)
-    navigate('/history/world', {state:{worldId: question.world.id}})
+    navigate('/history/world', {state:{worldId: question.world.id, galaxyId: localStorage.getItem('galaxyId')}})
   };
 
-  //arreglar
   const handleNextQuestion = () => {
+    console.log(question.id)
 
     let config = {
       method: 'get',
@@ -89,7 +87,7 @@ const QuestionScreen: React.FC<{}> = () => {
         navigate(`/question/${response.data.question}`)
         window.location.reload()
       }else{
-        navigate('/history/world', {state:{worldId: question.world.id}})
+        navigate('/history/world', {state:{worldId: question.world.id, galaxyId: localStorage.getItem('galaxyId')}})
       }
     })
     .catch((error) => {
@@ -116,7 +114,6 @@ const QuestionScreen: React.FC<{}> = () => {
     axios.request(config)
     .then((response) => {
       setQuestion(response.data.question)
-      console.log(response.data.question)
       setIsLoading(false); 
     })
     .catch((error) => {

@@ -1,13 +1,18 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import './EditProfile.css'
 import NavBar from '../NavBar';
 import profile_image from '../../assets/default_profile.jpg'
 import edit_button from '../../assets/edit_button.png'
+import axios from 'axios';
+import { PATH } from '../../constants';
+import LoadingPage from '../loadingPage/LoadingPage';
 
 const EditProfile: React.FC = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const options = ['1 Primaria', '2 Primaria', '3 Primaria', '4 Primaria', '5 Primaria', '6 Primaria', '1 Secundaria', '2 Secundaria', '3 Secundaria', '4 Secundaria', '5 Secundaria', '6 Secundaria', 'GAL1 Universidad', 'GAL2 Universidad', 'AM1 Universidad', 'AM2 Universidad','AM3 Universidad', 'PyE Universidad'];
+    const [user,setUser] = useState<any>(null);
+    const [isLoading,setIsLoading] = useState<boolean>(true);
 
     const handleEditLevel = () => {
         setIsEditing(true);
@@ -20,11 +25,64 @@ const EditProfile: React.FC = () => {
 
     const handleSaveChanges = () => {
         setIsEditing(false);
-        // if (selectedOption != '' && selectedOption != 'año educativo actual') -> hacer peticion de cambio de año educativo con valor de la variable selectedOption
-        setSelectedOption('');
+        if (selectedOption != '' && selectedOption !== user.course) {
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: `${PATH}/user/updateCourse`,
+                headers: { 
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type' : 'application/json'
+                },
+                data: {
+                    id : localStorage.getItem('userId'),
+                    course: selectedOption,                    
+                }
+              };
+          
+              axios.request(config)
+                    .then((response) => {
+                        window.location.reload();
+                             })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            };
+            setSelectedOption('');
+
+        };
+
+
+    
+  useEffect(() => {
+
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${PATH}/user/${localStorage.getItem('userId')}`,
+      headers: { 
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
     };
 
+    axios.request(config)
+    .then((response) => {
+      setUser(response.data)   
+      console.log(response.data);   
+      setIsLoading(false)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    
+
+    
+  }, []);
     return (
+    <div className="question-screen">
+      {isLoading ? (
+        <LoadingPage />
+      ) : (
         <>
             <NavBar showButtons={false}/>
             <div className="background-container"></div>
@@ -36,15 +94,15 @@ const EditProfile: React.FC = () => {
                     <h2 className='h2-form'>Información del perfil</h2>
                     <div className="row">
                         <div className="label">Correo Electronico:</div>
-                        <div className="value">scampanella@correo.um.edu.uy</div>
+                        <div className="value">{user.email}</div>
                     </div>
                     <div className="row">
                         <div className="label">Nombre de usuario:</div>
-                        <div className="value">santicampa8</div>
+                        <div className="value">{user.username}</div>
                     </div>
                     <div className="row">
                         <div className="label">Año educativo:</div>
-                        <div className="value">4 Secundaria</div>
+                        <div className="value">{user.course}</div>
                     </div>
                     <div className="edit-container" onClick={handleEditLevel}>
                         <img src={edit_button} alt="Clickable Image" />
@@ -69,7 +127,9 @@ const EditProfile: React.FC = () => {
                 </div>
             </div>
         </>
-    );
+    )}
+    </div>
+      );
 };
 
 export default EditProfile;
