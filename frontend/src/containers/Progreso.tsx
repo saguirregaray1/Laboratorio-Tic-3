@@ -9,7 +9,7 @@ import { PATH } from '../constants';
 
 const Progreso: React.FC = () => {
   const [year, setYear] = useState<string>('1');
-  const [course, setCourse] = useState<string>('Primaria');
+  const [course, setCourse] = useState<string>('1-Primaria');
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const navigate = useNavigate();
@@ -51,14 +51,16 @@ const Progreso: React.FC = () => {
     setCourse(option);
   };
 
+  /*
   const handleCourseSelect = (option: string) => {
     setSelectedOption(option);
     setShowDropdown(false); 
     setYear(option);
   };
+  */
 
 
-
+/*
   const generateButtons = () => {
     const buttons = [];
     for (let i = 1; i <= 6; i++) {
@@ -70,11 +72,12 @@ const Progreso: React.FC = () => {
     }
     return buttons;
   };
+*/
 
 
-
-const yearOptions: string[] = ['Primaria', 'Secundaria', 'Universidad'];
-const collegeOptions: string[] = ['Analisis 1', 'Analisis 2', 'Analisis 3', 'GAL 1', 'GAL 2', 'PYE'];
+const yearOptions: string[] = ['1-Primaria', '2-Primaria', '3-Primaria', '4-Primaria', '5-Primaria', '6-Primaria',
+ '1-Secundaria', '2-Secundaria', '3-Secundaria', '4-Secundaria', '5-Secundaria', '6-Secundaria',
+  'GAL 1 - Universidad', 'GAL 2 - Universidad', 'Analisis 1 - Universidad', 'Analisis 2 - Universidad', 'Analisis 3 - Universidad', 'PYE - Universidad',];
 
 const generateYearButtons = (options: string[]) => {
   return options.map((option, index) => (
@@ -84,6 +87,7 @@ const generateYearButtons = (options: string[]) => {
   ));
 };
 
+/*
 const generateCollegeButtons = (options: string[]) => {
   return options.map((option, index) => (
     <button key={index} onClick={() => handleCourseSelect(option)}>
@@ -91,7 +95,7 @@ const generateCollegeButtons = (options: string[]) => {
     </button>
   ));
 };
-
+*/
 
   return (
     <>
@@ -99,48 +103,30 @@ const generateCollegeButtons = (options: string[]) => {
     <div className="space-screen" style={{ backgroundImage: `url(${spaceBackground})` }}>
       <div className="content">
         <div className="student-info">
-          <h1>{year} - {course}</h1>
+          <h1>{course}</h1>
         </div>
         <div className='body'>
-        <div className="button-container">
-          <CustomButton
-          label='Continuar nivel'
-          color='#14213d'
-          isDisabled= {false}
-          onClick={handleContinue}/>
-          <div className='dropdown-container'>
+          <div className="button-container">
             <CustomButton
-            label='Cambiar Año'
+            label='Continuar'
             color='#14213d'
             isDisabled= {false}
-            onClick={handleDropdownClick}/>
-            {showDropdown && (
-              <div className="dropdown-menu">
-               {generateYearButtons(yearOptions)}
-             </div>
-            )}
-          </div>
-          <div className='dropdown-container'>
-            <CustomButton
-            label='Cambiar Curso'
-            color='#14213d'
-            isDisabled= {false}
-            onClick={handleDropdownClick}/>
-            {showDropdown &&  ( (course === 'Primaria' || course === 'Secundaria') &&
-              <div className="dropdown-menu">
-                {generateButtons()}
+            onClick={handleContinue}/>
+            <div className='dropdown-container'>
+              <CustomButton
+              label='Cambiar'
+              color='#14213d'
+              isDisabled= {false}
+              onClick={handleDropdownClick}/>
+              {showDropdown && (
+                <div className="dropdown-menu">
+                {generateYearButtons(yearOptions)}
               </div>
-            )}
-            {showDropdown &&  (course === 'Universidad' &&
-              <div className="dropdown-menu">
-
-                {generateCollegeButtons(collegeOptions)}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
     </>
   );
