@@ -18,6 +18,8 @@
   }
   
   .center-text {
+    font-size: 24px;
+    font-weight: bold;
     cursor: pointer;
     color: aliceblue;
   }
