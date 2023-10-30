@@ -170,26 +170,24 @@ export class UserService {
       })
       .getOne();
 
-    if (!userProgress) {
-      throw new HttpException('User progress not found', HttpStatus.NOT_FOUND);
-    }
+    if (userProgress) {
+      if (userProgress.currentQuestion.id === questionId) {
+        const question = await this.questionService.getQuestion(questionId);
+        const world = await this.worldService.getWorldWithQuestions(
+          question.world.id,
+        );
+        const currentQuestionIndex = world.questions.findIndex(
+          (question) => question.id === questionId,
+        );
+        const nextQuestionIndex = currentQuestionIndex + 1;
+        const nextQuestion =
+          nextQuestionIndex < world.questions.length
+            ? world.questions[nextQuestionIndex]
+            : null;
 
-    if (userProgress.currentQuestion.id === questionId) {
-      const question = await this.questionService.getQuestion(questionId);
-      const world = await this.worldService.getWorldWithQuestions(
-        question.world.id,
-      );
-      const currentQuestionIndex = world.questions.findIndex(
-        (question) => question.id === questionId,
-      );
-      const nextQuestionIndex = currentQuestionIndex + 1;
-      const nextQuestion =
-        nextQuestionIndex < world.questions.length
-          ? world.questions[nextQuestionIndex]
-          : null;
-
-      userProgress.currentQuestion = nextQuestion;
-      await this.progressRepository.save(userProgress);
+        userProgress.currentQuestion = nextQuestion;
+        await this.progressRepository.save(userProgress);
+      }
     }
   }
 

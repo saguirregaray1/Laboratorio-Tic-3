@@ -9,6 +9,7 @@ import lupa from '../../assets/lupa.png'
 import back_arrow from '../../assets/back_level_arrow.png'
 import question_resolved from '../../assets/question_resolved.png'
 import { PATH } from '../../constants';
+import { queryAllByAltText } from '@testing-library/react';
 
 const QuestionScreen: React.FC<{}> = () => {
   const { level } = useParams();
@@ -65,10 +66,36 @@ const QuestionScreen: React.FC<{}> = () => {
   };
 
   const handleBackLevel = () => {
-    navigate('/history/world')
+    console.log('worldId', question.world.id)
+    navigate('/history/world', {state:{worldId: question.world.id}})
   };
 
+  //arreglar
   const handleNextQuestion = () => {
+
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${PATH}/history/nextQuestion/${question.id}`,
+      headers: { 
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    };
+
+    axios.request(config)
+    .then((response) => {
+      if (response.data.question){
+
+        navigate(`/question/${response.data.question}`)
+        window.location.reload()
+      }else{
+        navigate('/history/world', {state:{worldId: question.world.id}})
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
     // FALTA HACER ESTO, el siguiente codigo no recarga la pagina otra vez
     /*if (level){
       const next_level = parseInt(level, 10) + 1

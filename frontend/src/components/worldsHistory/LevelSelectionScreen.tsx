@@ -19,7 +19,8 @@ const LevelSelectionScreen: React.FC<{}> = () => {
 
 
   useEffect(() => {
-    var length = 0;
+    var lengthStr='';
+    var length=0;
     let config2 = {
       method: 'get',
       maxBodyLength: Infinity,
@@ -32,7 +33,8 @@ const LevelSelectionScreen: React.FC<{}> = () => {
     axios.request(config2)
     .then((response) => {
       setLevels(response.data.questions)
-      length = response.data.questions.length
+      localStorage.setItem('length',response.data.questions.length)
+      
     })
     .catch((error) => {
       console.log(error);
@@ -57,16 +59,25 @@ const LevelSelectionScreen: React.FC<{}> = () => {
       };
 
     axios.request(config)
-    .then((response) => {
-      if (!response.data){
+    .then((response1) => {
+      if (!response1.data){
+        lengthStr = localStorage.getItem('length')!
+      if (lengthStr){
+        length = parseInt(lengthStr)
+      }
+        console.log('length',length)
+        console.log(localStorage.getItem('length'))
+
         setCurrentLevel(length+1)
       }else{
-        setCurrentLevel(response.data)
+        setCurrentLevel(response1.data)
       }
     })
     .catch((error) => {
       console.log(error);
     });   
+
+    
 
     
 

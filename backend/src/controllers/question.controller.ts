@@ -214,4 +214,19 @@ export class QuestionController {
         .json({ message: HttpException.message });
     }
   }
+
+  @Get('/nextQuestion/:id')
+  @Roles(['user', 'admin'])
+  async getNextQuestion(@Res() response, @Param('id') id) {
+    try {
+      const question = await this.questionService.getNextQuestion(id);
+      return response.status(HttpStatus.ACCEPTED).json({
+        question,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
+  }
 }

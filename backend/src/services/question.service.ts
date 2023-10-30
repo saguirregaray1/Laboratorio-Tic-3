@@ -123,4 +123,25 @@ export class QuestionService {
 
     return this.questionRepository.save(newQuestion);
   }
+
+  async getNextQuestion(questionId: number): Promise<Question> {
+    const question = await this.getQuestion(questionId);
+
+    const questions = await this.getQuestionsByWorld(question.world.id);
+    if (!questions) {
+      throw new HttpException('questions not found', HttpStatus.NOT_FOUND);
+    }
+
+    var count = 0;
+    var nextQuestion = null;
+    for (const q of questions) {
+      if (q.id === question.id) {
+        nextQuestion = questions[count + 1];
+        break;
+      }
+      count++;
+    }
+    const nextQuestionId = nextQuestion ? nextQuestion.id : null;
+    return nextQuestionId;
+  }
 }
