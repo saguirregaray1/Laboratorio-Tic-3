@@ -13,14 +13,14 @@ const HistoryWorldSelect: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const navigate = useNavigate();
     const location = useLocation();
-    //const token = location.state.token;
-    //const userId = location.state.userId;
+    const token = localStorage.getItem('token')
+    const userId = localStorage.getItem('userId')
     const handleWorldSelect = (world:any) => {
-        //navigate('/history/world', {state:{worldId: world.id, token: token, userId: userId}})
+        navigate('/history/world', {state:{worldId: world.id, galaxyId:location.state.galaxyId}})
     }
 
     useEffect(() => {
-        /*let config = {
+        let config = {
           method: 'get',
           maxBodyLength: Infinity,
           url: `${PATH}/history/galaxy/getworlds/${location.state.galaxyId}`,
@@ -31,14 +31,13 @@ const HistoryWorldSelect: React.FC = () => {
     
         axios.request(config)
         .then((response) => {
-            console.log(response.data);
             setWorlds(response.data.worlds);
             setIsLoading(false);
         })
         .catch((error) => {
           console.log(error);
-        });*/
-
+        });
+/*
         //HardCode
         const data = {
             worlds : [
@@ -68,8 +67,9 @@ const HistoryWorldSelect: React.FC = () => {
                 }
             ]
         };
-        setWorlds(data.worlds);
-        setIsLoading(false);
+        setWorlds(data.worlds);        
+
+        setIsLoading(false);  */
       }, []);
 
     return (

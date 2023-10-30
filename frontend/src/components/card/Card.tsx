@@ -8,10 +8,11 @@ interface CardProps {
     imageSrc: string | null;
     color?: string;
     font?: string;
+    isDisabledBtn: boolean;
     onClick: () => void;
 }
 
-const Card: React.FC<CardProps> = ({title, onClick, text, imageSrc, color = 'white', font = 'Arial'}) => {
+const Card: React.FC<CardProps> = ({title, onClick, text, imageSrc, color = 'white', font = 'Arial', isDisabledBtn}) => {
     const cardStyle: React.CSSProperties= {
         backgroundColor: color,
         fontFamily: font,
@@ -29,6 +30,7 @@ const Card: React.FC<CardProps> = ({title, onClick, text, imageSrc, color = 'whi
                 color="#ff7f51"
                 onClick={onClick}
                 label="Jugar"
+                isDisabled={isDisabledBtn}
                 />
             </div>
         </>

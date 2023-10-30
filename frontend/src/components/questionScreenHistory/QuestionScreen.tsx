@@ -8,6 +8,7 @@ import './QuestionScreen.css'
 import lupa from '../../assets/lupa.png'
 import back_arrow from '../../assets/back_level_arrow.png'
 import question_resolved from '../../assets/question_resolved.png'
+import { PATH } from '../../constants';
 
 const QuestionScreen: React.FC<{}> = () => {
   const { level } = useParams();
@@ -22,13 +23,36 @@ const QuestionScreen: React.FC<{}> = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    if (answer === question.answer){
-      setCorrectionText(`Respuesta ${answer} es correcta`)
-      setIsResolved(true);
-    }else{
-      setCorrectionText('Respuesta incorrecta')
-    }
-    setIsConfirmed(true)
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `${PATH}/user/checkAnswer`,
+      headers: { 
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type' : 'application/json'
+      },
+      data: {
+          userId : localStorage.getItem('userId'),
+          questionId: question.id,
+          answer: answer,
+          
+      }
+    };
+
+    axios.request(config)
+          .then((response) => {
+            console.log(response.data)
+            if (response.data.result.isCorrect){
+              setCorrectionText(`Respuesta ${response.data.result.answer} es correcta`)
+              setIsResolved(true);
+            }else{
+              setCorrectionText('Respuesta incorrecta')
+            }
+                   })
+          .catch((error) => {
+              console.log(error);
+          });
+          setIsConfirmed(true)  
   };
 
   const handleTheorem = () => {
@@ -53,43 +77,25 @@ const QuestionScreen: React.FC<{}> = () => {
   };
 
   useEffect(() => {
-    /*
-    axios.get(`http://localhost:8000/api/v1/trivia/id/${level}`)
-        .then((response) => {
-            setQuestion(response.data.question);
-            setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error('Error fetching question:', error);
-        });
-    */
-    
-    // HARDCODE
-    const response = {
-      id: 18,
-      body: "Si un jugador rival anteriormente vistió la camiseta de tu equipo, ¿como mínimo cuántos goles te va a clavar?",
-      answer: "1",
-      type: "ni idea bro",
-      category: "Furbo",
-      world: {
-        id: 23,
-        name: "Juego sagrado",
-        questions: [
-          "question1",
-          "question2",
-          "question3"
-        ],
-        galaxy : "Deportes"
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${PATH}/history/question/${level}`,
+      headers: { 
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
-      theorem: {
-        id: 8,
-        name: "La inexorable Ley del EX",
-        statement: "En caso de enfrentar un equipo, cuyo plantel sea integrado por un jugador que supo formar parte de tu institución en el pasado. Entonces podemos concluir de forma segura que al menos un gol va a convertir.",
-        proof: "Se demuestra en la practica, se trata de un suceso al que nadie puede escapar, es INEXORABLE"
-      }
     };
-    setQuestion(response);
-    setIsLoading(false); 
+
+    axios.request(config)
+    .then((response) => {
+      setQuestion(response.data.question)
+      console.log(response.data.question)
+      setIsLoading(false); 
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    
   }, []);
 
   return (
@@ -124,7 +130,8 @@ const QuestionScreen: React.FC<{}> = () => {
               {isConfirmed && (
                 <p className="correction-text">{correctionText}</p>
               )}
-              <div className="view-theorem" onClick={handleTheorem}>
+              {question.theorem != null && (
+                <div className="view-theorem" onClick={handleTheorem}>
                 <p className="text-clue">{theoremTextBtn}</p>
                 <img
                   src={lupa}
@@ -132,7 +139,8 @@ const QuestionScreen: React.FC<{}> = () => {
                   className="image-clue"
                 />
               </div>
-              {showTheorem && (
+              )}
+              {showTheorem &&  (
                 <div className="center-theorem">
                   <div className="theorem-container">
                     <h2 className="theorem-title">{question.theorem.name}</h2>

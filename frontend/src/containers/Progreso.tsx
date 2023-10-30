@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './Progreso.css';
 import spaceBackground from '../assets/rocket-background.jpg'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import CustomButton from '../components/customButton/customButton';
+import NavBar from '../components/NavBar';
+import axios from 'axios';
+import { PATH } from '../constants';
 
 const Progreso: React.FC = () => {
   const [year, setYear] = useState<string>('1');
@@ -10,9 +13,32 @@ const Progreso: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+
 
   const handleContinue = () => {
-    navigate('/history/galaxy')
+
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${PATH}/user/currentGalaxy/${localStorage.getItem('userId')}`,
+      headers: { 
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      },
+    };
+
+    axios.request(config)
+    .then((response) => {
+      const body = response.data
+      navigate('/history/galaxy', {state: {galaxyId: body}})
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   };
 
   const handleDropdownClick = () => {
@@ -68,6 +94,8 @@ const generateCollegeButtons = (options: string[]) => {
 
 
   return (
+    <>
+    <NavBar showButtons={true}/>
     <div className="space-screen" style={{ backgroundImage: `url(${spaceBackground})` }}>
       <div className="content">
         <div className="student-info">
@@ -78,11 +106,13 @@ const generateCollegeButtons = (options: string[]) => {
           <CustomButton
           label='Continuar nivel'
           color='#14213d'
+          isDisabled= {false}
           onClick={handleContinue}/>
           <div className='dropdown-container'>
             <CustomButton
             label='Cambiar Año'
             color='#14213d'
+            isDisabled= {false}
             onClick={handleDropdownClick}/>
             {showDropdown && (
               <div className="dropdown-menu">
@@ -94,6 +124,7 @@ const generateCollegeButtons = (options: string[]) => {
             <CustomButton
             label='Cambiar Curso'
             color='#14213d'
+            isDisabled= {false}
             onClick={handleDropdownClick}/>
             {showDropdown &&  ( (course === 'Primaria' || course === 'Secundaria') &&
               <div className="dropdown-menu">
@@ -111,6 +142,7 @@ const generateCollegeButtons = (options: string[]) => {
       </div>
     </div>
     </div>
+    </>
   );
 };
 
