@@ -15,11 +15,11 @@ const DuelPlay: React.FC<DuelPlayProps> = ({onClick, onSubmit, setDuelId}) => {
       <div className='play-container'>
         <p>Juega con amigos</p>
         <input className='play-input' placeholder='Código de juego' onChange={(e) => {setDuelId(e.target.value)}}></input>
-        <button className='button' onClick={onSubmit}>
+        <button className='button-duel' onClick={onSubmit}>
           Ingresar
         </button>
         <p className='o'>O</p>
-        <button className='button room-button' onClick={onClick}>
+        <button className='button-duel room-button' onClick={onClick}>
           Crear Sala
         </button>
       </div>

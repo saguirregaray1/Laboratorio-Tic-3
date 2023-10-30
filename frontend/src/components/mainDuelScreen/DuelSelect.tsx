@@ -20,13 +20,13 @@ const DuelSelect: React.FC<DuelSelectProps> = ({onClick}) => {
   return (
       <div className='select-container'>
         <p className='room-title'>Crea una sala</p>
-        <p>Número de rondas</p>
+        <p className='duel-select-sub-p'>Número de rondas</p>
         <div className='round-container'>
             {roundNumbers.map((round) => (
                 <div className='round-div' onClick={() => setSelectedRound(round)}>{round}</div>
             ))}
         </div>
-        <p>Elige una dificultad</p>
+        <p className='duel-select-sub-p'>Elige una dificultad</p>
         <select id="dropdown" className="duel-dropdown" onChange={handleOptionChange}>
             <option value="" disabled selected>
                 Elige una opción
