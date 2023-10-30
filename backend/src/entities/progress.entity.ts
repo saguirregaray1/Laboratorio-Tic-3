@@ -20,8 +20,4 @@ export class Progress {
   @OneToOne(() => World)
   @JoinColumn()
   world: World;
-
-  @OneToOne(() => Galaxy)
-  @JoinColumn()
-  galaxy: Galaxy;
 }

@@ -35,6 +35,51 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlc
   "universe": "primaria"
 }
 
+POST http://localhost:8000/api/v1/history/create/galaxy
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
+
+{
+  "name": "Galaxy1",
+  "universe": "primaria"
+}
+
+POST http://localhost:8000/api/v1/history/create/galaxy
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
+
+{
+  "name": "Galaxy2",
+  "universe": "primaria"
+}
+
+POST http://localhost:8000/api/v1/history/create/world
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
+
+{
+  "name": "Earth",
+  "galaxyId": 1
+}
+
+POST http://localhost:8000/api/v1/history/create/world
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
+
+{
+  "name": "World1",
+  "galaxyId": 1
+}
+
+POST http://localhost:8000/api/v1/history/create/world
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
+
+{
+  "name": "World3",
+  "galaxyId": 1
+}
+
 POST http://localhost:8000/api/v1/history/create/world
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5NzgyOTI3NX0.-ilzc67Dgfi-lj6DfNqMencZWf4z9FBjAMvvCX9MZYs
@@ -54,6 +99,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlc
   "type": "Multiple Choice",
   "category": "Geography",
   "worldId": 1
+}
+
+POST http://localhost:8000/api/v1/history/create/questionTheorem
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTY5ODYyMTc4MX0.zv5zJ2zy1tIpn50ML0DWYfOCu8YBLwaZon40baq4pYo
+
+{
+  "body": "Si un jugador rival anteriormente vistió la camiseta de tu equipo, ¿como mínimo cuántos goles te va a clavar?",
+  "answer": "1",
+  "type": "Multiple Choice",
+  "category": "Geography",
+  "worldId": 1,
+  "theoremName": "La inexorable Ley del EX",
+  "statement": "En caso de enfrentar un equipo, cuyo plantel sea integrado por un jugador que supo formar parte de tu institución en el pasado. Entonces podemos concluir de forma segura que al menos un gol va a convertir.",
+  "proof": "Se demuestra en la practica, se trata de un suceso al que nadie puede escapar, es INEXORABLE"
 }
 
 POST http://localhost:8000/api/v1/history/create/question
@@ -115,7 +175,7 @@ Content-Type: application/json
 
 POST http://localhost:8000/api/v1/trivia/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTY5ODIzNzAzMn0.A6U-eXRUAJUMtyKNJFZRfj4erQJL4jrRxSa4jMIANOg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTY5ODYwODQ5MH0.5xXo0g5JIhsH6gJfTRjuJMGepLeCOh1-SzI3ngZgYfs
 
 {
   "body": "triviaQuestion1",
@@ -132,7 +192,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlc
 
 POST http://localhost:8000/api/v1/trivia/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTY5ODIzNzAzMn0.A6U-eXRUAJUMtyKNJFZRfj4erQJL4jrRxSa4jMIANOg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTY5ODYwODQ5MH0.5xXo0g5JIhsH6gJfTRjuJMGepLeCOh1-SzI3ngZgYfs
 
 {
   "body": "triviaQuestion2",
@@ -149,7 +209,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlc
 
 POST http://localhost:8000/api/v1/trivia/create
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTY5ODIzNzAzMn0.A6U-eXRUAJUMtyKNJFZRfj4erQJL4jrRxSa4jMIANOg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTY5ODYwODQ5MH0.5xXo0g5JIhsH6gJfTRjuJMGepLeCOh1-SzI3ngZgYfs
 
 {
   "body": "triviaQuestion3",

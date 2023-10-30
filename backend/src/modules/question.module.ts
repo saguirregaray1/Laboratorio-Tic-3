@@ -7,11 +7,13 @@ import { Galaxy } from '../entities/galaxy.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GalaxyService } from '../services/galaxy.service';
 import { WorldService } from '../services/world.service';
+import { Theorem } from '../entities/theorem.entity';
+import { UserModule } from './user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Question, World, Galaxy])],
+  imports: [TypeOrmModule.forFeature([Question, World, Galaxy, Theorem])],
   controllers: [QuestionController],
   providers: [QuestionService, GalaxyService, WorldService],
-  exports: [QuestionService],
+  exports: [QuestionService, WorldService],
 })
 export class QuestionModule {}

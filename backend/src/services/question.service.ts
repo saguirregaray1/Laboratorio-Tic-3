@@ -12,6 +12,10 @@ import { Question } from '../entities/question.entity';
 import { CreateQuestionDto } from '../dtos/CreateQuestionDto';
 import { World } from '../entities/world.entity';
 import { Galaxy } from '../entities/galaxy.entity';
+import { CreateQuestionWithTheoremDto } from '../dtos/CreateQuestionWithTheoremDto';
+import { Theorem } from '../entities/theorem.entity';
+import { CheckAnswerDto } from 'src/dtos/CheckAnswerDto';
+import { UserService } from './user.service';
 
 @Injectable()
 export class QuestionService {
@@ -22,6 +26,8 @@ export class QuestionService {
     private readonly worldRepository: Repository<World>,
     @InjectRepository(Galaxy)
     private readonly galaxyRepository: Repository<Galaxy>,
+    @InjectRepository(Theorem)
+    private readonly theoremRepository: Repository<Theorem>,
   ) {}
 
   async createQuestion(
@@ -46,7 +52,14 @@ export class QuestionService {
   }
 
   async getQuestion(id): Promise<Question> {
-    const question = await this.questionRepository.findOne({ where: { id } });
+    const question = await this.questionRepository
+      .createQueryBuilder('question')
+      .leftJoinAndSelect('question.world', 'world')
+      .leftJoinAndSelect('question.theorem', 'theorem')
+      .where('question.id = :id', {
+        id: id,
+      })
+      .getOne();
     if (!question) {
       throw new HttpException('Question not found', HttpStatus.NOT_FOUND);
     }
@@ -69,14 +82,6 @@ export class QuestionService {
     return await this.questionRepository.delete(id);
   }
 
-  async checkAnswer(id, answer): Promise<any> {
-    const question = await this.getQuestion(id);
-    return {
-      is_correct: question.answer === answer.answer,
-      answer: question.answer,
-    };
-  }
-
   async getRandomQuestions(numberOfQuestions: number): Promise<any> {
     const questions = await this.questionRepository.find();
     const shuffle = (array: Question[]) => {
@@ -87,5 +92,35 @@ export class QuestionService {
       return { id: item.id, body: item.body };
     });
     return questionArray;
+  }
+
+  async createQuestionWithTheorem(
+    createQuestionDto: CreateQuestionWithTheoremDto,
+  ) {
+    const id = createQuestionDto.worldId;
+    const world = await this.worldRepository.findOne({ where: { id } });
+
+    if (!world) {
+      throw new HttpException('World not found', HttpStatus.NOT_FOUND);
+    }
+
+    const newTheorem = await this.theoremRepository.create({
+      name: createQuestionDto.theoremName,
+      statement: createQuestionDto.statement,
+      proof: createQuestionDto.proof,
+    });
+
+    const savedTheorem = await this.theoremRepository.save(newTheorem);
+
+    const newQuestion = this.questionRepository.create({
+      body: createQuestionDto.body,
+      answer: createQuestionDto.answer,
+      category: createQuestionDto.category,
+      type: createQuestionDto.type,
+      world: world,
+      theorem: savedTheorem,
+    });
+
+    return this.questionRepository.save(newQuestion);
   }
 }

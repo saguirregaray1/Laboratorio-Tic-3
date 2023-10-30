@@ -9,13 +9,24 @@ import { LoginUserDto } from '../dtos/LoginUserDto';
 import { ConfigService } from '@nestjs/config';
 import { WsException } from '@nestjs/websockets';
 import { Cron } from '@nestjs/schedule';
+import { GetCurrentQuestionDto } from '../dtos/GetCurrentQuestionDto';
+import { Progress } from '../entities/progress.entity';
+import { WorldService } from './world.service';
+import { World } from '../entities/world.entity';
+import { Question } from 'src/entities/question.entity';
+import { QuestionService } from './question.service';
+import { CheckAnswerDto } from 'src/dtos/CheckAnswerDto';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Progress)
+    private readonly progressRepository: Repository<Progress>,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly worldService: WorldService,
+    private readonly questionService: QuestionService,
   ) {}
 
   async getUser(id: number): Promise<User> {
@@ -106,5 +117,106 @@ export class UserService {
       .set({ lives: () => 'lives + 1' })
       .where('lives < :lives', { lives: 3 })
       .execute();
+  }
+
+  async getCurrentQuestion(getCurrentQuestion: GetCurrentQuestionDto) {
+    const userProgress = await this.progressRepository
+      .createQueryBuilder('progress')
+      .leftJoinAndSelect('progress.currentQuestion', 'questions')
+      .where('progress.user.id = :userId', {
+        userId: getCurrentQuestion.userId,
+      })
+      .andWhere('progress.world.id = :worldId', {
+        worldId: getCurrentQuestion.worldId,
+      })
+      .getOne();
+
+    if (!userProgress) {
+      const user = await this.getUser(getCurrentQuestion.userId);
+      const world = await this.worldService.getWorldWithQuestions(
+        getCurrentQuestion.worldId,
+      );
+
+      if (!user || !world) {
+        throw new HttpException(
+          'user or world not found',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      const newProgress = await this.progressRepository.create({
+        user: user,
+        currentQuestion: world.questions[0],
+        world: world,
+      });
+
+      return newProgress.currentQuestion.id;
+    }
+    if (!userProgress.currentQuestion) {
+      return null;
+    }
+    return userProgress.currentQuestion.id;
+  }
+
+  async updateProgress(userId: number, questionId: number) {
+    const userProgress = await this.progressRepository
+      .createQueryBuilder('progress')
+      .leftJoinAndSelect('progress.currentQuestion', 'questions')
+      .where('progress.user.id = :userId', {
+        userId: userId,
+      })
+      .andWhere('progress.currentQuestion.id = :questionId', {
+        questionId: questionId,
+      })
+      .getOne();
+
+    if (!userProgress) {
+      throw new HttpException('User progress not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (userProgress.currentQuestion.id === questionId) {
+      const question = await this.questionService.getQuestion(questionId);
+      const world = await this.worldService.getWorldWithQuestions(
+        question.world.id,
+      );
+      const currentQuestionIndex = world.questions.findIndex(
+        (question) => question.id === questionId,
+      );
+      const nextQuestionIndex = currentQuestionIndex + 1;
+      const nextQuestion =
+        nextQuestionIndex < world.questions.length
+          ? world.questions[nextQuestionIndex]
+          : null;
+
+      userProgress.currentQuestion = nextQuestion;
+      await this.progressRepository.save(userProgress);
+    }
+  }
+
+  async checkAnswer(checkAnswer: CheckAnswerDto): Promise<any> {
+    const user = await this.getUser(checkAnswer.userId);
+    const question = await this.questionService.getQuestion(
+      checkAnswer.questionId,
+    );
+
+    console.log(question);
+
+    if (!question || !user) {
+      throw new HttpException(
+        'question or user not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const isCorrect = question.answer === checkAnswer.answer;
+
+    if (isCorrect) {
+      this.updateProgress(checkAnswer.userId, checkAnswer.questionId);
+    }
+
+    return {
+      isCorrect: isCorrect,
+      answer: question.answer,
+    };
   }
 }
