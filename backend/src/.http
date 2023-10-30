@@ -12,7 +12,7 @@ POST http://localhost:8000/api/v1/user/signup
 Content-Type: application/json
 
 {
-  "username": "user2",
+  "username": "user3",
   "password": "pass1234567",
   "email": "test1@gmail.com",
   "course": "Primaria"

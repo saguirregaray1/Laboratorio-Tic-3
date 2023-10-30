@@ -143,12 +143,21 @@ export class UserService {
           HttpStatus.NOT_FOUND,
         );
       }
+      console.log('aaaa');
 
       const newProgress = await this.progressRepository.create({
         user: user,
         currentQuestion: world.questions[0],
         world: world,
       });
+
+      console.log('bbbb');
+
+      await this.progressRepository.save(newProgress).catch((err) => {
+        console.log(err);
+      });
+
+      console.log('cccc');
 
       return newProgress.currentQuestion.id;
     }
@@ -196,8 +205,6 @@ export class UserService {
     const question = await this.questionService.getQuestion(
       checkAnswer.questionId,
     );
-
-    console.log(question);
 
     if (!question || !user) {
       throw new HttpException(

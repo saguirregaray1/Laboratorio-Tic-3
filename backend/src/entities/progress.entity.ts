@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 import { Question } from './question.entity';
 import { Galaxy } from './galaxy.entity';
 import { World } from './world.entity';
@@ -9,15 +15,15 @@ export class Progress {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => User)
+  @ManyToOne(() => User)
   @JoinColumn()
   user: User;
 
-  @OneToOne(() => Question)
+  @ManyToOne(() => Question)
   @JoinColumn()
   currentQuestion: Question;
 
-  @OneToOne(() => World)
+  @ManyToOne(() => World)
   @JoinColumn()
   world: World;
 }
