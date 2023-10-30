@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useParams} from 'react-router-dom'
 import Origin from './containers/origin';
 import LevelSelectionScreen from './components/worldsHistory/LevelSelectionScreen';
-import QuestionScreen from './components/QuestionScreen';
+import QuestionScreen from './components/questionScreenHistory/QuestionScreen';
 import TriviaScreen from './components/triviaScreen/TriviaScreen';
 import TriviaPlayScreen from './components/triviaPlayScreen/TriviaPlayScreen';
 import FirstPage from './containers/FirstPage';
@@ -11,9 +11,9 @@ import HistoryGalaxySelect from './components/historyGalaxySelect/HistoryGalaxyS
 import HistoryWorldSelect from './components/historyWorldSelect/HistoryWorldSelect';
 
 import MainDuelScreen from './components/mainDuelScreen/mainDuelScreen';
+import EditProfile from './components/editProfile/EditProfile';
 import DuelPlayScreen from './components/duelPlayScreen/DuelPlayScreen';
 import Progreso from './containers/Progreso';
-
 
 function App() {
 
@@ -29,6 +29,7 @@ function App() {
         <Route path = "/history/universe" element={<HistoryGalaxySelect/>}/>
         <Route path = "/history/galaxy" element={<HistoryWorldSelect/>}/>
         <Route path = "/duel" element = {<MainDuelScreen/>}/>
+        <Route path = "/myProfile" element = {<EditProfile/>}/>
         <Route path = "/duel/:duelId" element = {<DuelPlayScreen/>}/>
         <Route path = "/*" element={<Navigate to="/" />}/> 
         <Route path = "/progress" element={<Progreso/>}/>

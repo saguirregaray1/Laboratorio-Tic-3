@@ -7,14 +7,21 @@ import { User } from '../entities/user.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from '../roles/roles.guard';
 import { AuthMiddleware } from '../app.middleware';
-
+import { ScheduleModule } from '@nestjs/schedule';
+import { Progress } from '../entities/progress.entity';
+import { WorldService } from '../services/world.service';
+import { World } from '../entities/world.entity';
+import { QuestionModule } from './question.module';
+import { Question } from 'src/entities/question.entity';
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Progress, World, Question]),
     JwtModule.register({
       global: true,
       signOptions: { expiresIn: '2h' },
     }),
+    QuestionModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [UserController],
   providers: [

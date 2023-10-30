@@ -4,6 +4,7 @@
 .level-selection-screen {
   text-align: center;
   padding: 0;
+  height: 100vh;
 }
 
 .level-grid {
@@ -15,6 +16,7 @@
   padding: 20px;
   width: 100%;
   margin: 0;
+  height: 100%;
 }
 
 .level-grid::before {

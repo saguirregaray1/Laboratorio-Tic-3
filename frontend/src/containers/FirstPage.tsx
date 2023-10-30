@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import praderaImage from '../assets/pradera.jpg';
 import duelosImage from '../assets/duelos.jpg';
 import triviaImage from '../assets/trivia.jpg';
@@ -8,24 +8,32 @@ import Footer from "../components/footer/Footer";
 import Swiper from "../components/swiper/Swiper";
 import SlideInElement from "../components/slidein/SlideInElement";
 import NavBar from "../components/NavBar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from 'react-router';
 
 
 function FirstPage() {
+    const location = useLocation();
     const navigate = useNavigate();
+    const [token,setToken] = useState<string>('')
+
+
 
     const handleClickHistory = () => {
-        navigate('/progress');
+        if (localStorage.getItem('token')){
+            navigate('/progress')
+        }
+        //popup
     }
 
     const handleClickTrivia = () => {
-        navigate('/trivia');
+        navigate('/trivia')
     }
 
     const handleClickDuelos = () => {
-        navigate('/duel');
+        if (localStorage.getItem('token')){
+            navigate('/duel')
+        }    
     }
-
 
     const items = [
         {
@@ -50,6 +58,7 @@ function FirstPage() {
                 imageSrc={praderaImage}
                 color="#fdf0d5"
                 font="Courier"
+                isDisabledBtn= {false}
                 onClick={handleClickHistory}/>
 
                 <Card title="Trivia"
@@ -57,6 +66,7 @@ function FirstPage() {
                 imageSrc={triviaImage}
                 color="#fdf0d5"
                 font="Courier"
+                isDisabledBtn= {false}
                 onClick={handleClickTrivia}/>
 
                 <Card title="Duelos"
@@ -64,6 +74,7 @@ function FirstPage() {
                 imageSrc={duelosImage}
                 color="#fdf0d5"
                 font="Courier"
+                isDisabledBtn= {false}
                 onClick={handleClickDuelos}/>           
             </div> 
             <div className="container-wavy">

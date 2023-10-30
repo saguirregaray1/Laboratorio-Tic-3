@@ -6,9 +6,32 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
+    height: 100%;
 }
   
 .planet-selection-screen::before {
+    content: '';
+    background-image: url('../../assets/space_background.jpeg');
+    background-size: cover;
+    background-position: center top;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.planet-selection-screen-one-row {
+    text-align: center;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    height: 100vh;
+}
+  
+.planet-selection-screen-one-row::before {
     content: '';
     background-image: url('../../assets/space_background.jpeg');
     background-size: cover;

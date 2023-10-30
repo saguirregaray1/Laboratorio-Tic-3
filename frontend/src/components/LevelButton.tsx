@@ -5,9 +5,10 @@ interface LevelButtonProps {
   level: number;
   onClick: () => void;
   current_level: number;
+  index: number;
 }
 
-const LevelButton: React.FC<LevelButtonProps> = ({ level, onClick, current_level}) => {
+const LevelButton: React.FC<LevelButtonProps> = ({ level, onClick, current_level, index}) => {
   const isDisabled = current_level < level
   const isCompleted = level < current_level
 
@@ -17,7 +18,7 @@ const LevelButton: React.FC<LevelButtonProps> = ({ level, onClick, current_level
       onClick={isDisabled ? undefined : onClick}
       disabled={isDisabled}
     >
-      Nivel {level}
+      Nivel {index+1}
     </button>
   );
 };

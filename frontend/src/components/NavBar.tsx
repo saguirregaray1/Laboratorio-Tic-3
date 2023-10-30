@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRef } from 'react';
 import {PATH} from '../constants';
 import axios from 'axios'
+import { useNavigate } from 'react-router';
 
 interface NavBarProps {
     showButtons: boolean;
@@ -13,7 +14,7 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
     const [isRegistrationModalOpen, setRegistrationModalOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const options = ['1 Primaria', '2 Primaria', '3 Primaria', '4 Primaria', '5 Primaria', '6 Primaria', '1 Secundaria', '2 Secundaria', '3 Secundaria', '4 Secundaria', '5 Secundaria', '6 Secundaria', 'GAL1 Universidad', 'GAL2 Universidad', 'AM1 Universidad', 'AM2 Universidad','AM3 Universidad', 'PyE Universidad'];
-    const [isLoggedIn, setIsLoggedIn] = useState(false); 
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') == null); 
     const [incorrectRegister, setIncorrectRegister] = useState(false);
     const [isDataMissing, setIsDataMissing] = useState(false);
     const [username, setUsername] = useState('');
@@ -21,6 +22,7 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
     const [registerUsername, setRegisterUsername] = useState('');
     const [registerPassword, setRegisterPassword] = useState('');
     const [registerEmail, setRegisterEmail] = useState('');
+    const navigate = useNavigate();
 
     const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedOption(event.target.value);
@@ -68,7 +70,7 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
               .then((response) => {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('userId', response.data.userId);
-                setIsLoggedIn(true);
+                setIsLoggedIn(false);
                 setUsername('');
                 setPassword('');
                 closeModal();
@@ -82,6 +84,10 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
         }
         
     };
+
+    const handleMyProfile = () => {
+        navigate('/myProfile');
+    }
 
     const handleRegistration = () => {   
         if (registerEmail != '' && registerUsername != '' && selectedOption && registerPassword != '') {
@@ -155,16 +161,14 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
 
                 </div>
 
-                {showButtons && (
                 <div className="collapse navbar-collapse" id="navbarButtons">
-                    <>{isLoggedIn ? localStorage.getItem('userId') : <ul className="navbar-nav ms-auto">
+                    <>{!isLoggedIn ? <button onClick={handleMyProfile} /> : <ul className="navbar-nav ms-auto">
                                                 <button type="button" className="btn" style={{margin:'5px', backgroundColor: '#FFFFFF', color: '#353535', fontWeight: 'bold', borderColor: '#353535', borderWidth: '2px'}} onClick={openModal}>Iniciar sesion</button>
                                                 <button type="button" className="btn btn-light" style={{margin:'5px', backgroundColor: '#FFFFFF', color: '#353535', fontWeight: 'bold', borderColor: '#353535', borderWidth: '2px'}} onClick={openRegistrationModal}>Registrarse</button>
                                                 </ul>}</>    
                     
 
                 </div>
-                )}
 
                 </div>
 

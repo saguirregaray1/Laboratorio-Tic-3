@@ -42,6 +42,19 @@ export class WorldService {
     return this.worldRepository.save(newWorld);
   }
 
+  async getWorldWithQuestions(id): Promise<World> {
+    const world = await this.worldRepository
+      .createQueryBuilder('world')
+      .leftJoinAndSelect('world.questions', 'questions')
+      .where('world.id = :id', { id })
+      .getOne();
+
+    if (!world) {
+      throw new HttpException('World not found', HttpStatus.NOT_FOUND);
+    }
+    return world;
+  }
+
   async getWorld(id): Promise<World> {
     const world = await this.worldRepository.findOne({ where: { id } });
     if (!world) {
@@ -50,9 +63,9 @@ export class WorldService {
     return world;
   }
 
-  async getWorldsByGalaxy(galaxyId): Promise<World[]> {
+  async getWorldsByGalaxy(galaxyId: string): Promise<World[]> {
     const galaxy = await this.galaxyRepository.findOne({
-      where: { id: galaxyId },
+      where: { id: parseInt(galaxyId) },
     });
 
     if (!galaxy) {

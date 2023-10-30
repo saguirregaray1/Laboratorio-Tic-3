@@ -29,6 +29,8 @@ import { WorldService } from '../services/world.service';
 import { json } from 'stream/consumers';
 import { RolesGuard } from '../roles/roles.guard';
 import { Roles } from '../roles/roles.decorator';
+import { CreateQuestionWithTheoremDto } from '../dtos/CreateQuestionWithTheoremDto';
+import { CheckAnswerDto } from '../dtos/CheckAnswerDto';
 
 @Controller('/api/v1/history')
 @UseGuards(RolesGuard)
@@ -45,6 +47,26 @@ export class QuestionController {
   async createQuestion(@Res() response, @Body() question: CreateQuestionDto) {
     try {
       const newQuestion = await this.questionService.createQuestion(question);
+      return response.status(HttpStatus.CREATED).json({
+        newQuestion,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
+  }
+
+  @Post('/create/questionTheorem')
+  @UsePipes(ValidationPipe)
+  @Roles(['user', 'admin']) //fix
+  async createQuestionWithTheorem(
+    @Res() response,
+    @Body() question: CreateQuestionWithTheoremDto,
+  ) {
+    try {
+      const newQuestion =
+        await this.questionService.createQuestionWithTheorem(question);
       return response.status(HttpStatus.CREATED).json({
         newQuestion,
       });
@@ -92,6 +114,7 @@ export class QuestionController {
   async getQuestion(@Res() response, @Param('id') id) {
     try {
       const question = await this.questionService.getQuestion(id);
+      question.answer = '';
       return response.status(HttpStatus.ACCEPTED).json({
         question,
       });
@@ -192,13 +215,13 @@ export class QuestionController {
     }
   }
 
-  @Post('/question/checkanswer/:id')
+  @Get('/nextQuestion/:id')
   @Roles(['user', 'admin'])
-  async checkAnswer(@Res() response, @Param('id') id, @Body() answer: string) {
+  async getNextQuestion(@Res() response, @Param('id') id) {
     try {
-      const result = await this.questionService.checkAnswer(id, answer);
+      const question = await this.questionService.getNextQuestion(id);
       return response.status(HttpStatus.ACCEPTED).json({
-        result,
+        question,
       });
     } catch (HttpException) {
       return response

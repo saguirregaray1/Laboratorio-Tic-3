@@ -1,18 +1,44 @@
 import React, { useState } from 'react';
 import './Progreso.css';
 import spaceBackground from '../assets/rocket-background.jpg'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import CustomButton from '../components/customButton/customButton';
+import NavBar from '../components/NavBar';
+import axios from 'axios';
+import { PATH } from '../constants';
 
 const Progreso: React.FC = () => {
   const [year, setYear] = useState<string>('1');
-  const [course, setCourse] = useState<string>('Primaria');
+  const [course, setCourse] = useState<string>('1-Primaria');
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+
 
   const handleContinue = () => {
-    navigate('/history/galaxy')
+
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${PATH}/user/currentGalaxy/${localStorage.getItem('userId')}`,
+      headers: { 
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      },
+    };
+
+    axios.request(config)
+    .then((response) => {
+      const body = response.data
+      navigate('/history/galaxy', {state: {galaxyId: body}})
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   };
 
   const handleDropdownClick = () => {
@@ -25,14 +51,16 @@ const Progreso: React.FC = () => {
     setCourse(option);
   };
 
+  /*
   const handleCourseSelect = (option: string) => {
     setSelectedOption(option);
     setShowDropdown(false); 
     setYear(option);
   };
+  */
 
 
-
+/*
   const generateButtons = () => {
     const buttons = [];
     for (let i = 1; i <= 6; i++) {
@@ -44,11 +72,12 @@ const Progreso: React.FC = () => {
     }
     return buttons;
   };
+*/
 
 
-
-const yearOptions: string[] = ['Primaria', 'Secundaria', 'Universidad'];
-const collegeOptions: string[] = ['Analisis 1', 'Analisis 2', 'Analisis 3', 'GAL 1', 'GAL 2', 'PYE'];
+const yearOptions: string[] = ['1-Primaria', '2-Primaria', '3-Primaria', '4-Primaria', '5-Primaria', '6-Primaria',
+ '1-Secundaria', '2-Secundaria', '3-Secundaria', '4-Secundaria', '5-Secundaria', '6-Secundaria',
+  'GAL 1 - Universidad', 'GAL 2 - Universidad', 'Analisis 1 - Universidad', 'Analisis 2 - Universidad', 'Analisis 3 - Universidad', 'PYE - Universidad',];
 
 const generateYearButtons = (options: string[]) => {
   return options.map((option, index) => (
@@ -58,6 +87,7 @@ const generateYearButtons = (options: string[]) => {
   ));
 };
 
+/*
 const generateCollegeButtons = (options: string[]) => {
   return options.map((option, index) => (
     <button key={index} onClick={() => handleCourseSelect(option)}>
@@ -65,52 +95,40 @@ const generateCollegeButtons = (options: string[]) => {
     </button>
   ));
 };
-
+*/
 
   return (
+    <>
+    <NavBar showButtons={true}/>
     <div className="space-screen" style={{ backgroundImage: `url(${spaceBackground})` }}>
       <div className="content">
         <div className="student-info">
-          <h1>{year} - {course}</h1>
+          <h1>{course}</h1>
         </div>
         <div className='body'>
-        <div className="button-container">
-          <CustomButton
-          label='Continuar nivel'
-          color='#14213d'
-          onClick={handleContinue}/>
-          <div className='dropdown-container'>
+          <div className="button-container">
             <CustomButton
-            label='Cambiar Año'
+            label='Continuar'
             color='#14213d'
-            onClick={handleDropdownClick}/>
-            {showDropdown && (
-              <div className="dropdown-menu">
-               {generateYearButtons(yearOptions)}
-             </div>
-            )}
-          </div>
-          <div className='dropdown-container'>
-            <CustomButton
-            label='Cambiar Curso'
-            color='#14213d'
-            onClick={handleDropdownClick}/>
-            {showDropdown &&  ( (course === 'Primaria' || course === 'Secundaria') &&
-              <div className="dropdown-menu">
-                {generateButtons()}
+            isDisabled= {false}
+            onClick={handleContinue}/>
+            <div className='dropdown-container'>
+              <CustomButton
+              label='Cambiar'
+              color='#14213d'
+              isDisabled= {false}
+              onClick={handleDropdownClick}/>
+              {showDropdown && (
+                <div className="dropdown-menu">
+                {generateYearButtons(yearOptions)}
               </div>
-            )}
-            {showDropdown &&  (course === 'Universidad' &&
-              <div className="dropdown-menu">
-
-                {generateCollegeButtons(collegeOptions)}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
+    </>
   );
 };
 

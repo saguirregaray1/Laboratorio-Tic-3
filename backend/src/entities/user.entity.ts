@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
+import { Theorem } from './theorem.entity';
 
 @Entity()
 @Unique(['email'])
@@ -38,7 +46,11 @@ export class User {
 
   @Column({
     nullable: false,
-    default: 3
+    default: 3,
   })
   lives: number;
+
+  @ManyToMany(() => Theorem)
+  @JoinTable()
+  book: Theorem[];
 }

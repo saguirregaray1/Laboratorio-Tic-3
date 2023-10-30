@@ -88,6 +88,7 @@ return (
       <div className='button'>
         <CustomButton color="#3d5a80"
         label='Jugar'
+        isDisabled={false}
         onClick={handlePracticeClick}
         />
       </div>
