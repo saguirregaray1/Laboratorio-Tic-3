@@ -3,9 +3,12 @@ import './DuelSelect.css';
 
 interface DuelSelectProps{
     onClick: () => void;
+    setRoundNumber: (round:number) => void;
+    setDifficulty: (difficulty:string) => void;
+    createRoom: () => void;
 }
 
-const DuelSelect: React.FC<DuelSelectProps> = ({onClick}) => {
+const DuelSelect: React.FC<DuelSelectProps> = ({onClick, setRoundNumber, setDifficulty, createRoom}) => {
   const roundNumbers = [3, 5, 7];
   const [selectedRound,setSelectedRound] = useState(0);
   const [isDataMissing, setIsDataMissing] = useState(false);
@@ -13,9 +16,6 @@ const DuelSelect: React.FC<DuelSelectProps> = ({onClick}) => {
   const [selectedOption, setSelectedOption] = useState('');
   
   
-  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
-  };
 
   return (
       <div className='select-container'>
@@ -23,11 +23,11 @@ const DuelSelect: React.FC<DuelSelectProps> = ({onClick}) => {
         <p className='duel-select-sub-p'>Número de rondas</p>
         <div className='round-container'>
             {roundNumbers.map((round) => (
-                <div className='round-div' onClick={() => setSelectedRound(round)}>{round}</div>
+                <div className='round-div' onClick={() => setRoundNumber(round)}>{round}</div>
             ))}
         </div>
         <p className='duel-select-sub-p'>Elige una dificultad</p>
-        <select id="dropdown" className="duel-dropdown" onChange={handleOptionChange}>
+        <select id="dropdown" className="duel-dropdown" onChange={(e) => setDifficulty(e.target.value)}>
             <option value="" disabled selected>
                 Elige una opción
             </option>
@@ -37,7 +37,7 @@ const DuelSelect: React.FC<DuelSelectProps> = ({onClick}) => {
                 </option>
             ))}
         </select>
-        <button className='create-button'>
+        <button className='create-button' onClick={createRoom}>
           Crear
         </button>
         <p className='comeback' onClick={onClick}>Volver</p>
