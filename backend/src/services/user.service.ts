@@ -52,6 +52,7 @@ export class UserService {
   }
 
   async getUserFromToken(token: any): Promise<User> {
+    console.log('token', token);
     const decoded = await this.jwtService.verify(token, {
       secret: this.configService.get('SECRET'),
     });

@@ -66,9 +66,9 @@ const LevelSelectionScreen: React.FC<{}> = () => {
     .then((response1) => {
       if (!response1.data){
         lengthStr = localStorage.getItem('length')!
-      if (lengthStr){
-        length = parseInt(lengthStr)
-      }
+        if (lengthStr){
+          length = parseInt(lengthStr)
+        }
         console.log('length',length)
         console.log(localStorage.getItem('length'))
 

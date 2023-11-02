@@ -9,7 +9,6 @@ import DuelSelect from './DuelSelect';
 
 const MainDuelScreen: React.FC = () => {
     const [id, setId] = useState<string>('');
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidXNlcm5hbWUiOiJ1c2VyMSIsImlhdCI6MTY5ODE1OTYwMX0.gooCcAbIdZvI2OeDEFM-BjGGueaIVeu5epYQnpuPOsM"
     const [roundsNumber, setRoundsNumber] = useState<number>(3);
     const userId = 1;
     const [duelId, setDuelId] = useState<string>('');
@@ -19,49 +18,63 @@ const MainDuelScreen: React.FC = () => {
     const navigate = useNavigate();
 
     const createRoom = () => {
-        console.log(difficulty);
-        console.log(roundsNumber);
-    }
 
-    const handleCreateDuel = () => {
+        console.log('token', localStorage.getItem('token'));
+
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
             url: `${PATH}/duel`,
             headers: { 
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Content-Type' : 'application/json'
             },
             data: {
-                ownerId : userId,
+                ownerId : localStorage.getItem('userId'),
                 rounds: roundsNumber,
-                universe: 'Primaria',
-                galaxy: '1'
+                universe: difficulty.split(' ')[1],
+                galaxy: difficulty.split(' ')[0]
             }
         };
 
         axios.request(config)
         .then((response) => {
             setDuelId(response.data.newDuel.id);
+            navigate(`/duel/${response.data.newDuel.id}`, {state:{duelId: response.data.newDuel.id}})
         })
         .catch((error) => {
             console.log(error);
         });
-    };
+        
+    }
+
 
     const enterRoom = (room:string) => {
-        console.log(room);
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${PATH}/duel/${room}`,
+            headers: { 
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+          };
+      
+          axios.request(config)
+          .then((response) => {
+                if(response.status === 200)
+                navigate(`/duel/${duelId}`, {state:{duelId: room}})
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+
+
     }
 
     const handleJoinDuel = () => {
         setDuelId(id)
     };
-
-    useEffect(() => {
-        if (duelId !== '') {
-            navigate(`/duel/${duelId}`, {state:{token: token, userId: userId, duelId: duelId}})
-        }
-    },[duelId]);
 
     return (
         <>

@@ -2,7 +2,7 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateDuelDto {
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   ownerId: number;
 
   @IsNotEmpty()
