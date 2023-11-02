@@ -1,0 +1,26 @@
+.duel-card-container {
+    width: 225px;
+    height: 175px;
+    border-radius: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Add transitions for smooth hover effect */
+    cursor: pointer; /* Change the cursor to a pointer */
+}
+
+.duel-card-container:hover {
+    background-color: #dcdcdc; /* Darker background color on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.duel-card-icon{
+    align-self: self-start;
+}
+
+.duel-card-p{
+    font-size: 40px;
+    color: white;
+}

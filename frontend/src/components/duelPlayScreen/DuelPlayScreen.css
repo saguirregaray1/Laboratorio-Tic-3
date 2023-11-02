@@ -1,0 +1,30 @@
+.duel-play-container{
+    background-image: url('../../assets/duel_play.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.question-container{
+    background-color: white;
+    padding: 5px;
+    margin-top: 20px;
+    max-width: 700px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.options-container{
+    display: flex;
+    max-width: 500px;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
