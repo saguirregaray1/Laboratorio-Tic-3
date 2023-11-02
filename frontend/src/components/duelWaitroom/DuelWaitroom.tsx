@@ -8,31 +8,38 @@ import './DuelWaitroom.css'
 
 const DuelWaitroom: React.FC = () => {
 
-    const [users, setUsers] = useState<string[]>(['hernan', 'santi']);
-    const [readys, setReadys] = useState<string[]>(['hernan']);
+    const [users, setUsers] = useState<string[]>(['hernan puschiasis', 'santiago aguirregaray','guzmi','scampa','Santiago Campanella']);
+    const [readys, setReadys] = useState<string[]>(['hernan puschiasis']);
+    const [roomId, setRoomId] = useState('ABC123');
+    const [ownerId, setOwnerId] = useState('');
+    const [isReady, setIsReady] = useState(false);
+    const [hasStarted, setHasStarted] = useState(false);
 
     return (
         <>
         <NavBar showButtons={true}/>
         <div className="waitroom-container">
-            <div className="users-container">
-                {users.map((user:any) => (
-                        <div className="username">
-                            {user}
-                            {readys.includes(user) ? 
-                            <FontAwesomeIcon icon={faCheck} size="xl" style={{color: "#16df19",}} /> :
-                            <FontAwesomeIcon icon={faXmark} size="xl" style={{color: "#f50f0f",}} />}
-                        </div>                     
-                ))}
-                
-                {/* <div className="ready-column waitroom-column">
+            <p className="waiting-room-p">Código de la sala: {roomId}</p>
+            <div className="buttons-container">
+                <button className="waitroom-button">Listo</button>
+                <button className="waitroom-button">Comenzar</button>
+            </div>
+
+            <div className="players-container">
+                <p className="waiting-room-p">Esperando jugadores...</p>
+                <ul className="players-list">
                     {users.map((user:any) => (
-                        <div className="user-ready">{user.isReady ? 
-                            <FontAwesomeIcon icon={faCheck} size="xl" style={{color: "#16df19",}} /> :
-                            <FontAwesomeIcon icon={faXmark} size="xl" style={{color: "#f50f0f",}} />}</div>                     
+                            <li className="player">
+                                <div className="player-name">{user}</div>
+                                <div className="player-ready">
+                                    {readys.includes(user) ? 
+                                    <FontAwesomeIcon icon={faCheck} size="xl" style={{color: "#16df19",}} /> :
+                                    <FontAwesomeIcon icon={faXmark} size="xl" style={{color: "#f50f0f",}} />}
+                                </div>
+                                
+                            </li>                     
                     ))}
-                </div> */}
-                
+                </ul>
             </div>
         </div>
         </>

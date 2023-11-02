@@ -1,5 +1,5 @@
 .waitroom-container{
-    background-image: url('../../assets/duel_waitroom.png');
+    background-image: url('../../assets/duel_waitroom_v2.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -10,20 +10,75 @@
     position: fixed;
     height: 100%;
     width: 100%;
+    flex-direction: column;
 }
 
-.users-container{
-    background-color: white;
-    max-width: 300px;
+.players-container{
+    background-color: transparent;
     border-radius: 10px;
     display: flex;
-    flex-direction: row;
     align-items: center;
     align-content: center;
     justify-content: center;
+    padding: 2.5vmin 0px;
+    display: flex;
+    flex-direction: column;
 }
 
-.username{
+.players-list{
+    height: auto;
+    padding: 0px 2.5vmin;
+    margin-top: 0px;
+    text-align: left;
+    display: flex;
+    flex: 0 0 auto;
+    flex-flow: wrap;
+    max-width: 600px;
+    align-content: center;
+    justify-content: center;
+    list-style-type: none;
+}
+
+.player{
+    background-color: #333333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    height: 48px;
+    margin: 5px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px -4px inset;
+    transition: box-shadow 0.3s ease-in-out;
+    background: rgb(51, 51, 51);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-left: 5px;
+    padding-bottom: 10px;
+    padding-right: 5px;
+}
+
+.player-name{
+    align-self: flex-start;
+    text-align: center;
+    margin-right: 15px;
+    padding-top: 6px;
+    margin-left: 5px;
+    display: flex;
+}
+
+.player-ready{
+    align-self: flex-end;
+}
+
+.waiting-room-p{
+    font-size: 30px;
+    color: white;
+}
+
+.waitroom-button{
     background-color: #333333;
     color: #fff;
     border: none;
@@ -31,11 +86,13 @@
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    width: 288px;
+    width: 100px;
     height: 48px;
     margin-top: 0;
     box-shadow: rgba(0, 0, 0, 0.25) 0px -4px inset;
     transition: box-shadow 0.3s ease-in-out;
-    background: rgb(51, 51, 51);
+    background: rgb(51, 51, 51);  
+    text-align: center;
+    margin: 10px;
 }
 
