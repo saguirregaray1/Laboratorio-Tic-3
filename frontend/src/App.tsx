@@ -16,6 +16,7 @@ import DuelPlayScreen from './components/duelPlayScreen/DuelPlayScreen';
 import Progreso from './containers/Progreso';
 import DuelWaitroom from './components/duelWaitroom/DuelWaitroom';
 import DuelPlayScreen2 from './components/duelPlayScreen/DuelPlayScreen2';
+import MyNotes from './components/myNotes/MyNotes';
 
 function App() {
 
@@ -33,9 +34,10 @@ function App() {
         <Route path = "/duel" element = {<MainDuelScreen/>}/>
         <Route path = "/myProfile" element = {<EditProfile/>}/>
         <Route path = "/duel/:duelId" element = {<DuelPlayScreen/>}/>
-        <Route path = "/duel/play/:duelId" element ={<DuelPlayScreen2/>} />
+        <Route path = "/duel/play/:duelId" element ={<DuelPlayScreen2/>}/>
         <Route path = "/*" element={<Navigate to="/" />}/> 
         <Route path = "/progress" element={<Progreso/>}/>
+        <Route path = "/myNotes" element={<MyNotes/>}/>
         <Route path = "/duel/wait/:duelId" element={<DuelWaitroom/>}/>
       </Routes>
     </BrowserRouter>
