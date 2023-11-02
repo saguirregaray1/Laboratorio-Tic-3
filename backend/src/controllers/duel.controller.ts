@@ -33,8 +33,6 @@ export class DuelController {
         newDuel,
       });
     } catch (HttpException) {
-      console.log('HOLAAAAAA');
-      console.log(HttpException.status);
       return response
         .status(HttpException.status)
         .json({ message: HttpException.message });
@@ -48,6 +46,21 @@ export class DuelController {
       const duel = await this.duelService.getDuel(id);
       return response.status(HttpStatus.OK).json({
         duel,
+      });
+    } catch (HttpException) {
+      return response
+        .status(HttpException.status)
+        .json({ message: HttpException.message });
+    }
+  }
+
+  @Get('/wait/:id')
+  @Roles(['user', 'admin'])
+  async getDuelAndOwnerId(@Res() response, @Param('id') id) {
+    try {
+      const resp = await this.duelService.getDuelAndOwnerId(id);
+      return response.status(HttpStatus.OK).json({
+        resp,
       });
     } catch (HttpException) {
       return response

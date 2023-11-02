@@ -59,6 +59,8 @@ export class DuelGateway
     this.logger.log(usernames);
 
     this.server.to(duelId).emit('users', usernames);
+
+    await this.duelService.addPlayerToDuel(duelId, client.data.userId);
   }
   async handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
@@ -97,8 +99,6 @@ export class DuelGateway
     if (!duel) {
       throw new WsException('Duel not found');
     }
-
-    console.log(duel);
 
     const firstQuestion = duel.questions[0];
 

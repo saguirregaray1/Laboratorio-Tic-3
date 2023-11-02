@@ -28,7 +28,6 @@ export class DuelService {
 
   async createDuel(createDuelDto: CreateDuelDto): Promise<Duel> {
     const owner = await this.userService.getUser(createDuelDto.ownerId);
-    console.log('Owner:', owner);
     if (!owner) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
@@ -38,7 +37,6 @@ export class DuelService {
       createDuelDto.universe,
       createDuelDto.galaxy,
     );
-    console.log('Questions:', questions);
 
     const duel = await this.duelRepository.create({
       owner,
@@ -47,7 +45,6 @@ export class DuelService {
       rounds: createDuelDto.rounds,
       playerScores: {},
     });
-    console.log('Duel', duel);
 
     return this.duelRepository.save(duel);
   }
@@ -55,6 +52,22 @@ export class DuelService {
   async getUserFromToken(token): Promise<User> {
     const user = await this.userService.getUserFromToken(token);
     return user;
+  }
+
+  async getDuelAndOwnerId(
+    id: string,
+  ): Promise<{ duelId: string; ownerId: number }> {
+    const duel = await this.duelRepository
+      .createQueryBuilder('duel')
+      .leftJoinAndSelect('duel.owner', 'users')
+      .where('duel.id = :id', { id })
+      .getOne();
+
+    if (!duel) {
+      throw new HttpException('Duel not found', HttpStatus.NOT_FOUND);
+    }
+    console.log(duel);
+    return { duelId: duel.id, ownerId: duel.owner.id };
   }
 
   async getDuel(id: string): Promise<Duel> {
@@ -70,27 +83,6 @@ export class DuelService {
 
     return duel;
   }
-
-  /* async answerQuestion(
-    duelAnswerQuestionDto: DuelAnswerQuestionDto,
-  ): Promise<boolean> {
-    const duel = await this.getDuel(duelAnswerQuestionDto.duelId);
-    const question = duel.questions.find(
-      (q) => q.id === duelAnswerQuestionDto.questionId,
-    );
-
-    if (!question) {
-      throw new NotFoundException(
-        `Question ${duelAnswerQuestionDto.questionId} not found in duel ${duelAnswerQuestionDto.duelId}`,
-      );
-    }
-    const is_correct = question.answer === duelAnswerQuestionDto.answer;
-    if (is_correct) {
-      duel.playerScores[duelAnswerQuestionDto.playerId] += 1;
-    }
-    await this.duelRepository.save(duel);
-    return is_correct;
-  } */
 
   async checkAnswerAndUpdate(
     duelId: string,
@@ -167,5 +159,21 @@ export class DuelService {
 
   async checkLives(id: number) {
     throw new Error('Method not implemented.');
+  }
+
+  async addPlayerToDuel(duelId: string, playerId: number): Promise<Boolean> {
+    console.log(duelId);
+    const duel = await this.getDuel(duelId);
+    const player = await this.userService.getUser(playerId);
+    if (!player || !duel) {
+      throw new WsException('User or duel not found');
+    }
+
+    if (duel.players) {
+      duel.players.push(player);
+    } else {
+      duel.players = [player];
+    }
+    return true;
   }
 }

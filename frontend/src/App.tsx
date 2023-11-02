@@ -34,7 +34,7 @@ function App() {
         <Route path = "/duel/:duelId" element = {<DuelPlayScreen/>}/>
         <Route path = "/*" element={<Navigate to="/" />}/> 
         <Route path = "/progress" element={<Progreso/>}/>
-        <Route path = "/duel/wait" element={<DuelWaitroom/>}/>
+        <Route path = "/duel/wait/:duelId" element={<DuelWaitroom/>}/>
       </Routes>
     </BrowserRouter>
     
