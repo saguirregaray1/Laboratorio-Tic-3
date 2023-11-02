@@ -6,6 +6,7 @@
     width: 320px;
     height: 380px;
     border-radius: 10px;
+    font-size: 30px;
 }
 
 .round-container{
@@ -66,6 +67,7 @@
     width: 288px;
     height: 48px;
     cursor: pointer;
+    font-size: 15px;
 }
 
 .duel-select-sub-p{

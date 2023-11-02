@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+
+.content-container-gpc{
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.container-buttons-gpc {
+    height: auto;
+    margin-right: 20px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.container-buttons-gpc:hover {
+  background-color: #526D82;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.txt-buttons-gpc{
+    font-family: 'Bree Serif', serif;
+    font-size: 21px;
+    margin: 0;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.img-my-notes {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+}
+
+.img-my-profile {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    border-radius: 50%;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.log-out-container{
+    cursor: pointer;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.img-log-out {
+    width: 35px;
+    height: 35px;
+}

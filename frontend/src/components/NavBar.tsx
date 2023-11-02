@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import {PATH} from '../constants';
 import axios from 'axios'
 import { useNavigate } from 'react-router';
+import GoProfileComponent from './isLoggedInComponent/GoProfileComponent';
 
 interface NavBarProps {
     showButtons: boolean;
@@ -85,8 +86,19 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
         
     };
 
+    const handleMyNotes = () => {
+        //IR A CUADERNO (cuando exista la pagina)
+        /*if (!isLoggedIn){
+            navigate('/myNotes');
+        }*/
+    }
+
     const handleMyProfile = () => {
         navigate('/myProfile');
+    }
+
+    const handleCloseSession = () => {
+        //HACER LOGICA CIERRE DE SESIÓN
     }
 
     const handleRegistration = () => {   
@@ -162,8 +174,8 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
                 </div>
 
                 <div className="collapse navbar-collapse" id="navbarButtons">
-                    <>{!isLoggedIn ? <button onClick={handleMyProfile} /> : <ul className="navbar-nav ms-auto">
-                                                <button type="button" className="btn" style={{margin:'5px', backgroundColor: '#FFFFFF', color: '#353535', fontWeight: 'bold', borderColor: '#353535', borderWidth: '2px'}} onClick={openModal}>Iniciar sesion</button>
+                    <>{!isLoggedIn ? <div className='navbar-nav ms-auto'><GoProfileComponent onClickMyNotes={handleMyNotes} onClickMyProfile={handleMyProfile} onClickCloseSession={handleCloseSession}/></div> : <ul className="navbar-nav ms-auto">
+                                                <button type="button" className="btn" style={{margin:'5px', backgroundColor: '#FFFFFF', color: '#353535', fontWeight: 'bold', borderColor: '#353535', borderWidth: '2px'}} onClick={openModal}>Iniciar sesión</button>
                                                 <button type="button" className="btn btn-light" style={{margin:'5px', backgroundColor: '#FFFFFF', color: '#353535', fontWeight: 'bold', borderColor: '#353535', borderWidth: '2px'}} onClick={openRegistrationModal}>Registrarse</button>
                                                 </ul>}</>    
                     
