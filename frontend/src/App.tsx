@@ -37,7 +37,6 @@ function App() {
         <Route path = "/*" element={<Navigate to="/" />}/> 
         <Route path = "/progress" element={<Progreso/>}/>
         <Route path = "/duel/wait/:duelId" element={<DuelWaitroom/>}/>
-        <Route path = "/duel/wait/" element={<DuelWaitroom/>}/>
       </Routes>
     </BrowserRouter>
   );
