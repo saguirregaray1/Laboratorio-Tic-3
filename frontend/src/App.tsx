@@ -37,11 +37,10 @@ function App() {
         <Route path = "/duel/play/:duelId" element ={<DuelPlayScreen2/>}/>
         <Route path = "/*" element={<Navigate to="/" />}/> 
         <Route path = "/progress" element={<Progreso/>}/>
-        <Route path = "/duel/wait/" element={<DuelWaitroom/>}/>
         <Route path = "/myNotes" element={<MyNotes/>}/>
+        <Route path = "/duel/wait/:duelId" element={<DuelWaitroom/>}/>
       </Routes>
     </BrowserRouter>
-    
   );
 }
 

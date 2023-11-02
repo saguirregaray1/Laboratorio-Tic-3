@@ -8,9 +8,7 @@ import NavBar from '../NavBar';
 import DuelSelect from './DuelSelect';
 
 const MainDuelScreen: React.FC = () => {
-    const [id, setId] = useState<string>('');
     const [roundsNumber, setRoundsNumber] = useState<number>(3);
-    const userId = 1;
     const [duelId, setDuelId] = useState<string>('');
     const [showPlay, setShowPlay] = useState(true);
     const [showIncorrectCode, setShowIncorrectCode] = useState(false);
@@ -18,9 +16,6 @@ const MainDuelScreen: React.FC = () => {
     const navigate = useNavigate();
 
     const createRoom = () => {
-
-        console.log('token', localStorage.getItem('token'));
-
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
@@ -40,7 +35,7 @@ const MainDuelScreen: React.FC = () => {
         axios.request(config)
         .then((response) => {
             setDuelId(response.data.newDuel.id);
-            navigate(`/duel/${response.data.newDuel.id}`, {state:{duelId: response.data.newDuel.id}})
+            navigate(`/duel/wait/${response.data.newDuel.id}`, {state:{duelId: response.data.newDuel.id, ownerId: localStorage.getItem('userId')}})
         })
         .catch((error) => {
             console.log(error);
@@ -53,7 +48,7 @@ const MainDuelScreen: React.FC = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${PATH}/duel/${room}`,
+            url: `${PATH}/duel/wait/${room}`,
             headers: { 
               'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
@@ -61,20 +56,14 @@ const MainDuelScreen: React.FC = () => {
       
           axios.request(config)
           .then((response) => {
-                if(response.status === 200)
-                navigate(`/duel/${duelId}`, {state:{duelId: room}})
+                console.log(response.data)
+                navigate(`/duel/wait/${duelId}`, {state:{duelId: response.data.resp.duelId, ownerId: response.data.resp.ownerId}})
           })
           .catch((error) => {
+            setShowIncorrectCode(true);
             console.log(error);
           });
-
-
-
     }
-
-    const handleJoinDuel = () => {
-        setDuelId(id)
-    };
 
     return (
         <>
