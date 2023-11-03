@@ -50,6 +50,7 @@ const DuelLeaderboard: React.FC = () => {
                             </div>
                         ))}    
                     </div>   
+                    <div className="duel-next-button">Siguiente</div>
                 </div>   
             </>}
         </>
