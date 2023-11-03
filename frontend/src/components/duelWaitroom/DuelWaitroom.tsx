@@ -1,19 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../NavBar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import './DuelWaitroom.css'
+import { PATH } from "../../constants";
+import io from 'socket.io-client';
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 
 
 const DuelWaitroom: React.FC = () => {
 
-    const [users, setUsers] = useState<string[]>(['hernan puschiasis', 'santiago aguirregaray','guzmi','scampa','Santiago Campanella']);
-    const [readys, setReadys] = useState<string[]>(['hernan puschiasis']);
-    const [roomId, setRoomId] = useState('ABC123');
-    const [ownerId, setOwnerId] = useState('');
+    const [users, setUsers] = useState<string[]>([]);
+    const [readys, setReadys] = useState<string[]>([]);
+    const socket = io('http://localhost:8000', {
+        auth: { token: localStorage.getItem('token') },
+      });    
+    const location = useLocation();
+    const navigate = useNavigate();
     const [isReady, setIsReady] = useState(false);
     const [hasStarted, setHasStarted] = useState(false);
+    const [roomId, setRoomId] = useState(location.state.duelId);
+
+    useEffect(() => {
+        socket.emit('join', location.state.duelId);
+
+        socket.on('users', (data: any) => {
+            setUsers(data);
+        });   
+
+        socket.on('usersReady', (data: any) => {
+            setReadys(data)
+        });
+
+        socket.on('duelStarted', (data: any) => {
+            navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data}})
+        });
+    }, []);
+
+    const handleReady= () => {
+        socket.emit('ready', location.state.duelId);
+        setIsReady(true);
+    };
+
+    const handleStart = () => {
+        socket.emit('start', location.state.duelId)
+        setHasStarted(true);
+    }
+
 
     return (
         <>
@@ -21,8 +57,8 @@ const DuelWaitroom: React.FC = () => {
         <div className="waitroom-container">
             <p className="waiting-room-p">Código de la sala: {roomId}</p>
             <div className="buttons-container">
-                <button className="waitroom-button">Listo</button>
-                <button className="waitroom-button">Comenzar</button>
+                <button className="waitroom-button" onClick={handleReady}>Listo</button>
+                <button className="waitroom-button" onClick={handleStart} disabled={location.state.ownerId != localStorage.getItem('userId')}>Comenzar</button>
             </div>
 
             <div className="players-container">
