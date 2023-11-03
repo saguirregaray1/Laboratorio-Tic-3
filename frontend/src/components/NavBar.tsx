@@ -87,10 +87,7 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
     };
 
     const handleMyNotes = () => {
-        //IR A CUADERNO (cuando exista la pagina)
-        /*if (!isLoggedIn){
-            navigate('/myNotes');
-        }*/
+        navigate('/myNotes')
     }
 
     const handleMyProfile = () => {

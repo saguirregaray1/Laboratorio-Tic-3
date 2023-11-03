@@ -43,8 +43,6 @@ export class DuelGateway
 
   @SubscribeMessage('join')
   async handleJoin(client: Socket, duelId: string) {
-    this.logger.log(`Client joined: ${client.id}`);
-
     // Add the client to the room with the specified duelId
     client.join(duelId);
 
@@ -55,10 +53,15 @@ export class DuelGateway
     for (const socket of roomSockets) {
       usernames.push(socket.data.username);
     }
+    // Add the client to the set of ready clients
+    if (!this.readyClients.has(duelId)) {
+      this.readyClients.set(duelId, new Set());
+    }
 
-    this.logger.log(usernames);
-
-    this.server.to(duelId).emit('users', usernames);
+    this.server.to(duelId).emit('users', {
+      users: usernames,
+      readys: Array.from(this.readyClients.get(duelId)),
+    });
 
     await this.duelService.addPlayerToDuel(duelId, client.data.userId);
   }
@@ -140,8 +143,6 @@ export class DuelGateway
 
     const allReady = await this.allReady(data.duelId);
 
-    console.log('allReady', allReady);
-
     if (allReady) {
       this.readyClients.delete(data.duelId);
       const nextQuestion = await this.duelService.endRound(data.duelId);
@@ -152,7 +153,7 @@ export class DuelGateway
           .emit('duelWinner', this.duelService.getWinner(data.duelId));
       }
       nextQuestion.answer = '';
-      this.server.to(data.duelId).emit('nextQuestion: ', nextQuestion);
+      this.server.to(data.duelId).emit('nextQuestion', nextQuestion);
     }
   }
 

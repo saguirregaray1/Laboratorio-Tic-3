@@ -34,7 +34,8 @@ const DuelWaitroom: React.FC = () => {
             socket.emit('join', location.state.duelId);
 
             socket.on('users', (data: any) => {
-                setUsers(data);
+                setUsers(data.users);
+                setReadys(data.readys)
             });   
 
             socket.on('usersReady', (data: any) => {

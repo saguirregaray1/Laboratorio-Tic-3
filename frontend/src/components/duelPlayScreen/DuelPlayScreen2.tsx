@@ -33,6 +33,7 @@ const DuelPlayScreen2: React.FC = () => {
     useEffect(()=>{
         const socket = WebSocketService.getInstance().getSocket();
         if (socket){
+            
             socket.on('answered', (data: any) => {
                 if (data && data.userId == localStorage.getItem('userId')){
                      setIsCorrect(data.isCorrect);
@@ -41,6 +42,7 @@ const DuelPlayScreen2: React.FC = () => {
             });
     
             socket.on('nextQuestion', (data: any) => {
+                console.log('nextQuestion',data)
                 navigate(`/duel/leaderboard/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data}})
             })
         }

@@ -4,23 +4,61 @@ import LoadingPage from '../loadingPage/LoadingPage';
 import NavBar from '../NavBar';
 import nextTheorem from '../../assets/next_theorem.png'
 import backTheorem from '../../assets/back_theorem.png'
+import { PATH } from '../../constants';
+import axios from 'axios';
+import { useNavigate, useLocation } from 'react-router';
 
 
 const MyNotes: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [theorem, setTheorem] = useState<any>(null);
+    const [book, setBook] = useState<any>(null);
+    const [count, setCount] = useState<number>(0);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
-        //HARDCODE
-        const response = {
-            id : 7,
-            name : "Teorema de Pitagoras",
-            statement: "El teorema de pitagoras, si no mal recuerdo es solo para triangulos rectángulos, es decir hay un ánuglo de 90 grados. Se enuncia que, la hipotenusa al cuadrado es igual a la suma de los catetos al cuadrado.",
-            proof: "Mira flaco no tengo ni idea, creo que al tipo este, Pitagoras, se le cayo una manzana en la cabeza o algo asi. De última preguntale al chat gpt. Abrazoo :)"
-        }
-        setTheorem(response);
-        setIsLoading(false);
+
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${PATH}/user/${localStorage.getItem('userId')}`,
+            headers: { 
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+          };
+      
+          axios.request(config)
+          .then((response) => {
+            if (location.state.count){
+                setCount(location.state.count);
+            }
+            setBook(response.data.book);
+            setTheorem(response.data.book[count]);
+            setIsLoading(false)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+          
+        
     }, []);
+
+    const handleNext = () => {
+        if(count < book.length - 1){
+            navigate('/myNotes', {state: {count: count + 1}})
+        }
+        
+    }
+
+    const handleBack = () => {
+        if(count-1 > 0){
+            navigate('myNotes', {state: {count: count - 1}})
+        }
+        
+    }
+
+
 
     return (
         <div className='my-notes-page'>

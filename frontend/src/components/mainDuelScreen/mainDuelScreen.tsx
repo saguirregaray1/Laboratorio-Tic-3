@@ -56,7 +56,6 @@ const MainDuelScreen: React.FC = () => {
       
           axios.request(config)
           .then((response) => {
-                console.log(response.data)
                 navigate(`/duel/wait/${duelId}`, {state:{duelId: response.data.resp.duelId, ownerId: response.data.resp.ownerId}})
           })
           .catch((error) => {
