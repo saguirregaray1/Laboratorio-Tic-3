@@ -11,7 +11,7 @@ import { useNavigate, useLocation } from 'react-router';
 
 const MyNotes: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [theorem, setTheorem] = useState<any>(null);
+    const [theorem, setTheorem] = useState<any>({name: '', statement: '', proof: ''});
     const [book, setBook] = useState<any>(null);
     const [count, setCount] = useState<number>(0);
     const navigate = useNavigate();
@@ -30,8 +30,10 @@ const MyNotes: React.FC = () => {
       
           axios.request(config)
           .then((response) => {
-            setBook(response.data.book);
-            setTheorem(response.data.book[count]);
+            if (response.data.book.length > 0){
+                setBook(response.data.book);
+                setTheorem(response.data.book[count]);
+            }
             setIsLoading(false)
           })
           .catch((error) => {
