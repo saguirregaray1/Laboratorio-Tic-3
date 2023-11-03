@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+.duel-answer-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+}
+
+.correct-container{
+    background-color: white;
+    width: 300px;
+    height: 280px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    background-image: none;
+}
+
+.duel-answer-image-container{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.duel-image{
+    width: 100%;
+    height: 100%;
+}
+
+.duel-answer-p{
+    margin-top: 20px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 40px;
+}
+
+.waiting-answer-p{
+    font-size: 20px;
+}
