@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import WebSocketService from '../WebSocketService';
 import DuelAnswer from './DuelAnswer';
 import Timer from '../timer/Timer';
+import DuelQuestionTimer from './DuelQuestionTimer';
 
 
 const DuelPlayScreen2: React.FC = () => {
@@ -25,12 +26,17 @@ const DuelPlayScreen2: React.FC = () => {
     const [isCorrect, setIsCorrect] = useState<boolean>(false);
     const [timerStopped, setTimerStopped] = useState(false);
 
+    const handleTimeout = () => {
+        const socket = WebSocketService.getInstance().getSocket();
+        if (socket){
+            socket.emit('answer', {duelId: location.state.duelId, answer: ''})
+        }
+    }
 
     const handleCardClick = (option:string) => {
         const socket = WebSocketService.getInstance().getSocket();
         if (socket){
             socket.emit('answer', {duelId: location.state.duelId, answer: option})
-            //setHasAnswered(true);
         }
     }
 
@@ -87,11 +93,14 @@ const DuelPlayScreen2: React.FC = () => {
                         </div>
                         <div className='answer-container'>
                             {hasAnswered && isCorrect ? <p>Correcto</p> : hasAnswered && !isCorrect ? <p>Incorrecto</p> : <p></p>}
-                            </div> 
+                        </div> 
                     </div>
                     <div className='check-answer-container'>
                             {hasAnswered ? <DuelAnswer isCorrect = {isCorrect}/> : <></>}        
                     </div>   
+                    <div className='question-timer-container'>
+                        <DuelQuestionTimer handleTimeout={handleTimeout}/>
+                    </div>
                     
                     </>
                 ))

@@ -1,40 +1,35 @@
 import React, { useEffect, useState } from "react";
 import './DuelQuestionTimer.css';
 
+interface DuelQuestionTimerProps{
+    handleTimeout: () => void;
+}
 
-const DuelQuestionTimer: React.FC = () => {
-    const [seconds, setSeconds] = useState(3);
-  const [isActive, setIsActive] = useState(true);
+const DuelQuestionTimer: React.FC<DuelQuestionTimerProps> = ({handleTimeout}) => {
+    const [seconds, setSeconds] = useState(60);
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
+    useEffect(() => {
+        let interval: NodeJS.Timeout | null = null;
 
-    if (isActive && seconds > 0) {
-      interval = setInterval(() => {
-        setSeconds((prevSeconds) => prevSeconds - 1);
-      }, 1000);
-    } else if (seconds === 0) {
-      setIsActive(false);
-    }
+        if (seconds > 0) {
+        interval = setInterval(() => {
+            setSeconds((prevSeconds) => prevSeconds - 1);
+        }, 1000);
+        } else if (seconds === 0) {
+            handleTimeout();
+        }
 
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [isActive, seconds]);
+        return () => {
+        if (interval) {
+            clearInterval(interval);
+        }
+        };
+    }, [seconds]);
 
 
-  const getSpinningClass = () => {
-    return isActive ? 'spinning' : '';
-  };
-
-  return (
-    <div className="timer-container">
-        <div className={`spinning-div ${getSpinningClass()}`}></div>
-        <div className="static-number">{seconds}</div>
-    </div>
-  );
+    return (
+        <div className="seconds-remaining-container">{seconds}</div>
+    );
 }
 
 export default DuelQuestionTimer;
