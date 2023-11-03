@@ -98,7 +98,9 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
     }
 
     const handleCloseSession = () => {
-        //HACER LOGICA CIERRE DE SESIÓN
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.reload();
     }
 
     const handleRegistration = () => {   
@@ -145,33 +147,7 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
 
                 <div className="container-fluid">
 
-                <a className="navbar-brand mb-0 h1">MathCrush</a>
-
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-
-                    <ul className="navbar-nav mr-auto">
-
-                    <li className="nav-item active">
-
-                        <a className="nav-link" href="/">Inicio</a>
-
-                    </li>
-
-                    <li className="nav-item">
-
-                        <a className="nav-link" href="#">¿Como jugar?</a>
-
-                    </li>
-
-                    <li className="nav-item">
-
-                        <a className="nav-link" href="#">¿Quienes somos?</a>
-
-                    </li>
-
-                    </ul>
-
-                </div>
+                <a className="navbar-brand mb-0 h1" href='/'>MathCrush</a>
 
                 <div className="collapse navbar-collapse" id="navbarButtons">
                     <>{!isLoggedIn ? <div className='navbar-nav ms-auto'><GoProfileComponent onClickMyNotes={handleMyNotes} onClickMyProfile={handleMyProfile} onClickCloseSession={handleCloseSession}/></div> : <ul className="navbar-nav ms-auto">

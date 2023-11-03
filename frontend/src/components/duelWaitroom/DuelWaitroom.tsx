@@ -7,6 +7,7 @@ import { PATH } from "../../constants";
 import io from 'socket.io-client';
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import WebSocketService from "../WebSocketService";
 
 
 
@@ -15,9 +16,7 @@ const DuelWaitroom: React.FC = () => {
 
     const [users, setUsers] = useState<string[]>([]);
     const [readys, setReadys] = useState<string[]>([]);
-    const socket = io('http://localhost:8000', {
-        auth: { token: localStorage.getItem('token') },
-      });    
+    
     const location = useLocation();
     const navigate = useNavigate();
     const [isReady, setIsReady] = useState(false);
@@ -25,29 +24,43 @@ const DuelWaitroom: React.FC = () => {
     const [roomId, setRoomId] = useState(location.state.duelId);
 
     useEffect(() => {
-        socket.emit('join', location.state.duelId);
+        const wsService = WebSocketService.getInstance();
+        wsService.connect(localStorage.getItem('token') || '');
 
-        socket.on('users', (data: any) => {
-            setUsers(data);
-        });   
+        const socket = wsService.getSocket();
 
-        socket.on('usersReady', (data: any) => {
-            setReadys(data)
-        });
+        if (socket){
 
-        socket.on('duelStarted', (data: any) => {
-            navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data}})
-        });
+            socket.emit('join', location.state.duelId);
+
+            socket.on('users', (data: any) => {
+                setUsers(data);
+            });   
+
+            socket.on('usersReady', (data: any) => {
+                setReadys(data)
+            });
+
+            socket.on('duelStarted', (data: any) => {
+                navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data}})
+            });
+        }
     }, []);
 
     const handleReady= () => {
-        socket.emit('ready', location.state.duelId);
-        setIsReady(true);
+        const socket = WebSocketService.getInstance().getSocket();
+        if (socket){
+            socket.emit('ready', location.state.duelId);
+            setIsReady(true);
+        }
     };
 
     const handleStart = () => {
-        socket.emit('start', location.state.duelId)
-        setHasStarted(true);
+        const socket = WebSocketService.getInstance().getSocket();
+        if (socket){
+            socket.emit('start', location.state.duelId)
+            setHasStarted(true);
+        }
     }
 
 

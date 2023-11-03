@@ -101,30 +101,29 @@ export class DuelGateway
     }
 
     const firstQuestion = duel.questions[0];
+    firstQuestion.answer = '';
 
     // Notify all clients in the room that the duel has started
-    this.server.to(duelId).emit('duelStarted', firstQuestion.body);
+    this.server.to(duelId).emit('duelStarted', firstQuestion);
   }
 
   @SubscribeMessage('answer')
   async handleAnswer(
-    @MessageBody() data: DuelAnswerQuestionDto,
     @ConnectedSocket() client: Socket,
+    @MessageBody() data: DuelAnswerQuestionDto,
   ) {
     // Add the client to the set of ready clients
     if (!this.readyClients.has(data.duelId)) {
       this.readyClients.set(data.duelId, new Set());
     }
 
-    this.logger.log(`Client ${client.data.username} answered`);
-
     const answers = this.readyClients.get(data.duelId);
 
-    if (answers.has(client.id)) {
+    if (answers.has(client.data.userId)) {
       throw new WsException('Client already answered');
     }
 
-    answers.add(client.id);
+    answers.add(client.data.userId);
 
     // Validate the answer
     const isCorrect = await this.duelService.checkAnswerAndUpdate(
@@ -134,10 +133,14 @@ export class DuelGateway
       answers,
     );
 
-    // Emit a 'questionAnswered' event to all clients in the room
-    this.server.to(data.duelId).emit('questionAnswered', isCorrect);
+    this.server.to(data.duelId).emit('answered', {
+      isCorrect: isCorrect,
+      userId: client.data.userId,
+    });
 
-    const allReady = this.allReady(data.duelId);
+    const allReady = await this.allReady(data.duelId);
+
+    console.log('allReady', allReady);
 
     if (allReady) {
       this.readyClients.delete(data.duelId);
@@ -148,19 +151,17 @@ export class DuelGateway
           .to(data.duelId)
           .emit('duelWinner', this.duelService.getWinner(data.duelId));
       }
-      this.server.to(data.duelId).emit('question: ', nextQuestion);
+      nextQuestion.answer = '';
+      this.server.to(data.duelId).emit('nextQuestion: ', nextQuestion);
     }
   }
 
-  private allReady(duelId: string) {
-    const clients = Array.from(
-      this.server.sockets.adapter.rooms.get(duelId) || [],
-    );
-    // Check if all clients are ready
-    const allReady = clients.every((clientId) =>
-      this.readyClients.get(duelId).has(clientId),
-    );
+  private async allReady(duelId: string) {
+    const duel = await this.duelService.getDuelWithPlayers(duelId);
 
-    return allReady;
+    if (this.readyClients.get(duelId).size == duel.players.length) {
+      return true;
+    }
+    return false;
   }
 }

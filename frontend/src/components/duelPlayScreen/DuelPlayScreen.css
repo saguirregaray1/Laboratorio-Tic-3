@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
 .duel-play-container{
     background-image: url('../../assets/duel_play.png');
     background-size: cover;
@@ -14,12 +16,18 @@
 }
 
 .question-container{
-    background-color: white;
+    background-color: #182628;
     padding: 5px;
+    font-family: 'Oswald', sans-serif;
     margin-top: 20px;
-    max-width: 700px;
+    max-width: 55%;
     text-align: center;
-    font-size: 25px;
+    font-size: 30px;
+    text-shadow: 0 0 20px black;
+    border-radius: 10px;
+    border: 3px solid black;
+    box-shadow: 0 0 20px black;
+    color: white;
 }
 
 .options-container{

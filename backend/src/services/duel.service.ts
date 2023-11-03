@@ -66,7 +66,6 @@ export class DuelService {
     if (!duel) {
       throw new HttpException('Duel not found', HttpStatus.NOT_FOUND);
     }
-    console.log(duel);
     return { duelId: duel.id, ownerId: duel.owner.id };
   }
 
@@ -84,6 +83,15 @@ export class DuelService {
     return duel;
   }
 
+  async getDuelWithPlayers(duelId: string): Promise<Duel> {
+    const duel = await this.duelRepository
+      .createQueryBuilder('duel')
+      .leftJoinAndSelect('duel.players', 'players')
+      .where('duel.id = :duelId', { duelId })
+      .getOne();
+    return duel;
+  }
+
   async checkAnswerAndUpdate(
     duelId: string,
     playerAnswer: string,
@@ -93,30 +101,22 @@ export class DuelService {
     const duel = await this.getDuel(duelId);
     const question = duel.questions[duel.currentRound];
 
+    const user = await this.userService.getUser(playerId);
+
     const { is_correct } = await this.triviaQuestionService.isCorrect(
       playerAnswer,
       question.id.toString(),
     );
 
-    const currentScore = duel.playerScores[playerId] || 0;
+    const currentScore = duel.playerScores[user.username] || 0;
 
     if (is_correct) {
-      switch (answers.size) {
-        case 1:
-          duel.playerScores = {
-            ...duel.playerScores,
-            [playerId]: currentScore + 3,
-          };
-        case 2:
-          duel.playerScores = {
-            ...duel.playerScores,
-            [playerId]: currentScore + 2,
-          };
-        default:
-          duel.playerScores = {
-            ...duel.playerScores,
-            [playerId]: currentScore + 1,
-          };
+      if (answers.size == 1) {
+        duel.playerScores[playerId] = currentScore + 3;
+      } else if (answers.size == 2) {
+        duel.playerScores[playerId] = currentScore + 2;
+      } else {
+        duel.playerScores[playerId] = currentScore + 1;
       }
     }
     await this.duelRepository.save(duel);
@@ -134,7 +134,7 @@ export class DuelService {
     return question.body;
   }
 
-  async endRound(duelId: string): Promise<string> {
+  async endRound(duelId: string): Promise<TriviaQuestion> {
     const duel = await this.getDuel(duelId);
     if (duel.currentRound >= duel.rounds) {
       duel.winner = duel.owner.id;
@@ -148,7 +148,7 @@ export class DuelService {
     } else {
       duel.currentRound++;
       await this.duelRepository.save(duel);
-      return duel.questions[duel.currentRound].body;
+      return duel.questions[duel.currentRound];
     }
   }
 
@@ -162,9 +162,9 @@ export class DuelService {
   }
 
   async addPlayerToDuel(duelId: string, playerId: number): Promise<Boolean> {
-    console.log(duelId);
-    const duel = await this.getDuel(duelId);
+    const duel = await this.getDuelWithPlayers(duelId);
     const player = await this.userService.getUser(playerId);
+
     if (!player || !duel) {
       throw new WsException('User or duel not found');
     }
@@ -174,6 +174,9 @@ export class DuelService {
     } else {
       duel.players = [player];
     }
+
+    console.log('players', duel.players);
+    await this.duelRepository.save(duel);
     return true;
   }
 }

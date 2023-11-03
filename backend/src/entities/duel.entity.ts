@@ -46,7 +46,7 @@ export class Duel {
   currentRound: number;
 
   @Column({ type: 'json', nullable: true })
-  playerScores: { [key: number]: number };
+  playerScores: { [key: string]: number };
 
   @Column({ nullable: true })
   winner: number;

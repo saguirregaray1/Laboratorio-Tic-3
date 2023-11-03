@@ -77,7 +77,7 @@ function FirstPage() {
                 isDisabledBtn= {false}
                 onClick={handleClickDuelos}/>           
             </div> 
-            <div className="container-wavy">
+            {/* <div className="container-wavy">
                 <SlideInElement
                 style= "slide-in-element"
                 title="Historia"
@@ -98,11 +98,10 @@ function FirstPage() {
             <div className="container">
                 <h1>Estas Preparado para el desafío?</h1>
                 <Swiper items={items} />
-            </div>
+            </div> */}
             <Footer 
-            aboutText="About us" 
-            contactText="Contact" 
-            servicesText="Sevices"
+            aboutText="Somos un grupo de estudiantes de la Universidad de Montevideo que buscamos revolucionar el mundo de la educación." 
+            contactText="florida@correo.um.edu.uy" 
             copyrightText="©Copyright 2023 Florida. All Rights Reserved."
             />
         </>
