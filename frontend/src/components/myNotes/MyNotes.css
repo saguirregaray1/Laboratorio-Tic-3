@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+
+.theorem-container-background {
+    background-image: url("../../assets/book_image.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 30px;
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.theorem-title-container {
+    margin-top: 25px;
+    margin-left: 80px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+}
+
+.theorem-title-notes {
+    font-family: 'Mochiy Pop One', sans-serif;
+    font-size: 45px;
+    color: #890F0D;
+    text-shadow: 2px 2px 4px white;
+    text-align: center;
+}
+
+.theorem-container-cotent {
+    padding: 35px;
+    margin-top: 30px;
+    margin-left: 120px;
+    width: 90%;
+    background-color: #F7E2D6;
+    border: 3px solid #4F200D;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.theorem-txt-body {
+    font-family: 'Indie Flower', cursive;
+    font-size: 35px;
+    color: black;
+}
+
+.demo-txt-title {
+    color: red;
+    font-family: 'Sacramento', cursive;
+    font-size: 65px;
+    margin-bottom: -5px;
+}
+
+.theorem-page-footer {
+    margin: 0;
+    width: 100%;
+}
+
+.back-theorem-page {
+    margin-top: 48px;
+    margin-bottom: 50px;
+    padding: 10px;
+    display: inline-flex;
+    align-items: center;
+    background-color: #A27B5C;
+    border: 3px solid #4F200D;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.back-theorem-page:hover {
+    transform: scale(1.03);
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.7);
+}
+
+.back-theorem-img {
+    width: 70px; 
+    height: 70px;
+}
+
+.back-theorem-txt {
+    font-family: 'Bree Serif', serif;
+    font-size: 30px;
+    color: white;
+    margin-top: 10px;
+    margin-left: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.next-theorem-page {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: auto;
+    padding: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    float: right !important;
+    background-color: #A27B5C;
+    border: 3px solid #4F200D;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.next-theorem-page:hover {
+    transform: scale(1.03);
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.7);
+}
+
+.next-theorem-txt {
+    font-family: 'Bree Serif', serif;
+    font-size: 30px;
+    color: white;
+    margin-top: 10px;
+    margin-right: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.next-theorem-img {
+    width: 70px; 
+    height: 70px;
+}
