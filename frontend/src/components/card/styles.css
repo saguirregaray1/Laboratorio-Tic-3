@@ -1,13 +1,18 @@
 /*Card.css*/
+@import url('https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
-.card {
+.card-container-style {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 25%;
-    height: 100px;
     border: 1px solid #ccc;
-    border-radius: 20px;
+    border-radius: 10px;
     border-width: 2px;
     padding: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
     margin-top: 10px;
 }
   
@@ -15,34 +20,29 @@
     align-self: center;
     max-width: 80%;
     max-height: 30%;
-    margin-top: 5;
     margin-bottom: 25px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 }
 
-.card-button {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-  
-.card-button:hover {
-    background-color: #c0392b;
-}
-
-
-.text {
+.card-body-text-container {
     height: 100px;
     text-align: justify;
     padding-left: 5%;
     padding-right: 5%;
+    margin-bottom: 20px;
 }
 
-.title {
+.card-body-text-style {
+    color: black;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 18px;
+}
+
+.crad-title-style {
     text-align: center;
-    font-weight: 200;
-    font-size: 24;
+    font-family: 'Holtwood One SC', serif;
+    font-size: 35px;
+    color: #7D7463;
+    text-shadow: 1px 1px 2px white;
 }

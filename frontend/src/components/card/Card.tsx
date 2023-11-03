@@ -1,5 +1,5 @@
 import React from "react";
-import "../card/styles.css"
+import "./styles.css"
 import CustomButton from "../customButton/customButton";
 
 interface CardProps {
@@ -15,21 +15,20 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({title, onClick, text, imageSrc, color = 'white', font = 'Arial', isDisabledBtn}) => {
     const cardStyle: React.CSSProperties= {
         backgroundColor: color,
-        fontFamily: font,
     }
 
     return (
         <>
-            <div className="card" style={cardStyle}>
+            <div className="card-container-style" style={cardStyle}>
                 {imageSrc && <img src={imageSrc} alt={title} className="cardImg" />}
-                <h2 className="title">{title}</h2>
-                <div className="text">
-                    <p>{text}</p>
+                <h2 className="crad-title-style">{title}</h2>
+                <div className="card-body-text-container ">
+                    <p className="card-body-text-style">{text}</p>
                 </div>
                 <CustomButton
                 color="#ff7f51"
                 onClick={onClick}
-                label="Jugar"
+                label="JUGAR"
                 isDisabled={isDisabledBtn}
                 />
             </div>
