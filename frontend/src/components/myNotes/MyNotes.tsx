@@ -30,9 +30,6 @@ const MyNotes: React.FC = () => {
       
           axios.request(config)
           .then((response) => {
-            if (location.state.count){
-                setCount(location.state.count);
-            }
             setBook(response.data.book);
             setTheorem(response.data.book[count]);
             setIsLoading(false)

@@ -2,6 +2,10 @@ import React, {useState, useEffect} from "react";
 import LoadingPage from "../loadingPage/LoadingPage";
 import NavBar from "../NavBar";
 import './DuelLeaderboard.css'
+import axios from "axios";
+import { PATH } from "../../constants";
+import { useLocation, useNavigate } from "react-router-dom";
+import WebSocketService from "../WebSocketService";
 
 const DuelLeaderboard: React.FC = () => {
 
@@ -9,10 +13,36 @@ const DuelLeaderboard: React.FC = () => {
     const [scoresDictionary, setScoresDictionary] = useState<any>(null);
     const [leaderboard, setLeaderboard] = useState<any>(null);
     const shownPlayers = 7;
+    const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        setScoresDictionary({'hernan puschiasis': 30, 'santiago aguirregaray': 20, 'campa': 100, 'guzmi': 10, 'a': 10,
-        'b': 1,'c': 2,'d': 3,'e': 4,'f': 5,'g': 6,'i': 7,'j': 8,'k': 9,});
+        const socket = WebSocketService.getInstance().getSocket();
+        if (socket){
+            socket.on('next', (data: any) => {
+                navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: location.state.question}})
+            });
+
+            socket.on('next', (data: any) => {
+                navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: location.state.question}})
+            });
+        }
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${PATH}/duel/${location.state.duelId}`,
+            headers: { 
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+          };
+      
+          axios.request(config)
+          .then((response) => {
+            setScoresDictionary(response.data.duel.playerScores)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         
     }, [])
 
@@ -32,6 +62,18 @@ const DuelLeaderboard: React.FC = () => {
         }
     }, [leaderboard])
 
+    const handleNext = () => {
+        const socket = WebSocketService.getInstance().getSocket();
+        if (socket){
+            socket.emit('goNext', location.state.duelId)
+        }
+        navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: location.state.question}})
+    }
+
+    const handleFinish = () => {
+        navigate(`/duel`)
+    }
+
     return (
         <>
             {isLoading ? <LoadingPage/> : 
@@ -50,8 +92,11 @@ const DuelLeaderboard: React.FC = () => {
                             </div>
                         ))}    
                     </div>   
-                    <div className="duel-next-button">Siguiente</div>
-                </div>   
+                    {location.state.winner ? 
+                        <div className="duel-finish-button" onClick={handleFinish}>Finish</div> :
+                        <div className="duel-next-button" onClick={handleNext}>Next</div> 
+
+}                </div>   
             </>}
         </>
     )

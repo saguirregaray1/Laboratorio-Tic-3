@@ -1,4 +1,5 @@
 import { Socket, io } from "socket.io-client";
+import { PATHSOCKET } from "../constants";
 
 class WebSocketService {
     private static instance: WebSocketService;
@@ -16,7 +17,7 @@ class WebSocketService {
   
     public connect(token: string): void {
       if (!this.socket) {
-        this.socket = io('http://localhost:8000', {
+        this.socket = io(PATHSOCKET, {
           auth: { token: token },
         });
       }

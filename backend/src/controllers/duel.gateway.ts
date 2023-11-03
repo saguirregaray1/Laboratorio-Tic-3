@@ -110,6 +110,14 @@ export class DuelGateway
     this.server.to(duelId).emit('duelStarted', firstQuestion);
   }
 
+  @SubscribeMessage('goNext')
+  async handleGoNext(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() duelId: string,
+  ) {
+    this.server.to(duelId).emit('next', null);
+  }
+
   @SubscribeMessage('answer')
   async handleAnswer(
     @ConnectedSocket() client: Socket,
@@ -147,13 +155,13 @@ export class DuelGateway
       this.readyClients.delete(data.duelId);
       const nextQuestion = await this.duelService.endRound(data.duelId);
       if (!nextQuestion) {
-        this.server.to(data.duelId).emit('duelEnded', nextQuestion);
         this.server
           .to(data.duelId)
           .emit('duelWinner', this.duelService.getWinner(data.duelId));
+      } else {
+        nextQuestion.answer = '';
+        this.server.to(data.duelId).emit('nextQuestion', nextQuestion);
       }
-      nextQuestion.answer = '';
-      this.server.to(data.duelId).emit('nextQuestion', nextQuestion);
     }
   }
 

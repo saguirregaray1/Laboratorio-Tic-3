@@ -49,7 +49,7 @@ export class Duel {
   playerScores: { [key: string]: number };
 
   @Column({ nullable: true })
-  winner: number;
+  winner: string;
 
   // Define a custom ID generator function
   @BeforeInsert()

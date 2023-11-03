@@ -112,12 +112,14 @@ export class DuelService {
 
     if (is_correct) {
       if (answers.size == 1) {
-        duel.playerScores[playerId] = currentScore + 3;
+        duel.playerScores[user.username] = currentScore + 3;
       } else if (answers.size == 2) {
-        duel.playerScores[playerId] = currentScore + 2;
+        duel.playerScores[user.username] = currentScore + 2;
       } else {
-        duel.playerScores[playerId] = currentScore + 1;
+        duel.playerScores[user.username] = currentScore + 1;
       }
+    } else {
+      duel.playerScores[user.username] = currentScore;
     }
     await this.duelRepository.save(duel);
     return is_correct;
@@ -136,11 +138,14 @@ export class DuelService {
 
   async endRound(duelId: string): Promise<TriviaQuestion> {
     const duel = await this.getDuel(duelId);
-    if (duel.currentRound >= duel.rounds) {
-      duel.winner = duel.owner.id;
-      duel.players.forEach((player) => {
-        if (duel.playerScores[player.id] > duel.playerScores[duel.winner]) {
-          duel.winner = player.id;
+    const duelPlayers = (await this.getDuelWithPlayers(duelId)).players;
+    if (duel.currentRound == duel.rounds - 1) {
+      duel.winner = duelPlayers[0].username;
+      duelPlayers.forEach((player) => {
+        if (
+          duel.playerScores[player.username] > duel.playerScores[duel.winner]
+        ) {
+          duel.winner = player.username;
         }
       }, duel);
       await this.duelRepository.save(duel);
@@ -152,7 +157,7 @@ export class DuelService {
     }
   }
 
-  async getWinner(duelId: string): Promise<number> {
+  async getWinner(duelId: string): Promise<string> {
     const duel = await this.getDuel(duelId);
     return duel.winner;
   }

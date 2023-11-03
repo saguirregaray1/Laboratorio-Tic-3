@@ -45,6 +45,11 @@ const DuelPlayScreen2: React.FC = () => {
                 console.log('nextQuestion',data)
                 navigate(`/duel/leaderboard/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data}})
             })
+
+
+            socket.on('duelWinner', (data: any) => {
+                navigate(`/duel/leaderboard/${location.state.duelId}`, {state:{duelId: location.state.duelId, winner: data}})
+            })
         }
 
         setQuestion(location.state.question);
