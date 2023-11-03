@@ -9,20 +9,22 @@ import Swiper from "../components/swiper/Swiper";
 import SlideInElement from "../components/slidein/SlideInElement";
 import NavBar from "../components/NavBar";
 import { useNavigate, useLocation } from 'react-router';
+import PopupMessage from "../components/popUpMessage/PopUpMessage";
 
 
 function FirstPage() {
     const location = useLocation();
     const navigate = useNavigate();
     const [token,setToken] = useState<string>('')
-
+    const [showPopUp, setShowPopUp] = useState<boolean>(false)
 
 
     const handleClickHistory = () => {
         if (localStorage.getItem('token')){
             navigate('/progress')
+        }else{
+            setShowPopUp(true);
         }
-        //popup
     }
 
     const handleClickTrivia = () => {
@@ -32,7 +34,13 @@ function FirstPage() {
     const handleClickDuelos = () => {
         if (localStorage.getItem('token')){
             navigate('/duel')
+        }else{
+            setShowPopUp(true);
         }    
+    }
+
+    const closePopUp = () => {
+        setShowPopUp(false);
     }
 
     const items = [
@@ -76,7 +84,12 @@ function FirstPage() {
                 font="Courier"
                 isDisabledBtn= {false}
                 onClick={handleClickDuelos}/>           
-            </div> 
+            </div>
+            {showPopUp && <PopupMessage
+                onClose={closePopUp}
+                title="Iniciar sesión"
+                body="Para ingresar a este modo de juego es neceseario iniciar sesión, en caso de no tener una cuenta, puede crearla usando el botón Registrarse."
+                />}
             {/* <div className="container-wavy">
                 <SlideInElement
                 style= "slide-in-element"
