@@ -4,7 +4,7 @@
     background-image: url('../../assets/duel_play.png');
     background-size: cover;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: flex;
     background-position: center;
     position: absolute;
     height: 100%;
@@ -13,6 +13,7 @@
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+    z-index: 2;
 }
 
 .question-container{
@@ -35,4 +36,9 @@
     max-width: 500px;
     flex-wrap: wrap;
     justify-content: space-evenly;
+}
+
+.check-answer-container{
+    z-index: 10;
+    display: flex;
 }

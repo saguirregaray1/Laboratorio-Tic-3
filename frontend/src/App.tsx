@@ -19,6 +19,7 @@ import DuelPlayScreen2 from './components/duelPlayScreen/DuelPlayScreen2';
 import DuelAnswerScreen from './components/duelAnswerScreen/DuelAnswerScreen';
 import DuelLeaderboard from './components/duelLeaderboard/DuelLeaderboard';
 import MyNotes from './components/myNotes/MyNotes';
+import DuelAnswer from './components/duelPlayScreen/DuelAnswer';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
         <Route path = "/duel/leaderboard/:duelId" element={<DuelLeaderboard/>}/>
         <Route path = "/myNotes" element={<MyNotes/>}/>
         <Route path = "/duel/wait/:duelId" element={<DuelWaitroom/>}/>
+        <Route path = "/prueba" element={<DuelAnswer isCorrect={false}/>}/>
       </Routes>
     </BrowserRouter>
   );
