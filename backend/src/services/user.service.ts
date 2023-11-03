@@ -152,18 +152,19 @@ export class UserService {
         user: user,
         currentQuestion: world.questions[0],
         world: world,
+        currentLevel: 0,
       });
 
       await this.progressRepository.save(newProgress).catch((err) => {
         console.log(err);
       });
 
-      return newProgress.currentQuestion.id;
+      return 0;
     }
     if (!userProgress.currentQuestion) {
-      return null;
+      return userProgress.currentLevel + 1;
     }
-    return userProgress.currentQuestion.id;
+    return userProgress.currentLevel;
   }
 
   async updateProgress(userId: number, questionId: number) {
@@ -194,13 +195,18 @@ export class UserService {
             : null;
 
         userProgress.currentQuestion = nextQuestion;
+        userProgress.currentLevel = userProgress.currentLevel + 1;
 
         if (question.theorem) {
           const user = await this.getUser(userId);
           user.book.push(question.theorem);
           await this.userRepository.save(user);
         }
-        await this.progressRepository.save(userProgress);
+        console.log('userProgress', userProgress);
+
+        await this.progressRepository.save(userProgress).catch((err) => {
+          console.log(err);
+        });
       }
     }
   }

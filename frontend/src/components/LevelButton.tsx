@@ -2,15 +2,14 @@
 import React from 'react';
 
 interface LevelButtonProps {
-  level: number;
   onClick: () => void;
   current_level: number;
   index: number;
 }
 
-const LevelButton: React.FC<LevelButtonProps> = ({ level, onClick, current_level, index}) => {
-  const isDisabled = current_level < level
-  const isCompleted = level < current_level
+const LevelButton: React.FC<LevelButtonProps> = ({ onClick, current_level, index}) => {
+  const isDisabled = current_level < index
+  const isCompleted = index < current_level
 
   return (
     <button 

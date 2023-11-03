@@ -36,7 +36,6 @@ const QuestionScreen: React.FC<{}> = () => {
           userId : localStorage.getItem('userId'),
           questionId: question.id,
           answer: answer,
-          
       }
     };
 

@@ -4,6 +4,7 @@ import {
   OneToOne,
   JoinColumn,
   ManyToOne,
+  Column,
 } from 'typeorm';
 import { Question } from './question.entity';
 import { Galaxy } from './galaxy.entity';
@@ -26,4 +27,7 @@ export class Progress {
   @ManyToOne(() => World)
   @JoinColumn()
   world: World;
+
+  @Column({ nullable: false, default: 0 })
+  currentLevel: number;
 }

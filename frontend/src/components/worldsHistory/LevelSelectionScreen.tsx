@@ -23,9 +23,7 @@ const LevelSelectionScreen: React.FC<{}> = () => {
 
 
   useEffect(() => {
-    var lengthStr='';
-    var length=0;
-    let config2 = {
+    let configGetWorldQuestions = {
       method: 'get',
       maxBodyLength: Infinity,
       url: `${PATH}/history/world/getquestions/${location.state.worldId}`,
@@ -34,11 +32,9 @@ const LevelSelectionScreen: React.FC<{}> = () => {
       },
     };
 
-    axios.request(config2)
+    axios.request(configGetWorldQuestions)
     .then((response) => {
-      setLevels(response.data.questions)
-      localStorage.setItem('length',response.data.questions.length)
-      
+      setLevels(response.data.questions)      
     })
     .catch((error) => {
       console.log(error);
@@ -51,7 +47,7 @@ const LevelSelectionScreen: React.FC<{}> = () => {
       worldId: location.state.worldId,
     });
 
-    let config = {
+    let configPostCurrentQuestion = {
       method: 'post',
       maxBodyLength: Infinity,
       url: `${PATH}/user/currentQuestion`,
@@ -62,26 +58,15 @@ const LevelSelectionScreen: React.FC<{}> = () => {
       data : reqBody
       };
 
-    axios.request(config)
-    .then((response1) => {
-      if (!response1.data){
-        lengthStr = localStorage.getItem('length')!
-        if (lengthStr){
-          length = parseInt(lengthStr)
-        }
-        console.log('length',length)
-        console.log(localStorage.getItem('length'))
-
-        setCurrentLevel(length+1)
-      }else{
-        setCurrentLevel(response1.data)
-      }
+    axios.request(configPostCurrentQuestion)
+    .then((response) => {
+      setCurrentLevel(response.data);
     })
     .catch((error) => {
       console.log(error);
     });   
 
-    let config3 = {
+    let configGetGalaxy = {
       method: 'get',
       maxBodyLength: Infinity,
       url: `${PATH}/history/galaxy/${location.state.galaxyId}`,
@@ -90,9 +75,8 @@ const LevelSelectionScreen: React.FC<{}> = () => {
       },
     };
 
-    axios.request(config3)
+    axios.request(configGetGalaxy)
     .then((response) => {
-      console.log('galaxy', response.data.galaxy)
       localStorage.setItem('galaxyId', response.data.galaxy.id)
       setGalaxy(response.data.galaxy.name)
     })
@@ -100,7 +84,7 @@ const LevelSelectionScreen: React.FC<{}> = () => {
       console.log(error);
     });
 
-    let config4 = {
+    let configGetWorld = {
       method: 'get',
       maxBodyLength: Infinity,
       url: `${PATH}/history/world/${location.state.worldId}`,
@@ -109,9 +93,8 @@ const LevelSelectionScreen: React.FC<{}> = () => {
       },
     };
 
-    axios.request(config4)
+    axios.request(configGetWorld)
     .then((response) => {
-      console.log('world', response.data.world)
       setWorld(response.data.world.name)
     })
     .catch((error) => {
@@ -137,11 +120,11 @@ const LevelSelectionScreen: React.FC<{}> = () => {
             <hr className="horizontal-line"/>
             <div className="level-grid">
               {levels.map((level, index) => (
-                  (currentLevel < level.id) ? (
-                    <LevelButton level={level.id} index={index} onClick={() => setSelectedLevel(level.id)} current_level={currentLevel} />
+                  (currentLevel < index) ? (
+                    <LevelButton index={index} onClick={() => setSelectedLevel(level.id)} current_level={currentLevel} />
                   ) : (
                     <Link to={`/question/${level.id}`} key={level.id}>
-                        <LevelButton level={level.id} index = {index} onClick={() => setSelectedLevel(level.id)} current_level={currentLevel} />
+                        <LevelButton  index = {index} onClick={() => setSelectedLevel(level.id)} current_level={currentLevel} />
                     </Link>
                   )
               ))}

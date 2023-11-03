@@ -43,14 +43,17 @@ const MyNotes: React.FC = () => {
 
     const handleNext = () => {
         if(count < book.length - 1){
-            navigate('/myNotes', {state: {count: count + 1}})
+            setCount(count + 1);
+            setTheorem(book[count + 1]);
+
         }
         
     }
 
     const handleBack = () => {
-        if(count-1 > 0){
-            navigate('myNotes', {state: {count: count - 1}})
+        if(count> 0){
+            setCount(count -1);
+            setTheorem(book[count - 1]);
         }
         
     }
@@ -74,11 +77,11 @@ const MyNotes: React.FC = () => {
                             <p className='theorem-txt-body'>{theorem.proof}</p>
                         </div>
                         <div className='theorem-page-footer'>
-                            <div className='back-theorem-page'>
+                            <div className='back-theorem-page' onClick={handleBack}>
                                 <img src={backTheorem} alt='Pagina Img' className='back-theorem-img'/>
                                 <p className='back-theorem-txt'>Anterior página</p>
                             </div>
-                            <div className='next-theorem-page'>
+                            <div className='next-theorem-page' onClick={handleNext}>
                                 <p className='next-theorem-txt'>Siguiente página</p>
                                 <img src={nextTheorem} alt='Pagina Img' className='next-theorem-img'/>
                             </div>
