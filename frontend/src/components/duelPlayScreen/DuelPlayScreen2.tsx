@@ -7,6 +7,7 @@ import { faPlus, faDivide, faXmark, faSubtract } from '@fortawesome/free-solid-s
 import { io } from 'socket.io-client';
 import { useLocation, useNavigate } from 'react-router-dom';
 import WebSocketService from '../WebSocketService';
+import DuelAnswer from './DuelAnswer';
 
 
 const DuelPlayScreen2: React.FC = () => {
@@ -22,11 +23,12 @@ const DuelPlayScreen2: React.FC = () => {
     const [hasAnswered,setHasAnswered] = useState<boolean>(false);
     const [isCorrect, setIsCorrect] = useState<boolean>(false);
 
+
     const handleCardClick = (option:string) => {
         const socket = WebSocketService.getInstance().getSocket();
         if (socket){
             socket.emit('answer', {duelId: location.state.duelId, answer: option})
-            setHasAnswered(true);
+            //setHasAnswered(true);
         }
     }
 
@@ -36,13 +38,16 @@ const DuelPlayScreen2: React.FC = () => {
             
             socket.on('answered', (data: any) => {
                 if (data && data.userId == localStorage.getItem('userId')){
-                     setIsCorrect(data.isCorrect);
+                    setHasAnswered(true); 
+                    setIsCorrect(data.isCorrect);
+                     
                  }
                 console.log(data);
             });
     
-            socket.on('nextQuestion', (data: any) => {
+            socket.on('nextQuestion', async (data: any) => {
                 console.log('nextQuestion',data)
+                await new Promise(r => setTimeout(r, 2000)); //Sleep de 2 segundos
                 navigate(`/duel/leaderboard/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data}})
             })
 
@@ -79,8 +84,12 @@ const DuelPlayScreen2: React.FC = () => {
                         </div>
                         <div className='answer-container'>
                             {hasAnswered && isCorrect ? <p>Correcto</p> : hasAnswered && !isCorrect ? <p>Incorrecto</p> : <p></p>}
-                            </div>
+                            </div> 
                     </div>
+                    <div className='check-answer-container'>
+                            {hasAnswered ? <DuelAnswer isCorrect = {isCorrect}/> : <></>}        
+                    </div>   
+                    
                     </>
                 )
                 
