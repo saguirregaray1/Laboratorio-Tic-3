@@ -1,0 +1,61 @@
+
+
+.timer-container{
+    background-image: url('../../assets/duel_play.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
+    z-index: 1;
+}
+.spinning-div {
+    width: 100px;
+    height: 100px;
+    background-color: #182628; /* Change the background color as desired */
+    color: white;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spin 2.8s linear infinite; /* Rotate 45 degrees every 2 seconds */
+    z-index: 1;
+}
+
+.static-number{
+    z-index: 2;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    font-size: 40px;
+    align-self: center;
+    position: absolute;
+}
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(45deg);
+    }
+    50% {
+      transform: rotate(45deg);
+    }
+    75% {
+      transform: rotate(90deg);
+    }
+    100% {
+      transform: rotate(90deg);
+    }
+  }
+  
+  

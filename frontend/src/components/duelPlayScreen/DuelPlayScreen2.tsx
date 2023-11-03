@@ -8,6 +8,7 @@ import { io } from 'socket.io-client';
 import { useLocation, useNavigate } from 'react-router-dom';
 import WebSocketService from '../WebSocketService';
 import DuelAnswer from './DuelAnswer';
+import Timer from '../timer/Timer';
 
 
 const DuelPlayScreen2: React.FC = () => {
@@ -22,6 +23,7 @@ const DuelPlayScreen2: React.FC = () => {
     
     const [hasAnswered,setHasAnswered] = useState<boolean>(false);
     const [isCorrect, setIsCorrect] = useState<boolean>(false);
+    const [timerStopped, setTimerStopped] = useState(false);
 
 
     const handleCardClick = (option:string) => {
@@ -52,7 +54,8 @@ const DuelPlayScreen2: React.FC = () => {
             })
 
 
-            socket.on('duelWinner', (data: any) => {
+            socket.on('duelWinner', async (data: any) => {
+                await new Promise(r => setTimeout(r, 2000)); //Sleep de 2 segundos
                 navigate(`/duel/leaderboard/${location.state.duelId}`, {state:{duelId: location.state.duelId, winner: data}})
             })
         }
@@ -69,8 +72,8 @@ const DuelPlayScreen2: React.FC = () => {
 
     return(
         <>
-            {
-                isLoading ? <LoadingPage/> : (
+            {!timerStopped ? <Timer setTimerStopped={() => setTimerStopped(true)}/> :
+                (isLoading ? <LoadingPage/> : (
                     <>
                     <NavBar showButtons={true}></NavBar>
                     <div className='duel-play-container'>
@@ -91,7 +94,7 @@ const DuelPlayScreen2: React.FC = () => {
                     </div>   
                     
                     </>
-                )
+                ))
                 
             }
             

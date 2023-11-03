@@ -93,8 +93,8 @@ const DuelLeaderboard: React.FC = () => {
                         ))}    
                     </div>   
                     {location.state.winner ? 
-                        <div className="duel-finish-button" onClick={handleFinish}>Finish</div> :
-                        <div className="duel-next-button" onClick={handleNext}>Next</div> 
+                        <div className="duel-finish-button" onClick={handleFinish}>Inicio</div> :
+                        <div className="duel-next-button" onClick={handleNext}>Siguiente</div> 
 
 }                </div>   
             </>}
