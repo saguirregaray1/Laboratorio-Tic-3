@@ -1,9 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap');
+
 .card-button {
-    background-color: #e74c3c;
+    background-color: #ff7f51;
     color: white;
+    font-family: 'Bree Serif', serif;
+    font-size: 25px;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s, backgroun-color 0.2s;
+    width: 90%;
+}
+
+.card-button:hover {
+    transform: scale(1.03);
+    box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.7);
+    background-color: #E25E3E;
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import './customButton.css'
 
 interface CustomButtonProps {
   label: string;
@@ -13,7 +14,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ label, onClick, color, isDi
   };
 
   return (
-    <button className="card-button" style={buttonStyle} onClick={onClick} disabled={isDisabled}>
+    <button className="card-button" onClick={onClick} disabled={isDisabled}>
       {label}
     </button>
   );

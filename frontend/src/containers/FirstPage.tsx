@@ -62,7 +62,7 @@ function FirstPage() {
                 onClick={handleClickHistory}/>
 
                 <Card title="Trivia"
-                text="Desafiate intentando hacer numerosos e ingeniosos problemas de matematicas segun tu nivel."
+                text="Llego tu momento de entrenar. Resove distintas preguntas de todos los niveles."
                 imageSrc={triviaImage}
                 color="#fdf0d5"
                 font="Courier"
@@ -70,7 +70,7 @@ function FirstPage() {
                 onClick={handleClickTrivia}/>
 
                 <Card title="Duelos"
-                text="Juega y diviertete con amigos y personas online, desafialos a distinos modos de juego."
+                text="Juega y diviertete con amigos y personas online. Invitalas a una sala en un desafio imperdible."
                 imageSrc={duelosImage}
                 color="#fdf0d5"
                 font="Courier"
