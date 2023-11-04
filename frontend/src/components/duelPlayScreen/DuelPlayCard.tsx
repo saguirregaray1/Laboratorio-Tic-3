@@ -3,6 +3,7 @@ import './DuelPlayCard.css';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {darken} from 'polished'
+import Latex from 'react-latex';
 
 
 interface DuelPlayCardProps{
@@ -31,7 +32,7 @@ const DuelPlayCard: React.FC<DuelPlayCardProps> = ({option, color, icon, onClick
         onMouseLeave={handleMouseLeave}
         onClick={onClick}>
             {/* <div className='duel-card-icon'><FontAwesomeIcon icon={icon} size='2xl' style={{color: "white"}}/></div> */}
-            <p className='duel-card-p'>{option}</p>
+            <div className='duel-card-p'><Latex>{option}</Latex></div>
         </div>
     );
 }

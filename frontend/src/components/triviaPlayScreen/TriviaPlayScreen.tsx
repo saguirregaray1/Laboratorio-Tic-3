@@ -8,6 +8,7 @@ import NavBar from '../NavBar';
 import backTrivia from '../../assets/back_trivia.png'
 import nextQuestion from '../../assets/next_question.png'
 import {PATH} from '../../constants'
+import Latex from 'react-latex';
 
 const TriviaPlayScreen: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -148,7 +149,7 @@ const TriviaPlayScreen: React.FC = () => {
             <h1 className='level-title'>¿Podrás resolver el siguiente problema?</h1>
           </div>
           <div className="content-container">
-            <p>{question}</p>
+            <div className="trivia-question-latex-container"><Latex>{question}</Latex></div>
             <p>Elige una opción</p>
             <ul>
               {options.map((option, index) => (
@@ -157,7 +158,7 @@ const TriviaPlayScreen: React.FC = () => {
                   onClick={() => handleOptionSelect(option)}
                   className={option === selectedOption ? 'selected-option' : 'unselected-option'}
                 >
-                  {option}
+                  <div className='trivia-option-latex-container'><Latex>{option}</Latex></div>
                 </li>
               ))}
             </ul>

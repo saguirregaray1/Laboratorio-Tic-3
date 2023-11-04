@@ -25,6 +25,19 @@
     box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.4);
 }
   
+.trivia-question-latex-container{
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.trivia-option-latex-container{
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+}
+
 .content-container p, .content-container ul {
     color: black;
     font-family: 'Roboto', sans-serif;
