@@ -13,6 +13,7 @@ const Progreso: React.FC = () => {
   const location = useLocation();
   const [selectedOption, setSelectedOption] = useState<string>('');
   const options = ['1 Primaria', '2 Primaria', '3 Primaria', '4 Primaria', '5 Primaria', '6 Primaria', '1 Secundaria', '2 Secundaria', '3 Secundaria', '4 Secundaria', '5 Secundaria', '6 Secundaria', 'GAL1 Universidad', 'GAL2 Universidad', 'AM1 Universidad', 'AM2 Universidad','AM3 Universidad', 'PyE Universidad'];
+
   const [emptyDropBox, setEmptyDropBox] = useState<boolean>(false);
 
   const handleContinue = () => {
@@ -41,10 +42,8 @@ const Progreso: React.FC = () => {
 
   const handleChangeGalaxy = () => {
     if (selectedOption){
-      //Abrir galaxia especificada en selectedOption
-    }else{
-      //Empty selection
-      setEmptyDropBox(true);
+      const index = options.indexOf(selectedOption);
+      navigate('/history/galaxy', {state: {galaxyId: index+1}})
     }
   }
 

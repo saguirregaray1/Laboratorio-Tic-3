@@ -244,4 +244,30 @@ export class UserService {
     user.course = request.course;
     await this.userRepository.save(user);
   }
+
+  async getCurrentGalaxy(id: any) {
+    const options = [
+      '1 Primaria',
+      '2 Primaria',
+      '3 Primaria',
+      '4 Primaria',
+      '5 Primaria',
+      '6 Primaria',
+      '1 Secundaria',
+      '2 Secundaria',
+      '3 Secundaria',
+      '4 Secundaria',
+      '5 Secundaria',
+      '6 Secundaria',
+      'GAL1 Universidad',
+      'GAL2 Universidad',
+      'AM1 Universidad',
+      'AM2 Universidad',
+      'AM3 Universidad',
+      'PyE Universidad',
+    ];
+    const user = await this.getUser(id);
+    const index = options.indexOf(user.course);
+    return index;
+  }
 }
