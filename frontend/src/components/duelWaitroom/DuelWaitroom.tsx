@@ -22,6 +22,7 @@ const DuelWaitroom: React.FC = () => {
     const [isReady, setIsReady] = useState(false);
     const [hasStarted, setHasStarted] = useState(false);
     const [roomId, setRoomId] = useState(location.state.duelId);
+    const isOwner = location.state.ownerId === localStorage.getItem('userId');
 
     useEffect(() => {
         const wsService = WebSocketService.getInstance();
@@ -43,7 +44,7 @@ const DuelWaitroom: React.FC = () => {
             });
 
             socket.on('duelStarted', (data: any) => {
-                navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data}})
+                navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data, isOwner:isOwner}})
             });
         }
     }, []);
@@ -72,7 +73,7 @@ const DuelWaitroom: React.FC = () => {
             <p className="waiting-room-p">Código de la sala: {roomId}</p>
             <div className="buttons-container">
                 <button className="waitroom-button" onClick={handleReady}>Listo</button>
-                <button className="waitroom-button" onClick={handleStart} disabled={location.state.ownerId != localStorage.getItem('userId')}>Comenzar</button>
+                {isOwner && users.length == readys.length? <button className="waitroom-button" onClick={handleStart}>Comenzar</button> : <></>}
             </div>
 
             <div className="players-container">

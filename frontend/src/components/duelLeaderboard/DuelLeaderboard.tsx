@@ -23,9 +23,9 @@ const DuelLeaderboard: React.FC = () => {
                 navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: location.state.question}})
             });
 
-            socket.on('next', (data: any) => {
-                navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: location.state.question}})
-            });
+            // socket.on('next', (data: any) => {
+            //     navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: location.state.question}})
+            // });
         }
         let config = {
             method: 'get',
@@ -67,7 +67,7 @@ const DuelLeaderboard: React.FC = () => {
         if (socket){
             socket.emit('goNext', location.state.duelId)
         }
-        navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: location.state.question}})
+        navigate(`/duel/play/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: location.state.question, isOwner:location.state.isOwner}})
     }
 
     const handleFinish = () => {
@@ -93,8 +93,8 @@ const DuelLeaderboard: React.FC = () => {
                         ))}    
                     </div>   
                     {location.state.winner ? 
-                        <div className="duel-finish-button" onClick={handleFinish}>Finish</div> :
-                        <div className="duel-next-button" onClick={handleNext}>Next</div> 
+                        <div className="duel-finish-button" onClick={handleFinish}>Finalizar</div> :
+                        location.state.isOwner ? <div className="duel-next-button" onClick={handleNext}>Siguiente</div> : <></> 
 
 }                </div>   
             </>}

@@ -20,6 +20,8 @@ import DuelAnswerScreen from './components/duelAnswerScreen/DuelAnswerScreen';
 import DuelLeaderboard from './components/duelLeaderboard/DuelLeaderboard';
 import MyNotes from './components/myNotes/MyNotes';
 import DuelAnswer from './components/duelPlayScreen/DuelAnswer';
+import Timer from './components/timer/Timer';
+import DuelQuestionTimer from './components/duelPlayScreen/DuelQuestionTimer';
 
 
 function App() {
@@ -46,7 +48,6 @@ function App() {
         <Route path = "/duel/leaderboard/:duelId" element={<DuelLeaderboard/>}/>
         <Route path = "/myNotes" element={<MyNotes/>}/>
         <Route path = "/duel/wait/:duelId" element={<DuelWaitroom/>}/>
-        <Route path = "/prueba" element={<DuelAnswer isCorrect={false}/>}/>
       </Routes>
     </BrowserRouter>
   );

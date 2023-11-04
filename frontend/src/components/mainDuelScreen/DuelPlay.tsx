@@ -5,9 +5,10 @@ interface DuelPlayProps{
   onClick: () => void
   onSubmit: () => void
   setDuelId: (id : string) => void
+  showIncorrectCode: boolean;
 }
 
-const DuelPlay: React.FC<DuelPlayProps> = ({onClick, onSubmit, setDuelId}) => {
+const DuelPlay: React.FC<DuelPlayProps> = ({onClick, onSubmit, setDuelId, showIncorrectCode}) => {
   
 
   return (
@@ -22,6 +23,7 @@ const DuelPlay: React.FC<DuelPlayProps> = ({onClick, onSubmit, setDuelId}) => {
         <button className='button-duel room-button' onClick={onClick}>
           Crear Sala
         </button>
+        {showIncorrectCode ? <p className='duel-incorrect-code-p'>Código incorrecto</p> : <></>}
       </div>
     
   );

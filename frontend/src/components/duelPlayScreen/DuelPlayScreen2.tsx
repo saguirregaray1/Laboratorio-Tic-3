@@ -8,6 +8,8 @@ import { io } from 'socket.io-client';
 import { useLocation, useNavigate } from 'react-router-dom';
 import WebSocketService from '../WebSocketService';
 import DuelAnswer from './DuelAnswer';
+import Timer from '../timer/Timer';
+import DuelQuestionTimer from './DuelQuestionTimer';
 
 
 const DuelPlayScreen2: React.FC = () => {
@@ -22,13 +24,19 @@ const DuelPlayScreen2: React.FC = () => {
     
     const [hasAnswered,setHasAnswered] = useState<boolean>(false);
     const [isCorrect, setIsCorrect] = useState<boolean>(false);
+    const [timerStopped, setTimerStopped] = useState(false);
 
+    const handleTimeout = () => {
+        const socket = WebSocketService.getInstance().getSocket();
+        if (socket){
+            socket.emit('answer', {duelId: location.state.duelId, answer: ''})
+        }
+    }
 
     const handleCardClick = (option:string) => {
         const socket = WebSocketService.getInstance().getSocket();
         if (socket){
             socket.emit('answer', {duelId: location.state.duelId, answer: option})
-            //setHasAnswered(true);
         }
     }
 
@@ -48,11 +56,12 @@ const DuelPlayScreen2: React.FC = () => {
             socket.on('nextQuestion', async (data: any) => {
                 console.log('nextQuestion',data)
                 await new Promise(r => setTimeout(r, 2000)); //Sleep de 2 segundos
-                navigate(`/duel/leaderboard/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data}})
+                navigate(`/duel/leaderboard/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data, isOwner:location.state.isOwner}})
             })
 
 
-            socket.on('duelWinner', (data: any) => {
+            socket.on('duelWinner', async (data: any) => {
+                await new Promise(r => setTimeout(r, 2000)); //Sleep de 2 segundos
                 navigate(`/duel/leaderboard/${location.state.duelId}`, {state:{duelId: location.state.duelId, winner: data}})
             })
         }
@@ -69,8 +78,8 @@ const DuelPlayScreen2: React.FC = () => {
 
     return(
         <>
-            {
-                isLoading ? <LoadingPage/> : (
+            {!timerStopped ? <Timer setTimerStopped={() => setTimerStopped(true)}/> :
+                (isLoading ? <LoadingPage/> : (
                     <>
                     <NavBar showButtons={true}></NavBar>
                     <div className='duel-play-container'>
@@ -84,14 +93,17 @@ const DuelPlayScreen2: React.FC = () => {
                         </div>
                         <div className='answer-container'>
                             {hasAnswered && isCorrect ? <p>Correcto</p> : hasAnswered && !isCorrect ? <p>Incorrecto</p> : <p></p>}
-                            </div> 
+                        </div> 
                     </div>
                     <div className='check-answer-container'>
                             {hasAnswered ? <DuelAnswer isCorrect = {isCorrect}/> : <></>}        
                     </div>   
+                    <div className='question-timer-container'>
+                        <DuelQuestionTimer handleTimeout={handleTimeout}/>
+                    </div>
                     
                     </>
-                )
+                ))
                 
             }
             
