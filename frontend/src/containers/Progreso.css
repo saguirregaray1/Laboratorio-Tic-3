@@ -1,88 +1,143 @@
-/* SpaceScreen.css */
+@import url('https://fonts.googleapis.com/css2?family=Paytone+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
 .space-screen {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-size: cover;
-    background-position: center;
-    color: white;
-  }
-  
-  .content {
-    position: relative;
-    display: flex;
-    text-align: center;
-    justify-content: center;
-  }
-  
-  .student-info {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    margin-top: 20px;
-  }
-  
-  .button {
-    font-size: 24px;
-    font-weight: bold;
-    color: #14213d;
-    padding: 10px 20px;
-    margin: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 10px;
-    width: 30%; /* Equal space distribution between buttons */    
-  }
-  
-  .button-container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-around;
-    height: 10%;
+  background-image: url('../assets/space_rocket_background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 0px start;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
 
-  }
-  
+.my-progress-card-container{
+  display: inline-flex;
+  float: left;
+  background-color: #393E46;
+  border: none;
+  border-radius: 10px;
+  width: 35%;
+  height: 75%;
+  padding: 20px;
+  margin-left: 10%;
+  margin-top: 50px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: border 0.2s, transform 0.2s, box-shadow 0.2s;
+}
 
+.my-progress-card-container:hover {
+  border: 2px solid white;
+  transform: scale(1.05);
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.3);
+}
 
-  .dropdown-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .dropdown-menu {
-    position: absolute;
-    top: 100%; /* Position the dropdown below the button */
-    right: 0; /* Align the dropdown with the right side of the button */
-    border: 1px solid #777; /* Border style */
-    border-radius: 5px;
-    width: 100%; /* Adjust the width as needed */
-    display: none; /* Initially hide the dropdown */
-  }
-  
-  .dropdown-container:hover .dropdown-menu {
-    display: block; /* Show the dropdown when the container is hovered */
-    background-color: rgba(0, 0, 0, 0);
-  }
-  
-  .dropdown-menu button {
-    color: white;
-    width: 100%;
-    border: none;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  
-  .dropdown-menu button:hover {
-    background-color: #555;
-  }
+.change-progress-card-container {
+  display: inline-flex;
+  float: right;
+  background-color: #393E46;
+  border: none;
+  border-radius: 10px;
+  width: 35%;
+  height: 75%;
+  padding: 20px;
+  margin-right: 10%;
+  margin-top: 50px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: border 0.2s, transform 0.2s;
+}
 
-  .body {
-    height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.change-progress-card-container:hover {
+  transform: scale(1.05);
+  border: 2px solid white;
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.progress-card-container{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.progress-card-title{
+  font-family: 'Paytone One', sans-serif;
+  font-size: 30px;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 40px;
+}
+
+.progress-card-body {
+  font-size: 20px;
+  color: white;
+}
+
+.progress-continue-btn {
+  display: inline-flex;
+  float: right !important;
+  margin-top: 20px;
+  background-color: black;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.progress-continue-btn:hover {
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+.progress-continue-txt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: white;
+  font-family: 'Russo One', sans-serif;
+  font-size: 25px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.progress-continue-img {
+  height: 60px;
+  width: 60px;
+  margin-left: 10px;
+}
+
+.footer-progress-playnow {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-playnow-drop-box {
+  padding: 10px;
+  margin-top: 30px;
+  font-size: 20px;
+  border-radius: 10px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.progress-playnow-txt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: white;
+  font-family: 'Russo One', sans-serif;
+  font-size: 23px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.progress-playnow-img {
+  height: 50px;
+  width: 50px;
+  margin-left: 10px;
 }

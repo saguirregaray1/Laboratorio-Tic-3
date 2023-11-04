@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import './Progreso.css';
-import spaceBackground from '../assets/rocket-background.jpg'
 import { useLocation, useNavigate } from 'react-router-dom';
-import CustomButton from '../components/customButton/customButton';
 import NavBar from '../components/NavBar';
 import axios from 'axios';
 import { PATH } from '../constants';
+import rocket from '../assets/continue_rocket.png'
+import insigna from '../assets/insigna.png'
+import PopupMessage from '../components/popUpMessage/PopUpMessage';
 
 const Progreso: React.FC = () => {
-  const [year, setYear] = useState<string>('1');
-  const [course, setCourse] = useState<string>('1-Primaria');
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string>('');
   const navigate = useNavigate();
   const location = useLocation();
-
-
+  const [selectedOption, setSelectedOption] = useState<string>('');
+  const options = ['1 Primaria', '2 Primaria', '3 Primaria', '4 Primaria', '5 Primaria', '6 Primaria', '1 Secundaria', '2 Secundaria', '3 Secundaria', '4 Secundaria', '5 Secundaria', '6 Secundaria', 'GAL1 Universidad', 'GAL2 Universidad', 'AM1 Universidad', 'AM2 Universidad','AM3 Universidad', 'PyE Universidad'];
+  const [emptyDropBox, setEmptyDropBox] = useState<boolean>(false);
 
   const handleContinue = () => {
 
@@ -41,92 +39,58 @@ const Progreso: React.FC = () => {
 
   };
 
-  const handleDropdownClick = () => {
-    setShowDropdown(!showDropdown);
-  };
-
-  const handleYearSelect = (option: string) => {
-    setSelectedOption(option);
-    setShowDropdown(false);
-    setCourse(option);
-  };
-
-  /*
-  const handleCourseSelect = (option: string) => {
-    setSelectedOption(option);
-    setShowDropdown(false); 
-    setYear(option);
-  };
-  */
-
-
-/*
-  const generateButtons = () => {
-    const buttons = [];
-    for (let i = 1; i <= 6; i++) {
-      buttons.push(
-        <button key={i} onClick={() => handleCourseSelect(String(i))}>
-          {i}
-        </button>
-      );
+  const handleChangeGalaxy = () => {
+    if (selectedOption){
+      //Abrir galaxia especificada en selectedOption
+    }else{
+      //Empty selection
+      setEmptyDropBox(true);
     }
-    return buttons;
-  };
-*/
+  }
 
-
-const yearOptions: string[] = ['1-Primaria', '2-Primaria', '3-Primaria', '4-Primaria', '5-Primaria', '6-Primaria',
- '1-Secundaria', '2-Secundaria', '3-Secundaria', '4-Secundaria', '5-Secundaria', '6-Secundaria',
-  'GAL 1 - Universidad', 'GAL 2 - Universidad', 'Analisis 1 - Universidad', 'Analisis 2 - Universidad', 'Analisis 3 - Universidad', 'PYE - Universidad',];
-
-const generateYearButtons = (options: string[]) => {
-  return options.map((option, index) => (
-    <button key={index} onClick={() => handleYearSelect(option)}>
-      {option}
-    </button>
-  ));
-};
-
-/*
-const generateCollegeButtons = (options: string[]) => {
-  return options.map((option, index) => (
-    <button key={index} onClick={() => handleCourseSelect(option)}>
-      {option}
-    </button>
-  ));
-};
-*/
+  const closePopUpEmptyDropBox = () => {
+    setEmptyDropBox(false);
+  }
 
   return (
     <>
-    <NavBar showButtons={true}/>
-    <div className="space-screen" style={{ backgroundImage: `url(${spaceBackground})` }}>
-      <div className="content">
-        <div className="student-info">
-          <h1>{course}</h1>
-        </div>
-        <div className='body'>
-          <div className="button-container">
-            <CustomButton
-            label='Continuar'
-            color='#14213d'
-            isDisabled= {false}
-            onClick={handleContinue}/>
-            <div className='dropdown-container'>
-              <CustomButton
-              label='Cambiar'
-              color='#14213d'
-              isDisabled= {false}
-              onClick={handleDropdownClick}/>
-              {showDropdown && (
-                <div className="dropdown-menu">
-                {generateYearButtons(yearOptions)}
-              </div>
-              )}
+    <div className="space-screen">
+      <NavBar showButtons={false}/>
+      <div className="my-progress-card-container">
+        <div className="progress-card-container">
+          <h2 className='progress-card-title'>Continuar mi progreso</h2>
+          <p className='progress-card-body'>Completa los distintos mundos dentro de tu año escolar, resulve todos los ejercicios y avanza de nivel hasta terminar con todos los desafios.</p>
+          <p className='progress-card-body'>Apreta el boton continuar para navegar hacia la seleccion de mundos.</p>
+          <p className='progress-card-body'>¡Te estoy esperando!</p>
+          <div className="progress-continue-btn">
+            <p className='progress-continue-txt'>Continuar</p>
+            <img src={rocket} alt='Rocket Img' className='progress-continue-img'/>
+          </div>
+        </div> 
+      </div>
+      <div className="change-progress-card-container">
+        <div className="progress-card-container" onClick={handleContinue}>
+          <h2 className='progress-card-title'>Descubrir nuevos mundos</h2>
+          <p className='progress-card-body'>Aventurate en nuevos retos y desafiate en otros años escolares, accede a ejercicios de diferente dificultad, no pares hasta completarlos.</p>
+          <p className='progress-card-body'>Selecciona el año que quieras descubir y apreta el boton jugar ahora.</p>
+          <p className='progress-card-body'>¿Te animas?</p>
+          <div className='footer-progress-playnow'>
+            <select className='progress-playnow-drop-box' value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
+                <option value="">Selecciona un año</option>
+                {options.map((option, index) => (
+                    <option key={index} value={option}>
+                        {option}
+                    </option>
+                ))}
+            </select>
+            <div className="progress-continue-btn" onClick={handleChangeGalaxy}>
+              <p className='progress-playnow-txt'>Jugar Ahora</p>
+              <img src={insigna} alt='Rocket Img' className='progress-playnow-img'/>
             </div>
           </div>
         </div>
       </div>
+      {emptyDropBox && <PopupMessage onClose={closePopUpEmptyDropBox} title='Año escolar vacio' body='Para poder acceder a este modo de juego se requiere seleccionar una opcion valida para el año escolar al que se quiera jugar. Vuelva a intentar.'/>}
     </div>
     </>
   );
