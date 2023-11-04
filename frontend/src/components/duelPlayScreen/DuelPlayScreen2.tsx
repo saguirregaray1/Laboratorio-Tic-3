@@ -10,6 +10,7 @@ import WebSocketService from '../WebSocketService';
 import DuelAnswer from './DuelAnswer';
 import Timer from '../timer/Timer';
 import DuelQuestionTimer from './DuelQuestionTimer';
+import Latex from 'react-latex';
 
 
 const DuelPlayScreen2: React.FC = () => {
@@ -84,16 +85,13 @@ const DuelPlayScreen2: React.FC = () => {
                     <NavBar showButtons={true}></NavBar>
                     <div className='duel-play-container'>
                         <div className='question-container'>
-                            <p>{question.body}</p>
+                            <Latex>{question.body}</Latex>
                         </div>
                         <div className='options-container'>
                           {options.map((option, index) => (
                             <DuelPlayCard option={option} color={colors[index]} icon={icons[index]} onClick={() => handleCardClick(option)}/>
                         ))} 
                         </div>
-                        <div className='answer-container'>
-                            {hasAnswered && isCorrect ? <p>Correcto</p> : hasAnswered && !isCorrect ? <p>Incorrecto</p> : <p></p>}
-                        </div> 
                     </div>
                     <div className='check-answer-container'>
                             {hasAnswered ? <DuelAnswer isCorrect = {isCorrect}/> : <></>}        

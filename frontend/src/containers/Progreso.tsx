@@ -62,14 +62,14 @@ const Progreso: React.FC = () => {
           <p className='progress-card-body'>Completa los distintos mundos dentro de tu año escolar, resulve todos los ejercicios y avanza de nivel hasta terminar con todos los desafios.</p>
           <p className='progress-card-body'>Apreta el boton continuar para navegar hacia la seleccion de mundos.</p>
           <p className='progress-card-body'>¡Te estoy esperando!</p>
-          <div className="progress-continue-btn">
+          <div className="progress-continue-btn" onClick={handleContinue}>
             <p className='progress-continue-txt'>Continuar</p>
             <img src={rocket} alt='Rocket Img' className='progress-continue-img'/>
           </div>
         </div> 
       </div>
       <div className="change-progress-card-container">
-        <div className="progress-card-container" onClick={handleContinue}>
+        <div className="progress-card-container">
           <h2 className='progress-card-title'>Descubrir nuevos mundos</h2>
           <p className='progress-card-body'>Aventurate en nuevos retos y desafiate en otros años escolares, accede a ejercicios de diferente dificultad, no pares hasta completarlos.</p>
           <p className='progress-card-body'>Selecciona el año que quieras descubir y apreta el boton jugar ahora.</p>

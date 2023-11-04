@@ -10,6 +10,7 @@ import back_arrow from '../../assets/back_level_arrow.png'
 import question_resolved from '../../assets/question_resolved.png'
 import { PATH } from '../../constants';
 import { queryAllByAltText } from '@testing-library/react';
+import Latex from 'react-latex';
 
 const QuestionScreen: React.FC<{}> = () => {
   const { level } = useParams();
@@ -132,7 +133,7 @@ const QuestionScreen: React.FC<{}> = () => {
             <div className="page-container">
               <h2 className="page-title">{question.world.name}  Nivel {level}</h2>
               <p className="intro-text">Resuelva el siguiente ejercicio para avanzar de nivel</p>
-              <p className="question-body">{question.body}</p>
+              <div className="question-body"><Latex>{question.body}</Latex></div>
               <input
                 type="text"
                 placeholder="Ingrese su respuesta"
