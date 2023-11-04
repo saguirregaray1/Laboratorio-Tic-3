@@ -56,7 +56,7 @@ const DuelPlayScreen2: React.FC = () => {
             socket.on('nextQuestion', async (data: any) => {
                 console.log('nextQuestion',data)
                 await new Promise(r => setTimeout(r, 2000)); //Sleep de 2 segundos
-                navigate(`/duel/leaderboard/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data}})
+                navigate(`/duel/leaderboard/${location.state.duelId}`, {state:{duelId: location.state.duelId, question: data, isOwner:location.state.isOwner}})
             })
 
 
