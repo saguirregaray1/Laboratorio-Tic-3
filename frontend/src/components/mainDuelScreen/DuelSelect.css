@@ -4,7 +4,7 @@
     align-items: center;
     background-color: white;
     width: 320px;
-    height: 380px;
+    min-height: 380px;
     border-radius: 10px;
     font-size: 30px;
 }
@@ -65,7 +65,7 @@
     margin-bottom: 30px;
     padding-bottom: 0px;
     width: 288px;
-    height: 48px;
+    height: 44px;
     cursor: pointer;
     font-size: 15px;
 }
@@ -86,4 +86,11 @@
 
 .selected-round{
     background-color: black;
+}
+
+.duel-is-missing-data{
+    margin-top: 5px;
+    margin-bottom: 0px;
+    font-size: 20px;
+    color: red;
 }

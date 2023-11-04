@@ -6,14 +6,12 @@ interface DuelSelectProps{
     setRoundNumber: (round:number) => void;
     setDifficulty: (difficulty:string) => void;
     createRoom: () => void;
+    isDataMissing: boolean;
 }
 
-const DuelSelect: React.FC<DuelSelectProps> = ({onClick, setRoundNumber, setDifficulty, createRoom}) => {
+const DuelSelect: React.FC<DuelSelectProps> = ({onClick, setRoundNumber, setDifficulty, createRoom, isDataMissing}) => {
   const roundNumbers = [3, 5, 7];
-  const [selectedRound,setSelectedRound] = useState(0);
-  const [isDataMissing, setIsDataMissing] = useState(false);
   const options = ['1 Primaria', '2 Primaria', '3 Primaria', '4 Primaria', '5 Primaria', '6 Primaria', '1 Secundaria', '2 Secundaria', '3 Secundaria', '4 Secundaria', '5 Secundaria', '6 Secundaria', 'GAL1 Universidad', 'GAL2 Universidad', 'AM1 Universidad', 'AM2 Universidad','AM3 Universidad', 'PyE Universidad'];
-  const [selectedOption, setSelectedOption] = useState('');
   const [isClickedArray, setIsClickedArray] = useState<boolean[]>([false,false,false]);
   
   const handleRoundDivClick = (round:number, index:number) => {
@@ -44,6 +42,7 @@ const DuelSelect: React.FC<DuelSelectProps> = ({onClick, setRoundNumber, setDiff
         <button className='create-button' onClick={createRoom}>
           Crear
         </button>
+        {isDataMissing ? <p className='duel-is-missing-data'>Seleccione rondas y dificultad</p> : <></>}
         <p className='comeback' onClick={onClick}>Volver</p>
       </div>
   );

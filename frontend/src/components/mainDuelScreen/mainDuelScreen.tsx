@@ -8,12 +8,26 @@ import NavBar from '../NavBar';
 import DuelSelect from './DuelSelect';
 
 const MainDuelScreen: React.FC = () => {
-    const [roundsNumber, setRoundsNumber] = useState<number>(3);
+    const [roundsNumber, setRoundsNumber] = useState<number|null>(null);
     const [duelId, setDuelId] = useState<string>('');
     const [showPlay, setShowPlay] = useState(true);
     const [showIncorrectCode, setShowIncorrectCode] = useState(false);
     const [difficulty, setDifficulty] = useState('');
+    const [isDataMissing, setIsDataMissing] = useState(false);
     const navigate = useNavigate();
+
+    const handleSwitchPlayToCreate = () => {
+        setShowPlay(false);
+        setShowIncorrectCode(false);
+        setDuelId('');
+    }
+
+    const handleSwitchCreateToPlay = () => {
+        setShowPlay(true);
+        setIsDataMissing(false);
+        setDifficulty('');
+        setRoundsNumber(null);
+    }
 
     const createRoom = () => {
         let config = {
@@ -38,7 +52,7 @@ const MainDuelScreen: React.FC = () => {
             navigate(`/duel/wait/${response.data.newDuel.id}`, {state:{duelId: response.data.newDuel.id, ownerId: localStorage.getItem('userId')}})
         })
         .catch((error) => {
-            console.log(error);
+            setIsDataMissing(true);
         });
         
     }
@@ -68,7 +82,7 @@ const MainDuelScreen: React.FC = () => {
         <>
             <NavBar showButtons={false}/>
             <div className='main-duel-screen-container'>
-                {showPlay ? <DuelPlay onClick={() => setShowPlay(false)} onSubmit = {() => enterRoom(duelId)} setDuelId={setDuelId}/> : <DuelSelect onClick={() => setShowPlay(true)} setRoundNumber={setRoundsNumber} setDifficulty={setDifficulty} createRoom={createRoom}/>} 
+                {showPlay ? <DuelPlay onClick={handleSwitchPlayToCreate} onSubmit = {() => enterRoom(duelId)} setDuelId={setDuelId} showIncorrectCode={showIncorrectCode}/> : <DuelSelect onClick={handleSwitchCreateToPlay} setRoundNumber={setRoundsNumber} setDifficulty={setDifficulty} createRoom={createRoom} isDataMissing={isDataMissing}/>} 
             </div>
         </>
     );
