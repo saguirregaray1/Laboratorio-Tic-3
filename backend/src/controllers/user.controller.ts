@@ -50,10 +50,9 @@ export class UserController {
   @Roles(['admin', 'user'])
   async getCurrentGalaxy(@Res() response, @Param('id') id) {
     try {
-      const user = await this.userService.getUser(id);
+      const currentGalaxyId = await this.userService.getCurrentGalaxy(id);
 
-      const userCourse = user.course.split(' ');
-      return response.status(HttpStatus.OK).json(userCourse[0]);
+      return response.status(HttpStatus.OK).json(currentGalaxyId);
     } catch (HttpException) {
       return response
         .status(HttpException.status)
