@@ -85,14 +85,17 @@ const MyNotes: React.FC = () => {
                                 <p className='theorem-txt-body'>{theorem.proof}</p>
                             </div>
                             <div className='theorem-page-footer'>
+                                {count > 0 ?
                                 <div className='back-theorem-page' onClick={handleBack}>
                                     <img src={backTheorem} alt='Pagina Img' className='back-theorem-img'/>
                                     <p className='back-theorem-txt'>Anterior página</p>
                                 </div>
-                                <div className='next-theorem-page' onClick={handleNext}>
+                                : <></>}
+                               {count<book.length -1 ? <div className='next-theorem-page' onClick={handleNext}>
                                     <p className='next-theorem-txt'>Siguiente página</p>
                                     <img src={nextTheorem} alt='Pagina Img' className='next-theorem-img'/>
                                 </div>
+                                 : <></>}
                             </div>
                             </>
                                 

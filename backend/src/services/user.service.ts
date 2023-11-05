@@ -267,7 +267,7 @@ export class UserService {
       'PyE Universidad',
     ];
     const user = await this.getUser(id);
-    const index = options.indexOf(user.course);
+    const index = options.indexOf(user.course) + 1;
     return index;
   }
 }
