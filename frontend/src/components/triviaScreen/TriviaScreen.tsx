@@ -6,13 +6,13 @@ import CustomButton from '../customButton/customButton';
 import WorldSelect from '../worldSelect/WorldSelect';
 
 const TriviaScreen: React.FC = () => {
-  const [selectedUniverse, setSelectedUniverse] = useState<string | null>(null);
-  const [selectedGalaxy, setSelectedGalaxy] = useState<string | null>(null);
+  const [selectedUniverse, setSelectedUniverse] = useState<string>('');
+  const [selectedGalaxy, setSelectedGalaxy] = useState<string>('');
   const navigate = useNavigate();
 
   const handleUniverseSelect = (world: string) => {
     setSelectedUniverse(world);
-    setSelectedGalaxy(null);
+    setSelectedGalaxy('');
   };
 
   const handleWorldSelect = (level: string) => {
@@ -40,7 +40,7 @@ const TriviaScreen: React.FC = () => {
 
 
 return (
-  <div className='star-rain-container'>
+  <div className='star-rain-container' style={{backgroundColor:'black', height:'100vh'}}>
     {stars}
     <NavBar showButtons={false}/>
     <h1 className='title-trivia'>Elige un mundo</h1>
@@ -48,8 +48,8 @@ return (
       {universes.map((universe) => (
         <WorldSelect
         title={universe}
-        borderColor='red'
         onClick={() => handleUniverseSelect(universe)}
+        selectedItem={selectedUniverse}
         />
       ))}
     </div>
@@ -61,8 +61,8 @@ return (
           {(selectedUniverse === 'Primaria' ? primariaGalaxies : secundariaGalaxies).map((level) => (
             <WorldSelect
             title={level}
-            borderColor = 'blue'
             onClick={() => handleWorldSelect(level)}
+            selectedItem={selectedGalaxy}
             />
           ))}
         </div>
@@ -76,8 +76,8 @@ return (
           {universidadGalaxies.map((level) => (
             <WorldSelect
             title={level}
-            borderColor = 'blue'
             onClick={() => handleWorldSelect(level)}
+            selectedItem={selectedGalaxy}
             />
           ))}
         </div>
@@ -85,15 +85,13 @@ return (
     )}
 
     {selectedUniverse && selectedGalaxy && (
-      <div className='button'>
-        <CustomButton color="#3d5a80"
-        label='Jugar'
-        isDisabled={false}
-        onClick={handlePracticeClick}
-        />
+      <div className='trivia-button-container'>
+        <div className='trivia-start-play-button' onClick={handlePracticeClick}>
+        Jugar
+        </div>
       </div>
+      
     )}
-
   </div>
 );
 };

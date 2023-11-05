@@ -1,3 +1,10 @@
+.star-rain-container{
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+}
+
 .trivia-screen {
   display: flex;
   flex-direction: column;
@@ -12,14 +19,15 @@
   font-family: 'Courier New', Courier, monospace;
   border: 3px solid #bc6c25;
   background: linear-gradient(to bottom, #000022, #0a0a2e, #10101e, #0a0a2e, #000022);
-  margin-top: 10px;
+  margin-top: 0px;
   width: 100%;
   text-align: center;
   justify-content: center;
   align-items: center;
   display: flex;
-  height: 100px;
+  height: 90px;
   color: white;
+  margin-bottom: 0;
 }
 
 
@@ -57,11 +65,34 @@
 }
 
 
-.button {
+.trivia-start-play-button {
   align-items: center;
   justify-content: center;
   display: flex;
-  margin-bottom: 10px;
+  background-color: #0A0A2E;
+  width: 10vw;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  align-self: flex-end;
+  height: 50px;
+  color:white;
+  font-size: 25px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.trivia-start-play-button:hover{
+  background-color: #070722;
+  transform: scale(1.1);
+}
+
+.trivia-button-container{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding-bottom: 20px;
+  transition: transform linear 0.5s, background-color linear 0.5s;
 }
 
 

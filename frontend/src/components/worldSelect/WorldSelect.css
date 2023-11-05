@@ -4,23 +4,38 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    margin:10px;
   }
   
   .ring {
-    width: 200px;
-    height: 200px;
-    border: 10px solid;
-    border-radius: 50%;
+    width: 150px;
+    height: 120px;
     display: flex;
+    border-radius: 10px;
     align-items: center;
     justify-content: center;
-  }
-  
-  .center-text {
-    font-size: 24px;
-    font-weight: bold;
+    background-color: #553D67;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.ring:hover{
+  transform: scale(1.1); /* Grow by 10% on hover */
+  background-color: #402B51; /* Darker color on hover */
+}
+  
+.selected-ring{
+  background-color: #301042;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.selected-ring:hover{
+  transform: scale(1.1);
+}
+  .center-text {
+    font-size: 20px;
+    font-weight: bold;
     color: aliceblue;
   }
   
