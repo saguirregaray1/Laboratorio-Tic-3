@@ -2,6 +2,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Holtwood+One+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
+.card-container{
+    background-color: black;
+    display: flex;
+    flex: 1;
+    padding-bottom: 30px;
+    padding-top: 20px;
+    margin-bottom: 0;
+    background-image: url('../../assets/trivia_play_background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    
+}
+
 .card-container-style {
     display: flex;
     flex-direction: column;
@@ -14,8 +29,19 @@
     padding: 10px;
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
     margin-top: 10px;
+    background-image: url('../../assets/main_screen_background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    color: white;
+    transition: transform linear 0.2s, background-image linear 0.2;
 }
   
+.card-container-style:hover{
+    transform: scale(1.05);
+}
+
 .cardImg {
     align-self: center;
     max-width: 80%;
@@ -36,13 +62,15 @@
 .card-body-text-style {
     color: black;
     font-family: 'Varela Round', sans-serif;
-    font-size: 18px;
+    font-size: 20px;
+    color: white;
+    text-shadow: 2px 2px 3px black;
 }
 
 .crad-title-style {
     text-align: center;
     font-family: 'Holtwood One SC', serif;
     font-size: 35px;
-    color: #7D7463;
-    text-shadow: 1px 1px 2px white;
+    color: rgba(24, 38, 40, 0.85); /*#7D7463,#182628 */
+    text-shadow: 3px 3px 3px white;
 }
