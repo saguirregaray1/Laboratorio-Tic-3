@@ -70,24 +70,35 @@ const MyNotes: React.FC = () => {
                 <>
                     <NavBar showButtons={false}/>
                     <div className='theorem-container-background'>
-                        <div className='theorem-title-container'>
-                            <h2 className='theorem-title-notes'>{theorem.name}</h2>
-                        </div>
-                        <div className='theorem-container-cotent'>
-                            <p className='theorem-txt-body'>{theorem.statement}</p>
-                            <p className='demo-txt-title'>Demostración:</p>
-                            <p className='theorem-txt-body'>{theorem.proof}</p>
-                        </div>
-                        <div className='theorem-page-footer'>
-                            <div className='back-theorem-page' onClick={handleBack}>
-                                <img src={backTheorem} alt='Pagina Img' className='back-theorem-img'/>
-                                <p className='back-theorem-txt'>Anterior página</p>
+                        <>
+                            {book === null ? <div className='theorem-container-background-empty'>
+                                    <div className='theorem-container-cotent'>
+                                        <p className='theorem-txt-body' style={{textAlign:'center'}}>Juega al modo historia para acumular teoremas</p>
+                                    </div>
+                                </div> : <>
+                            <div className='theorem-title-container'>
+                                <h2 className='theorem-title-notes'>{theorem.name}</h2>
                             </div>
-                            <div className='next-theorem-page' onClick={handleNext}>
-                                <p className='next-theorem-txt'>Siguiente página</p>
-                                <img src={nextTheorem} alt='Pagina Img' className='next-theorem-img'/>
+                            <div className='theorem-container-cotent'>
+                                <p className='theorem-txt-body'>{theorem.statement}</p>
+                                <p className='demo-txt-title'>Demostración:</p>
+                                <p className='theorem-txt-body'>{theorem.proof}</p>
                             </div>
-                        </div>
+                            <div className='theorem-page-footer'>
+                                <div className='back-theorem-page' onClick={handleBack}>
+                                    <img src={backTheorem} alt='Pagina Img' className='back-theorem-img'/>
+                                    <p className='back-theorem-txt'>Anterior página</p>
+                                </div>
+                                <div className='next-theorem-page' onClick={handleNext}>
+                                    <p className='next-theorem-txt'>Siguiente página</p>
+                                    <img src={nextTheorem} alt='Pagina Img' className='next-theorem-img'/>
+                                </div>
+                            </div>
+                            </>
+                                
+                            }
+                        </>
+                        
                     </div> 
                 </>
             )}

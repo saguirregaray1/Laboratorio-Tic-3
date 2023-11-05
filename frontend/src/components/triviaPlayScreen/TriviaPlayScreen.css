@@ -8,16 +8,24 @@
     height: 70px;
 }
 
+.trivia-play-screen{
+    background-image: url('../../assets/trivia_play_background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
 .level-title {
     font-family: 'Catamaran', sans-serif;
-    color: black; 
+    color: white; 
     font-size: 40px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .content-container {
     background-color: #D9EBF9; 
-    border: 2px solid black;
+    border: 2px solid white;
     border-radius: 10px;
     padding: 20px; 
     margin: 10px auto;
@@ -153,6 +161,8 @@
     justify-content: space-between;
     margin-top: 20px;
     padding: 30px;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .left-footer {
@@ -163,6 +173,7 @@
     border: 2px solid #000;
     margin: 5px;
     border-radius: 10px;
+    background-color: white;
 }
 
 .left-footer img {
@@ -183,7 +194,7 @@
 }
 
 .left-footer:hover {
-    background-color: #f0f0f0;
+    background-color: #D9EBF9;
     border: 2px solid grey;
 }
 
@@ -195,6 +206,7 @@
     border: 2px solid #000;
     margin: 3px;
     border-radius: 10px;
+    background-color: white;
 }
 
 .right-footer img {
@@ -211,6 +223,6 @@
 }
 
 .right-footer:hover {
-    background-color: #f0f0f0;
+    background-color: #D9EBF9;
     border: 2px solid grey;
 }
