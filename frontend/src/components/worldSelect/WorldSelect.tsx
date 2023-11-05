@@ -2,21 +2,18 @@ import React from 'react';
 import './WorldSelect.css'; 
 
 interface WorldSelectProps {
-    borderColor: string;
     onClick: () => void;
     title: string;
+    selectedItem: string;
 }
 
 
-const WorldSelect: React.FC<WorldSelectProps> = ({ borderColor, onClick, title }) => {
-  const ringStyle = {
-    borderColor: borderColor || 'black',
-  };
+const WorldSelect: React.FC<WorldSelectProps> = ({onClick, title, selectedItem }) => {
 
   return (
     <div className="world-select-container">
-      <div className="ring" style={ringStyle}>
-        <div className="center-text" onClick={onClick}>
+      <div className={`${selectedItem==title ? 'selected-ring' : ''} ring`} onClick={onClick}>
+        <div className="center-text" >
           {title}
         </div>
       </div>

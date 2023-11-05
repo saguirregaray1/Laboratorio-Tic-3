@@ -14,7 +14,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ label, onClick, color, isDi
   };
 
   return (
-    <button className="card-button" onClick={onClick} disabled={isDisabled}>
+    <button className="card-button" onClick={onClick} disabled={isDisabled} style={buttonStyle}>
       {label}
     </button>
   );
