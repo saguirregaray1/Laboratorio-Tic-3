@@ -4,6 +4,7 @@ import {PATH} from '../constants';
 import axios from 'axios'
 import { useNavigate } from 'react-router';
 import GoProfileComponent from './isLoggedInComponent/GoProfileComponent';
+import { Value } from 'sass';
 
 interface NavBarProps {
     showButtons: boolean;
@@ -18,12 +19,19 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') == null); 
     const [incorrectRegister, setIncorrectRegister] = useState(false);
     const [isDataMissing, setIsDataMissing] = useState(false);
+    const [incorrectLogin, setIncorrectLogin] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [registerUsername, setRegisterUsername] = useState('');
     const [registerPassword, setRegisterPassword] = useState('');
     const [registerEmail, setRegisterEmail] = useState('');
     const navigate = useNavigate();
+
+    const warningPStyle = {
+        'color': 'red',
+        'margin': '0',
+        'padding': '0'
+    }
 
     const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedOption(event.target.value);
@@ -35,6 +43,10 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
 
     const closeModal = () => {
         setModalOpen(false);
+        setIncorrectLogin(false);
+        setIsDataMissing(false);
+        setUsername('');
+        setPassword('');
     };
 
     const openRegistrationModal = () => {
@@ -44,6 +56,11 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
     const closeRegistrationModal = () => {
         setIncorrectRegister(false);
         setRegistrationModalOpen(false);
+        setIsDataMissing(false);
+        setRegisterEmail('');
+        setRegisterPassword('');
+        setRegisterUsername('');
+        setSelectedOption('');
     };
 
 
@@ -77,11 +94,11 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
                 closeModal();
               })
               .catch((error) => {
-                setIncorrectRegister(true);
+                setIncorrectLogin(true);
               });   
         }
         else{
-            console.log('Faltan datos')
+            setIsDataMissing(true);
         }
         
     };
@@ -175,18 +192,19 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
                         <div className="md-form mb-5">
                         <i className="fas fa-envelope prefix grey-text"></i>
                         <label data-error="wrong" data-success="right">Nombre de usuario</label>
-                        <input type="text" id="defaultForm-email" className="form-control validate" onChange={(e) => {setUsername(e.target.value)}}/>
+                        <input type="text" id="defaultForm-email" className="form-control validate" onChange={(e) => {setUsername(e.target.value)}} value={username}/>
                         </div>
                         <div className="md-form mb-4">
                         <i className="fas fa-lock prefix grey-text"></i>
                         <label data-error="wrong" data-success="right">Contraseña</label>
-                        <input type="password" id="defaultForm-pass" className="form-control validate" onChange={(e) => {setPassword(e.target.value)}}/>
+                        <input type="password" id="defaultForm-pass" className="form-control validate" onChange={(e) => {setPassword(e.target.value)}} value={password}/>
                         </div>
+                        {incorrectLogin ? <p className='warning-p' style={warningPStyle}>Email o contraseña incorrectos.</p> : ''}
+                        {isDataMissing ? <p className='warning-p' style={warningPStyle}>Faltan completar datos</p> : ''}
                     </div>
                     <div className="modal-footer d-flex justify-content-center">
                         <button className="btn btn-primary" onClick={() => handleLogin(username, password)}>Iniciar sesion</button>
                     </div>
-                    {incorrectRegister ? <p>Email o contraseña incorrectos.</p> : ''}
                     </div>
                 </div>
             </div>
@@ -239,10 +257,9 @@ const NavBar: React.FC<NavBarProps>  = ({ showButtons }) => {
                                             ))}
                                         </select>
                                     </div>
-                                    {incorrectRegister ? <p>El email ya está registrado o la contraseña es muy débil.</p> : ''}
-                                    {isDataMissing ? <p>Falta completar datos</p> : ''}
-                                    
-
+                                    {incorrectRegister ? <p className='warning-p' style={warningPStyle}>El email ya está registrado o la contraseña es muy débil.</p> : ''}
+                                    {isDataMissing ? <p className='warning-p' style={warningPStyle}>Faltan completar datos</p> : ''}   
+                                
                                 </div>
                                 <div className="modal-footer d-flex justify-content-center">
                                     <button className="btn btn-primary" onClick={handleRegistration}>
