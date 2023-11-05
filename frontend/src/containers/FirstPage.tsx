@@ -114,7 +114,7 @@ function FirstPage() {
             </div> */}
             <Footer 
             aboutText="Somos un grupo de estudiantes de la Universidad de Montevideo que buscamos revolucionar el mundo de la educación." 
-            contactText="florida@correo.um.edu.uy" 
+            contactText="contact@floridalabs.com.uy" 
             copyrightText="©Copyright 2023 Florida. All Rights Reserved."
             />
         </>

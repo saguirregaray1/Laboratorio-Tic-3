@@ -26,7 +26,7 @@ const Card: React.FC<CardProps> = ({title, onClick, text, imageSrc, color = 'whi
                     <p className="card-body-text-style">{text}</p>
                 </div>
                 <CustomButton
-                color="#ff7f51"
+                color="#007BFF" //#ff7f51
                 onClick={onClick}
                 label="JUGAR"
                 isDisabled={isDisabledBtn}
