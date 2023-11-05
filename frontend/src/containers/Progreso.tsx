@@ -44,6 +44,8 @@ const Progreso: React.FC = () => {
     if (selectedOption){
       const index = options.indexOf(selectedOption);
       navigate('/history/galaxy', {state: {galaxyId: index+1}})
+    }else {
+      setEmptyDropBox(true);
     }
   }
 
